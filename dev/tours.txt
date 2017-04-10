@@ -1,0 +1,2402 @@
+Array
+(
+    [373596155] => Array
+        (
+            [flydate] => 09.05.2017
+            [name] => 09.05.2017_373596155
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 2
+            [min_price] => 11906
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 38284
+                            [hotelname] => АБХАЗСКИЙ ДВОРИК
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/38284.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815837979347
+                            [nights] => 2
+                            [hotelstars] => 2
+                            [price] => 11906
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815837979808
+                            [nights] => 2
+                            [hotelstars] => 3
+                            [price] => 17140
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 51585
+                            [hotelname] => САНРАЙЗ ГАРДЕН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/51585.jpg
+                            [operatorname] => Spectrum
+                            [mealrussian] => 2-х разовое (завтрак+обед)
+                            [tourid] => 5923686242777
+                            [nights] => 2
+                            [hotelstars] => 3
+                            [price] => 43257
+                        )
+
+                )
+
+        )
+
+    [373596187] => Array
+        (
+            [flydate] => 14.04.2017
+            [name] => 14.04.2017_373596187
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 6
+            [min_price] => 16296
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32457
+                            [hotelname] => АМИНА БИЧ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32457.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723469017532
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 16296
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46722
+                            [hotelname] => АШАНТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46722.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923619648303
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 20839
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46795
+                            [hotelname] => РЕЗИДЕНЦИЯ АПСНЫ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46795.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723475897721
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 18744
+                        )
+
+                    [3] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43830
+                            [hotelname] => МАГНОЛИЯ ГОСТИНИЦА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43830.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815428914107
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 22468
+                        )
+
+                    [4] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 38335
+                            [hotelname] => АБХАЗИЯ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/38335.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686248980
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 19050
+                        )
+
+                    [5] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40500
+                            [hotelname] => КРИСТАЛЛ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40500.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723477433622
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 19050
+                        )
+
+                    [6] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30074
+                            [hotelname] => СКАЗКА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30074.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815428914125
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 22872
+                        )
+
+                    [7] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30042
+                            [hotelname] => ВИЛЛА ЛЕОНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30042.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815428914196
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 23816
+                        )
+
+                    [8] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815428914232
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 25839
+                        )
+
+                    [9] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 54200
+                            [hotelname] => БЕРЕГ ЭВКАЛИПТОВ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815428914271
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 25839
+                        )
+
+                    [10] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30034
+                            [hotelname] => АМРАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30034.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815428914186
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 23724
+                        )
+
+                    [11] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 47806
+                            [hotelname] => НАПРА СПА ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/47806.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815428914320
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 27827
+                        )
+
+                    [12] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40499
+                            [hotelname] => ИНДИСАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40499.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815494533559
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 29209
+                        )
+
+                    [13] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46478
+                            [hotelname] => АИМАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46478.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815494533525
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 29209
+                        )
+
+                    [14] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40504
+                            [hotelname] => СЕРЕБРЯНЫЙ ДВОР
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40504.jpg
+                            [operatorname] => Данко
+                            [mealrussian] => Без питания
+                            [tourid] => 4922746170489
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 26459
+                        )
+
+                    [15] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 51585
+                            [hotelname] => САНРАЙЗ ГАРДЕН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/51585.jpg
+                            [operatorname] => Coral
+                            [mealrussian] => BED & BREAKFAST
+                            [tourid] => 1123686248838
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 27600
+                        )
+
+                    [16] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40495
+                            [hotelname] => ВИЛЛА АКВАВИЗИ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40495.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815494533598
+                            [nights] => 6
+                            [hotelstars] => 4
+                            [price] => 32985
+                        )
+
+                    [17] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30071
+                            [hotelname] => САН-МАРИНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30071.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023424528662
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 32366
+                        )
+
+                    [18] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30032
+                            [hotelname] => АЛЕКС БИЧ ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30032.jpg
+                            [operatorname] => Coral
+                            [mealrussian] => BED & BREAKFAST
+                            [tourid] => 1123686248841
+                            [nights] => 6
+                            [hotelstars] => 4
+                            [price] => 32617
+                        )
+
+                )
+
+        )
+
+    [373596192] => Array
+        (
+            [flydate] => 10.05.2017
+            [name] => 10.05.2017_373596192
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 6
+            [min_price] => 16395
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 38284
+                            [hotelname] => АБХАЗСКИЙ ДВОРИК
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/38284.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923672059961
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 16395
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46722
+                            [hotelname] => АШАНТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46722.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923584247437
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 18681
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30076
+                            [hotelname] => СОЛНЕЧНЫЙ ЛЕТНИЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30076.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 6923672059993
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 20428
+                        )
+
+                    [3] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30074
+                            [hotelname] => СКАЗКА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30074.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923672059998
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 20572
+                        )
+
+                    [4] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43830
+                            [hotelname] => МАГНОЛИЯ ГОСТИНИЦА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43830.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815814049746
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 21173
+                        )
+
+                    [5] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43838
+                            [hotelname] => ЖЕМЧУЖИНА ГОСТЕВОЙ ДОМ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43838.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815814049682
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 21847
+                        )
+
+                    [6] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 56070
+                            [hotelname] => МАГИЯ МОРЯ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815814049876
+                            [nights] => 6
+                            [hotelstars] => 1
+                            [price] => 22322
+                        )
+
+                    [7] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30042
+                            [hotelname] => ВИЛЛА ЛЕОНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30042.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815822067823
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 24140
+                        )
+
+                    [8] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30034
+                            [hotelname] => АМРАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30034.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815823493796
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 25161
+                        )
+
+                    [9] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30054
+                            [hotelname] => КОЛХИДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30054.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815823493800
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 25218
+                        )
+
+                    [10] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40502
+                            [hotelname] => РЕПРУА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40502.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815823493806
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 25218
+                        )
+
+                    [11] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 45296
+                            [hotelname] => ЖОЭКВАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/45296.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815814049890
+                            [nights] => 6
+                            [hotelstars] => 4
+                            [price] => 25232
+                        )
+
+                    [12] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 47806
+                            [hotelname] => НАПРА СПА ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/47806.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815823493809
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 25659
+                        )
+
+                    [13] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40499
+                            [hotelname] => ИНДИСАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40499.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815823493829
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 27241
+                        )
+
+                    [14] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30075
+                            [hotelname] => СОЛНЕЧНЫЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30075.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023670651096
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 27969
+                        )
+
+                    [15] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46321
+                            [hotelname] => ОРА (БЫВШ. УААИ)
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46321.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815823493876
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 29263
+                        )
+
+                    [16] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30028
+                            [hotelname] => АБААТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30028.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Без питания
+                            [tourid] => 4023686247414
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 29563
+                        )
+
+                    [17] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46478
+                            [hotelname] => АИМАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46478.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815837989037
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 30612
+                        )
+
+                    [18] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40495
+                            [hotelname] => ВИЛЛА АКВАВИЗИ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40495.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815837989100
+                            [nights] => 6
+                            [hotelstars] => 4
+                            [price] => 31016
+                        )
+
+                    [19] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32460
+                            [hotelname] => ЧЕГЕМ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32460.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686247454
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 31668
+                        )
+
+                    [20] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815830928245
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 31960
+                        )
+
+                    [21] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 54200
+                            [hotelname] => БЕРЕГ ЭВКАЛИПТОВ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815837989203
+                            [nights] => 6
+                            [hotelstars] => 2
+                            [price] => 32299
+                        )
+
+                    [22] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 534699
+                            [hotelname] => APSUANA ROSE, бутик-отель комфорт
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полупансион
+                            [tourid] => 1815837989256
+                            [nights] => 6
+                            [hotelstars] => 3
+                            [price] => 33308
+                        )
+
+                )
+
+        )
+
+    [373596228] => Array
+        (
+            [flydate] => 14.04.2017
+            [name] => 14.04.2017_373596228
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 9
+            [min_price] => 18744
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32457
+                            [hotelname] => АМИНА БИЧ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32457.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723468581573
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 18744
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46795
+                            [hotelname] => РЕЗИДЕНЦИЯ АПСНЫ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46795.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686254608
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 22416
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46722
+                            [hotelname] => АШАНТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46722.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686252496
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 26432
+                        )
+
+                    [3] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43830
+                            [hotelname] => МАГНОЛИЯ ГОСТИНИЦА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43830.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686252548
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 28695
+                        )
+
+                    [4] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30074
+                            [hotelname] => СКАЗКА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30074.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815428914137
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 29457
+                        )
+
+                    [5] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30042
+                            [hotelname] => ВИЛЛА ЛЕОНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30042.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815428914213
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 30872
+                        )
+
+                    [6] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40504
+                            [hotelname] => СЕРЕБРЯНЫЙ ДВОР
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40504.jpg
+                            [operatorname] => Данко
+                            [mealrussian] => Без питания
+                            [tourid] => 4923254747662
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 29036
+                        )
+
+                    [7] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815813796159
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 33906
+                        )
+
+                    [8] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 54200
+                            [hotelname] => БЕРЕГ ЭВКАЛИПТОВ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815428914274
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33906
+                        )
+
+                    [9] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 47806
+                            [hotelname] => НАПРА СПА ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/47806.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815428914326
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 36889
+                        )
+
+                    [10] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40499
+                            [hotelname] => ИНДИСАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40499.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815494533567
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 38962
+                        )
+
+                    [11] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46478
+                            [hotelname] => АИМАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46478.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815494533537
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 38962
+                        )
+
+                    [12] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30071
+                            [hotelname] => САН-МАРИНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30071.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686251193
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 44161
+                        )
+
+                    [13] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 51585
+                            [hotelname] => САНРАЙЗ ГАРДЕН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/51585.jpg
+                            [operatorname] => Coral
+                            [mealrussian] => BED & BREAKFAST
+                            [tourid] => 1123686256072
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 40371
+                        )
+
+                    [14] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40495
+                            [hotelname] => ВИЛЛА АКВАВИЗИ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40495.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815494533607
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 44625
+                        )
+
+                    [15] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30032
+                            [hotelname] => АЛЕКС БИЧ ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30032.jpg
+                            [operatorname] => Coral
+                            [mealrussian] => BED & BREAKFAST
+                            [tourid] => 1123686256086
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 47897
+                        )
+
+                )
+
+        )
+
+    [373596233] => Array
+        (
+            [flydate] => 10.05.2017
+            [name] => 10.05.2017_373596233
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 9
+            [min_price] => 20485
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 38284
+                            [hotelname] => АБХАЗСКИЙ ДВОРИК
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/38284.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686257483
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 20485
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46722
+                            [hotelname] => АШАНТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46722.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923659383595
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 23817
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30076
+                            [hotelname] => СОЛНЕЧНЫЙ ЛЕТНИЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30076.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1814972450570
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 26999
+                        )
+
+                    [3] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30074
+                            [hotelname] => СКАЗКА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30074.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1814972450131
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 27083
+                        )
+
+                    [4] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43830
+                            [hotelname] => МАГНОЛИЯ ГОСТИНИЦА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43830.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1814972450227
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 27488
+                        )
+
+                    [5] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43838
+                            [hotelname] => ЖЕМЧУЖИНА ГОСТЕВОЙ ДОМ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43838.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1814972450344
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 28499
+                        )
+
+                    [6] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 56070
+                            [hotelname] => МАГИЯ МОРЯ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815309412249
+                            [nights] => 9
+                            [hotelstars] => 1
+                            [price] => 29310
+                        )
+
+                    [7] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30042
+                            [hotelname] => ВИЛЛА ЛЕОНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30042.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815689689598
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 31938
+                        )
+
+                    [8] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30034
+                            [hotelname] => АМРАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30034.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815563497475
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33469
+                        )
+
+                    [9] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30054
+                            [hotelname] => КОЛХИДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30054.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815734643470
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33556
+                        )
+
+                    [10] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40502
+                            [hotelname] => РЕПРУА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40502.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838003926
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33556
+                        )
+
+                    [11] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 45296
+                            [hotelname] => ЖОЭКВАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/45296.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1814972450973
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 33736
+                        )
+
+                    [12] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 47806
+                            [hotelname] => НАПРА СПА ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/47806.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838003952
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 34316
+                        )
+
+                    [13] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30075
+                            [hotelname] => СОЛНЕЧНЫЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30075.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686251806
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 34939
+                        )
+
+                    [14] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40499
+                            [hotelname] => ИНДИСАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40499.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838004007
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 36589
+                        )
+
+                    [15] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30028
+                            [hotelname] => АБААТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30028.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Без питания
+                            [tourid] => 4023686251818
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 37331
+                        )
+
+                    [16] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46321
+                            [hotelname] => ОРА (БЫВШ. УААИ)
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46321.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838004131
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 39623
+                        )
+
+                    [17] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32460
+                            [hotelname] => ЧЕГЕМ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32460.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686251885
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 40487
+                        )
+
+                    [18] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46478
+                            [hotelname] => АИМАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46478.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838004155
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 41645
+                        )
+
+                    [19] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40495
+                            [hotelname] => ВИЛЛА АКВАВИЗИ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40495.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838004242
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 42252
+                        )
+
+                    [20] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815838004318
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 43668
+                        )
+
+                    [21] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 54200
+                            [hotelname] => БЕРЕГ ЭВКАЛИПТОВ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838004417
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 44277
+                        )
+
+                    [22] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 534699
+                            [hotelname] => APSUANA ROSE, бутик-отель комфорт
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полупансион
+                            [tourid] => 1815838004455
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 45690
+                        )
+
+                )
+
+        )
+
+    [373596240] => Array
+        (
+            [flydate] => 14.05.2017
+            [name] => 14.05.2017_373596240
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 9
+            [min_price] => 20580
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32457
+                            [hotelname] => АМИНА БИЧ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32457.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686255334
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 20580
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43836
+                            [hotelname] => БЕЛАЯ ПАНАМА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43836.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686255338
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 20580
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46800
+                            [hotelname] => У РУСЛАНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46800.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723663670455
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 20580
+                        )
+
+                    [3] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 38284
+                            [hotelname] => АБХАЗСКИЙ ДВОРИК
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/38284.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686256411
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 20773
+                        )
+
+                    [4] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46795
+                            [hotelname] => РЕЗИДЕНЦИЯ АПСНЫ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46795.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686255397
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 22416
+                        )
+
+                    [5] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46722
+                            [hotelname] => АШАНТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46722.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686256463
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 24104
+                        )
+
+                    [6] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30076
+                            [hotelname] => СОЛНЕЧНЫЙ ЛЕТНИЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30076.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815827512011
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 27340
+                        )
+
+                    [7] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30074
+                            [hotelname] => СКАЗКА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30074.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815814940406
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 27376
+                        )
+
+                    [8] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43830
+                            [hotelname] => МАГНОЛИЯ ГОСТИНИЦА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43830.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815814940459
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 27780
+                        )
+
+                    [9] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43838
+                            [hotelname] => ЖЕМЧУЖИНА ГОСТЕВОЙ ДОМ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43838.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815827511894
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 28792
+                        )
+
+                    [10] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 56070
+                            [hotelname] => МАГИЯ МОРЯ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815827512576
+                            [nights] => 9
+                            [hotelstars] => 1
+                            [price] => 29603
+                        )
+
+                    [11] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30042
+                            [hotelname] => ВИЛЛА ЛЕОНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30042.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815814940540
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 32230
+                        )
+
+                    [12] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30034
+                            [hotelname] => АМРАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30034.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815814940568
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33761
+                        )
+
+                    [13] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40502
+                            [hotelname] => РЕПРУА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40502.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815814940594
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33847
+                        )
+
+                    [14] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30054
+                            [hotelname] => КОЛХИДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30054.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815814940582
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33847
+                        )
+
+                    [15] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 45296
+                            [hotelname] => ЖОЭКВАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/45296.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815814940502
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 34371
+                        )
+
+                    [16] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 47806
+                            [hotelname] => НАПРА СПА ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/47806.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815837999311
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 34608
+                        )
+
+                    [17] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30075
+                            [hotelname] => СОЛНЕЧНЫЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30075.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686252495
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 34939
+                        )
+
+                    [18] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40499
+                            [hotelname] => ИНДИСАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40499.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815837999382
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 36881
+                        )
+
+                    [19] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30028
+                            [hotelname] => АБААТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30028.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Без питания
+                            [tourid] => 4023686252519
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 37331
+                        )
+
+                    [20] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46321
+                            [hotelname] => ОРА (БЫВШ. УААИ)
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46321.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815837999443
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 39915
+                        )
+
+                    [21] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46478
+                            [hotelname] => АИМАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46478.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815837999471
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 41938
+                        )
+
+                    [22] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40495
+                            [hotelname] => ВИЛЛА АКВАВИЗИ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40495.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815837999564
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 42544
+                        )
+
+                    [23] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815814940643
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 43960
+                        )
+
+                    [24] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 54200
+                            [hotelname] => БЕРЕГ ЭВКАЛИПТОВ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815814940664
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 44569
+                        )
+
+                    [25] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 534699
+                            [hotelname] => APSUANA ROSE, бутик-отель комфорт
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полупансион
+                            [tourid] => 1815837999773
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 45982
+                        )
+
+                )
+
+        )
+
+    [373596249] => Array
+        (
+            [flydate] => 26.05.2017
+            [name] => 26.05.2017_373596249
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 9
+            [min_price] => 21804
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32457
+                            [hotelname] => АМИНА БИЧ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32457.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686256492
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 21804
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46800
+                            [hotelname] => У РУСЛАНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46800.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686256498
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 22110
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40412
+                            [hotelname] => ЛУЛУ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40412.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686256495
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 22110
+                        )
+
+                    [3] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40500
+                            [hotelname] => КРИСТАЛЛ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40500.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686256512
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 22875
+                        )
+
+                    [4] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46795
+                            [hotelname] => РЕЗИДЕНЦИЯ АПСНЫ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46795.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686256546
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 23640
+                        )
+
+                    [5] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43836
+                            [hotelname] => БЕЛАЯ ПАНАМА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43836.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686256562
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 23946
+                        )
+
+                    [6] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40414
+                            [hotelname] => МОСКВА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40414.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => 3- разовое
+                            [tourid] => 2723686256559
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 23946
+                        )
+
+                    [7] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 38284
+                            [hotelname] => АБХАЗСКИЙ ДВОРИК
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/38284.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686255681
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 24428
+                        )
+
+                    [8] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30076
+                            [hotelname] => СОЛНЕЧНЫЙ ЛЕТНИЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30076.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815723718669
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 31880
+                        )
+
+                    [9] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43830
+                            [hotelname] => МАГНОЛИЯ ГОСТИНИЦА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43830.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838012833
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 31899
+                        )
+
+                    [10] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32451
+                            [hotelname] => МИДЕЛЬ-ГАГРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32451.jpg
+                            [operatorname] => Coral
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1123686255622
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 33312
+                        )
+
+                    [11] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 56070
+                            [hotelname] => МАГИЯ МОРЯ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => 3- разовое
+                            [tourid] => 1815778844670
+                            [nights] => 9
+                            [hotelstars] => 1
+                            [price] => 33722
+                        )
+
+                    [12] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30075
+                            [hotelname] => СОЛНЕЧНЫЙ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30075.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686253265
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 36362
+                        )
+
+                    [13] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30034
+                            [hotelname] => АМРАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30034.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815778844840
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 36723
+                        )
+
+                    [14] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30079
+                            [hotelname] => ХОЛОДНАЯ РЕЧКА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30079.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686253268
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 37397
+                        )
+
+                    [15] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30039
+                            [hotelname] => БАГРИПШ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30039.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815723719312
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 37428
+                        )
+
+                    [16] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 47806
+                            [hotelname] => НАПРА СПА ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/47806.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815778844863
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 38053
+                        )
+
+                    [17] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30042
+                            [hotelname] => ВИЛЛА ЛЕОНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30042.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815838013032
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 38540
+                        )
+
+                    [18] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30028
+                            [hotelname] => АБААТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30028.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Без питания
+                            [tourid] => 4023686253270
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 39365
+                        )
+
+                    [19] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30054
+                            [hotelname] => КОЛХИДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30054.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815723719383
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 39989
+                        )
+
+                    [20] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32460
+                            [hotelname] => ЧЕГЕМ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32460.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686253276
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 41470
+                        )
+
+                    [21] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 45296
+                            [hotelname] => ЖОЭКВАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/45296.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815838012920
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 43100
+                        )
+
+                    [22] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40499
+                            [hotelname] => ИНДИСАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40499.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838013132
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 43697
+                        )
+
+                    [23] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46321
+                            [hotelname] => ОРА (БЫВШ. УААИ)
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46321.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838013118
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 44034
+                        )
+
+                    [24] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46478
+                            [hotelname] => АИМАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46478.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838013169
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 47742
+                        )
+
+                    [25] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 54200
+                            [hotelname] => БЕРЕГ ЭВКАЛИПТОВ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838013199
+                            [nights] => 9
+                            [hotelstars] => 2
+                            [price] => 48014
+                        )
+
+                    [26] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40495
+                            [hotelname] => ВИЛЛА АКВАВИЗИ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40495.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838013233
+                            [nights] => 9
+                            [hotelstars] => 4
+                            [price] => 48568
+                        )
+
+                    [27] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 1815838013269
+                            [nights] => 9
+                            [hotelstars] => 3
+                            [price] => 50910
+                        )
+
+                )
+
+        )
+
+    [373596257] => Array
+        (
+            [flydate] => 14.04.2017
+            [name] => 14.04.2017_373596257
+            [cat_name] => Москва - Абхазия(Гагра)
+            [night_interval] => 15
+            [min_price] => 23640
+            [hotels] => Array
+                (
+                    [0] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 32457
+                            [hotelname] => АМИНА БИЧ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/32457.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686262623
+                            [nights] => 15
+                            [hotelstars] => 2
+                            [price] => 23640
+                        )
+
+                    [1] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46795
+                            [hotelname] => РЕЗИДЕНЦИЯ АПСНЫ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46795.jpg
+                            [operatorname] => Paks
+                            [mealrussian] => Без питания
+                            [tourid] => 2723686262671
+                            [nights] => 15
+                            [hotelstars] => 2
+                            [price] => 29760
+                        )
+
+                    [2] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46722
+                            [hotelname] => АШАНТА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46722.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686256727
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 37661
+                        )
+
+                    [3] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30074
+                            [hotelname] => СКАЗКА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30074.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686256797
+                            [nights] => 15
+                            [hotelstars] => 2
+                            [price] => 42438
+                        )
+
+                    [4] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 43830
+                            [hotelname] => МАГНОЛИЯ ГОСТИНИЦА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/43830.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686256762
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 41433
+                        )
+
+                    [5] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30042
+                            [hotelname] => ВИЛЛА ЛЕОНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30042.jpg
+                            [operatorname] => Intravel
+                            [mealrussian] => Без питания
+                            [tourid] => 6923686256846
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 44784
+                        )
+
+                    [6] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30067
+                            [hotelname] => РАЙДА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30067.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838030830
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 50083
+                        )
+
+                    [7] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 51585
+                            [hotelname] => САНРАЙЗ ГАРДЕН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/51585.jpg
+                            [operatorname] => Coral
+                            [mealrussian] => BED & BREAKFAST
+                            [tourid] => 1123686259637
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 52280
+                        )
+
+                    [8] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 47806
+                            [hotelname] => НАПРА СПА ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/47806.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815619948391
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 54956
+                        )
+
+                    [9] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40499
+                            [hotelname] => ИНДИСАН
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40499.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838031088
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 58510
+                        )
+
+                    [10] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 46478
+                            [hotelname] => АИМАРА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/46478.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Без питания
+                            [tourid] => 1815838031001
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 58510
+                        )
+
+                    [11] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30071
+                            [hotelname] => САН-МАРИНА
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30071.jpg
+                            [operatorname] => ICS Travel Group
+                            [mealrussian] => Полный Пансион
+                            [tourid] => 4023686255239
+                            [nights] => 15
+                            [hotelstars] => 3
+                            [price] => 62337
+                        )
+
+                    [12] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 30032
+                            [hotelname] => АЛЕКС БИЧ ОТЕЛЬ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/30032.jpg
+                            [operatorname] => Coral
+                            [mealrussian] => BED & BREAKFAST
+                            [tourid] => 1123686259653
+                            [nights] => 15
+                            [hotelstars] => 4
+                            [price] => 63987
+                        )
+
+                    [13] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 54200
+                            [hotelname] => БЕРЕГ ЭВКАЛИПТОВ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/hotel_country_46.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815619948385
+                            [nights] => 15
+                            [hotelstars] => 2
+                            [price] => 66029
+                        )
+
+                    [14] => Array
+                        (
+                            [countryname] => Абхазия
+                            [regionname] => Гагра
+                            [hotelcode] => 40495
+                            [hotelname] => ВИЛЛА АКВАВИЗИ
+                            [picturelink] => //static.tourvisor.ru/hotel_pics/small/40495.jpg
+                            [operatorname] => Biblioglobus
+                            [mealrussian] => Завтрак
+                            [tourid] => 1815838031206
+                            [nights] => 15
+                            [hotelstars] => 4
+                            [price] => 67949
+                        )
+
+                )
+
+        )
+
+)
