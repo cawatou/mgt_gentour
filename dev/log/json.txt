@@ -1,0 +1,18 @@
+Array
+(
+    [data] => Array
+        (
+            [status] => Array
+                (
+                    [state] => finished
+                    [hotelsfound] => 88
+                    [toursfound] => 2743
+                    [minprice] => 61784
+                    [maxprice] => 278354
+                    [progress] => 100
+                    [timepassed] => 72
+                )
+
+        )
+
+)

@@ -930,10 +930,6 @@ while ($arSection = $rsSections->Fetch()) {
 <?//echo "<pre>".print_r($sections, 1)."</pre>";?>
 <?endif?>
 
-
-
-
-
 <div class="container">
     <div class="overflow ">
         <div class="row">
@@ -964,6 +960,80 @@ while ($arSection = $rsSections->Fetch()) {
         </div>
     </div>
 </div>
+
+
+<div class="container">
+	<div class="overflow ">
+	<div class="row">
+		<div class="col-md-12">
+		<div class="row searchline">
+									<div class="col-md-1">
+										<b>Фильтр</b> 
+									</div>
+									<div class="col-md-3">
+										<div class="form-group ">
+													<label for=" ">Выберите город отправления </label>
+													<input id=" " name="filter_city" class="form-control" />
+												</div> 
+									</div>
+									<div class="col-md-3">
+										<div class="form-group ">
+													<label for=" ">Укажите страну </label>
+													<input id=" " name="filter_country" class="form-control" />
+												</div>
+									</div>
+									<div class="col-md-3">
+										<div class="form-group ">
+										<label for=" "> &nbsp;</label>
+										<button>Применить</button>
+										</div>
+									</div>
+								</div>
+								
+<table class="table  table-striped">
+									<thead> <tr> <th>Тур</th> <th>Название</th> <th>Отправление</th> <th>Страна/Курорт</th> <th>Даты</th>  <th>Цена</th> <th>Туроператор</th> <th></th> </tr> </thead>
+									<tbody>
+		<?
+							$arFilter = Array("IBLOCK_ID"=>20 ,"UF_GENERATED"=>0 );
+$res = CIBlockSection::GetList(Array("ID"=>"DESC"), $arFilter,true, Array("ID","IBLOCK_ID","ACTIVE","SORT","PICTURE","NAME","UF_DEPARTURE"));
+while ($resr = $res->GetNext()) {
+	
+	
+	$arSelect = Array("ID","IBLOCK_ID","ACTIVE","SORT","TIMESTAMP_X","NAME","PREVIEW_PICTURE","PROPERTY_COUNTRY","PROPERTY_PRICE","PROPERTY_MIN_PRICE","PROPERTY_PRICEDISCOUNT","PROPERTY_CURORT","PROPERTY_DAYCOUNT","PROPERTY_TUROPERATOR","PROPERTY_DATEFROM","PROPERTY_DATETO","PROPERTY_DEPARTURE");
+$arFilter2 = Array("IBLOCK_ID"=>20,  "IBLOCK_SECTION_ID"=>$resr['ID']);
+$res2 = CIBlockElement::GetList(Array(), $arFilter2, false, Array("nPageSize"=>50), $arSelect);
+while($ob = $res2->GetNextElement()){
+ $arFields = $ob->GetFields();  
+/*
+ echo "<pre>";
+	var_dump($arFields);
+	echo "</pre>";
+ $arProps = $ob->GetProperties();
+echo "<pre>";
+	var_dump($arProps);
+	echo "</pre>";
+	*/
+}
+
+			?>	
+	<tr> 
+						<th scope="row"><?=$resr['ID']?></th> 
+						<td><?=$resr['NAME']?></td> 
+						<td>из <?=$arFields['PROPERTY_DEPARTURE_VALUE']?></td> 
+						<td><?=$arFields['PROPERTY_COUNTRY_VALUE']?>/<?=$arFields['PROPERTY_CURORT_VALUE']?></td>  
+						<td><?=$arFields['PROPERTY_DATEFROM_VALUE']?>,<br> <?=$arFields['PROPERTY_DATETO_VALUE']?></td> 
+						<td><s><?=$arFields['PROPERTY_MIN_PRICE']?></s> <s><?=$arFields['PROPERTY_PRICE_VALUE']?></s><br> <?=$arFields['PROPERTY_PRICEDISCOUNT_VALUE']?></td> 
+						<td><?=$arFields['PROPERTY_TUROPERATOR']?> </td> 
+						
+						<td> <a class="delete fa  fa-trash-o" data-id="<?=$resr['ID']?>"></a></td>
+					</tr> 
+<?}?>
+ </tbody>
+								</table>
+								</div>
+								</div>
+								</div>
+								</div>
 
 <? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/footer.php"); ?>
 
