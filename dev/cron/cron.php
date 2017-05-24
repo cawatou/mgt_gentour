@@ -36,7 +36,11 @@ while ($arSection = $tours_sections->Fetch()) {
         $delete_forever[] = Array('tour_id' => $arSection['ID'], 'hotel_id' => $hotelsection_id);
         continue;
     }
-    if($form_fields[0] < $today) $form_fields[0] = $today;
+    
+    $date = new DateTime('tomorrow');
+    $tomorrow = $date->format('d.m.Y');
+    
+    if($form_fields[0] < $today) $form_fields[0] = $tomorrow;
 
     $form_fields['tour_id'] = $arSection['ID'];
     $form_fields['hotel_id'] = $hotelsection_id;
@@ -46,8 +50,6 @@ while ($arSection = $tours_sections->Fetch()) {
 }
 
 //echo "<pre>".print_r($sections, 1)."</pre>";
-
-
 //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/sections.txt', print_r($sections, 1));
 //die();
 // Получаем весь список запросов из турвизора

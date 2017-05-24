@@ -73,7 +73,10 @@ if(isset($_REQUEST['load_siblings'])){
 }
 
 if(isset($_REQUEST['dev'])){
-	$arSelect = Array("ID", "NAME", "PROPERTY_group", "PROPERTY_country", "PROPERTY_region", "PROPERTY_star", "PROPERTY_tourvisor_id");
+	$date = new DateTime('tomorrow');
+	$tomorrow = $date->format('d.m.Y');
+	echo $tomorrow;
+	/*$arSelect = Array("ID", "NAME", "PROPERTY_group", "PROPERTY_country", "PROPERTY_region", "PROPERTY_star", "PROPERTY_tourvisor_id");
 	$arFilter = Array("IBLOCK_ID" => 29, "ACTIVE" => "Y");
 	$res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize" => 9999), $arSelect);
 	while ($ob = $res->GetNextElement()) {
@@ -81,7 +84,7 @@ if(isset($_REQUEST['dev'])){
 		$BX_group['tourvisor_id'][] = $hotel['PROPERTY_TOURVISOR_ID_VALUE'];
 		$BX_group['group'][$hotel['PROPERTY_TOURVISOR_ID_VALUE']] = $hotel['PROPERTY_GROUP_VALUE'];
 	}
-	echo "<pre>".print_r($BX_group, 1)."</pre>";
+	echo "<pre>".print_r($BX_group, 1)."</pre>";*/
 }
 
 /*==========================================================================================================*/
@@ -91,6 +94,9 @@ if(isset($_REQUEST['get_requestid'])) {
     $departure = $_REQUEST['departure'];
     $country = $_REQUEST['country'];
     $regions = $_REQUEST['regions'];
+	if(count($regions) > 1) $regions = implode(',', $regions);
+	else $regions = $regions[0];
+
     $date_from = $_REQUEST['date_from'];
     $date_to = $_REQUEST['date_to'];
 	$requestid = get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to);
@@ -127,12 +133,18 @@ if(isset($_REQUEST['new_items'])){
 	$departure_name = $_REQUEST['departure_name'];
 	$date_from = $_REQUEST['date_from'];
 	$date_to = $_REQUEST['date_to'];
+	$country = $_REQUEST['country'];
+	$regions = $_REQUEST['regions'];
+	if(count($regions) > 1) $regions = implode(',', $regions);
+	else $regions = $regions[0];
+	$star_3 = $_REQUEST['hotel3'];
+	$star_4 = $_REQUEST['hotel4'];
+	$star_5 = $_REQUEST['hotel5'];
 	// Получаем массив из json'a
     $json = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/dev/json/'.$cat_name.'-['.$date_from.' - '.$date_to.'].json');
     $tours = json_decode($json, 1);
 	// Данные для автогенерации тура
-	$form_data = $_REQUEST['date_from'].'_'.$_REQUEST['date_to'].'_'.$_REQUEST['departure'].'_'.$_REQUEST['country'].'_'.$_REQUEST['regions'].'_'.$_REQUEST['hotel3'].'_'.$_REQUEST['hotel4'].'_'.$_REQUEST['hotel5'].'_'.$departure_name;
-
+	$form_data = $date_from.'_'.$date_to.'_'.$departure.'_'.$country.'_'.$regions.'_'.$star_3.'_'.$star_4.'_'.$star_5.'_'.$departure_name;
 
 	add_tours($cat_name, $departure, $departure_name, $tours, $form_data);
     echo "Туры добавлены.";

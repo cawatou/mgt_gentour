@@ -422,6 +422,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 }
 
 function add_tours($cat_name, $departure, $departure_name, $tours, $form_data){
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/cat_name.txt', print_r($cat_name, 1));
 	$min_cat_price = $tours;
 	$min_cat_price = array_shift($min_cat_price);
 
