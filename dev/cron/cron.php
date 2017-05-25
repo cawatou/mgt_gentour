@@ -50,22 +50,29 @@ while ($arSection = $tours_sections->Fetch()) {
 }
 
 //echo "<pre>".print_r($sections, 1)."</pre>";
+
 //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/sections.txt', print_r($sections, 1));
 //die();
 // Получаем весь список запросов из турвизора
+$cnt = 1;
 foreach($sections as $section){
     $date_from = $section[0];
     $date_to = $section[1];
     $departure = $section[2];
     $country = $section[3];
-    $regions = $section[4];
+    $regions = $section[4];    
     $requestid[] = get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to);
+    $cnt++;
+    if($cnt == 5){
+        sleep(30);
+        $cnt = 1;
+    }
 }
 
 //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/requestid_cron.txt', print_r($requestid, 1));
 
-//echo "<pre>".print_r($sections, 1)."</pre>";
-
+//echo "<pre>".print_r($requestid, 1)."</pre>";
+//die();
 
 sleep(120);
 // Получаем результаты из турвизора
