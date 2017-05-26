@@ -126,8 +126,8 @@ $('#gen_tours').on('submit', function (e) {
     } else if (status == '100') {
         //Запрос результата
         var data = $(this).serializeArray();
-        if($('#region_name').val() == '') var category = $(".departure option:selected").html() + " - " + $(".country option:selected").html() + "(" + $(".regions option:selected").html() + ")";
-        var category = $(".departure option:selected").html() + " - " + $(".country option:selected").html() + "(" + $('#region_name').val() + ")";
+        if($('#region_name').val() === '') var category = $(".departure option:selected").html() + " - " + $(".country option:selected").html() + "(" + $(".regions option:selected").html() + ")";
+        else category = $(".departure option:selected").html() + " - " + $(".country option:selected").html() + "(" + $('#region_name').val() + ")";
         data.push({name: 'get_result', value: 1});
         data.push({name: 'cat_name', value: category});
 

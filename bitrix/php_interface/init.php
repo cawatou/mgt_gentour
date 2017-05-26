@@ -193,7 +193,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
 
 	/**===========================================================================================================
-	 *          Находми первое предложение (Самое дешевое)
+	 *          Находми первое предложение (Самое дешевое) 
 	 * ======================================================================================================= **/
 	foreach($result as $k => $requestid){
 		foreach ($requestid as $hotel){
@@ -230,7 +230,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	}
 	$temp = Array();
 	$temp['min_price'] = 0;
-
+	$n2_5 = 0;
 
 	/**===========================================================================================================
 	 *          Находми второе предложение (Самая ближайщая дата + 4 дня и Самое дешевое)
@@ -240,6 +240,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$start_time = new DateTime($date_from);
 	$end_time = new DateTime($date_to);
 	$interval = $start_time->diff($end_time)->days;
+	if($interval < 56) $interval = 56; // 8 недель
+	
 	$iteration = ceil($interval/14);
 	$period[] = $start_time->format('d.m.Y');
 	// Добавляем еще 3 дня
@@ -545,7 +547,7 @@ function get_date($start_time, $period, $iteration){
 
 // Создаем новый раздел
 function add_section($name, $iblock_id, $departure = '', $min_price = '', $form_data = '', $tour_catid = ''){
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/form_data.txt', print_r($form_data, 1));
+	 if($tour_catid != "") file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/form_data.txt', print_r($form_data, 1));
 	// Параметры для символьного кода (Код необходим для построения url)
 	$params = Array(
 		"max_len" => "100", // обрезает символьный код до 100 символов
