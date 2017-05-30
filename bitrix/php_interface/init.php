@@ -138,7 +138,6 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 				$json = file_get_contents('http://tourvisor.ru/xml/search.php?' . $get);
 				$json = json_decode($json, 1);
 
-
 				if($requestid == '' && $json['result']['requestid'] != '') $requestid = $json['result']['requestid'];
 				elseif($requestid != '' && $json['result']['requestid'] != '') $requestid = $requestid.','.$json['result']['requestid'];
 				$get = '';
@@ -146,6 +145,7 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 
 		}
 	}
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/date_tours.txt', print_r($date_tours, 1));
 	return $requestid;
 }
 
@@ -181,22 +181,29 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$n6_8 = 2;
 	$n9_14 = 4;
 	$n15_20 = 1;
-	$temp['min_price'] = $empty = 0;
-
+	$temp['min_price'] = $empty = $previous_key = 0;
+	$cnt = 1;
 	foreach($requestid as $k => $id) {
+		if($previous_key == 0 || $cnt % 2 != 0) $previous_key = $id;
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=1000&format=json');
 		$json = json_decode($json, 1);
 		if(isset($json['data']['result']['hotel'])){
-			$result[$id] = $json['data']['result']['hotel'];
+			if($cnt % 2 != 0) $result[$id] = $json['data']['result']['hotel'];
+			elseif($result[$previous_key] != 0) $result[$previous_key] = array_merge($result[$previous_key], $json['data']['result']['hotel']);
+			else $result[$previous_key] = $json['data']['result']['hotel'];
 		}else{
-			$result[$id] = 0;
-			$empty++;
+			if($cnt % 2 != 0) {
+				$result[$id] = 0;
+				$empty++;
+			}			
 		}
+		$cnt++;
+		$tt[$id] = $json['data']['result']['hotel'];
 	}
 	if(count($result) == $empty) exit('empty');
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
-
-	exit();
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
+	//exit();
 
 	/**===========================================================================================================
 	 *          Находми первое предложение (Самое дешевое) 
@@ -425,12 +432,12 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$filter_hotels = Array();
 
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
-	die();
+	//die();
 	return $tours;
 }
 
 function add_tours($cat_name, $departure, $departure_name, $tours, $form_data){
-	die();
+	//die();
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/cat_name.txt', print_r($cat_name, 1));
 	$min_cat_price = $tours;
 	$min_cat_price = array_shift($min_cat_price);

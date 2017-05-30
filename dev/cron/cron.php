@@ -63,7 +63,7 @@ foreach($sections as $section){
     $regions = $section[4];    
     $requestid[] = get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to);
     $cnt++;
-    if($cnt == 5){
+    if($cnt == 3){
         sleep(30);
         $cnt = 1;
     }
