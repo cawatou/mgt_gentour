@@ -163,7 +163,7 @@ function get_status($login, $pass, $requestid){
 	return $status;
 }
 
-function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name = ''){
+function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name = '', $cron = false){
 	// Получаем из админки отели отсортированные по группам вручную
 	$arSelect = Array("ID", "NAME", "PROPERTY_group", "PROPERTY_country", "PROPERTY_region", "PROPERTY_star", "PROPERTY_tourvisor_id");
 	$arFilter = Array("IBLOCK_ID" => 29, "ACTIVE" => "Y");
@@ -200,9 +200,10 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$cnt++;
 		$tt[$id] = $json['data']['result']['hotel'];
 	}
-	if(count($result) == $empty) exit('empty');
+	
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
+	if(count($result) == $empty && $cron == false) exit('empty');
 	//exit();
 
 	/**===========================================================================================================

@@ -19,11 +19,12 @@ $pass = 'jICPOQJ7';
 
 require_once($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule("iblock");
-
+$n = 0;
 $tours_sections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
 while ($arSection = $tours_sections->Fetch()) {
     //echo "<pre>".print_r($arSection, 1)."</pre>";
     // Получаем id категории отелей из битрикса
+
     $hotels_sections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 23, "UF_TOUR_ID" => $arSection['ID']), false, array('ID'));
     while ($hotel_field = $hotels_sections->Fetch()) $hotelsection_id = $hotel_field['ID'];
 
@@ -36,17 +37,21 @@ while ($arSection = $tours_sections->Fetch()) {
         $delete_forever[] = Array('tour_id' => $arSection['ID'], 'hotel_id' => $hotelsection_id);
         continue;
     }
-    
+
     $date = new DateTime('tomorrow');
     $tomorrow = $date->format('d.m.Y');
-    
+
     if($form_fields[0] < $today) $form_fields[0] = $tomorrow;
 
     $form_fields['tour_id'] = $arSection['ID'];
     $form_fields['hotel_id'] = $hotelsection_id;
     $form_fields['cat_name'] = $arSection['NAME'];
-    
+
     $sections[] = $form_fields;
+
+  
+    $n++;
+    if($n == 10) break;
 }
 
 //echo "<pre>".print_r($sections, 1)."</pre>";
@@ -91,11 +96,11 @@ foreach ($requestid as $k => $rid){
     $cat_name = $sections[$k]['cat_name'];
     
     $status[] = get_status($login, $pass, $requestid);
-    $all_tours[] = get_result($login, $pass, $rid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name);
+    $all_tours[] = get_result($login, $pass, $rid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, true);
 }
 
 
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/all_tours.txt', print_r($all_tours, 1));
+//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/all_tours.txt', print_r($all_tours, 1));
 //die();
 
 // Удаляем и записываем новые элементы
@@ -117,5 +122,5 @@ foreach($sections as $k => $section){
 //$end = microtime(true);
 //echo "<hr /> Script execution time: ".($end-$start)." sec!";
 //echo "<hr />";
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/endautogen.txt',  "wriда она te file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/endautogen.txt',  "write file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
 ?>
