@@ -396,35 +396,38 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	/**================================================================================================================
 	 * 					Находми предложения продолжительностю от 15 до 20 ночей
 	 * ============================================================================================================ **/
-	$cnt = 0;
-	foreach($result as $k => $requestid){
-		//начало периода (от 15 до 20 дней)
-		if($cnt >= $iteration*3 && $cnt < $iteration*4 && !array_key_exists($k, $tours)){
-			foreach ($requestid as $hotel){
-				if(!isset($hotel)) continue;
-				if($temp['min_price'] == 0 || $temp['min_price'] > $hotel['price']) {
-					$temp['min_price'] = $hotel['price'];
-					$temp['requestid'] = $k;
-					$temp['date'] = $hotel['tours']['tour'][0]['flydate'];
-					$temp['nights'] = $hotel['tours']['tour'][0]['nights'];
+	for($i=1; $i <= $n15_20; $i++) {
+		$cnt = 0;
+		foreach ($result as $k => $requestid) {
+			//начало периода (от 15 до 20 дней)
+			if ($cnt >= $iteration * 3 && $cnt < $iteration * 4 && !array_key_exists($k, $tours)) {
+				foreach ($requestid as $hotel) {
+					if (!isset($hotel)) continue;
+					if ($temp['min_price'] == 0 || $temp['min_price'] > $hotel['price']) {
+						$temp['min_price'] = $hotel['price'];
+						$temp['requestid'] = $k;
+						$temp['date'] = $hotel['tours']['tour'][0]['flydate'];
+						$temp['nights'] = $hotel['tours']['tour'][0]['nights'];
+					}
+				}
+			}
+			$cnt++; // Для поиска начала периода (от 15 до 20 дней)
+		}
+
+		if (count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
+
+		foreach ($result[$temp['requestid']] as $hotel) {
+			foreach ($hotel['tours']['tour'] as $tour) {
+				if ($tour['flydate'] == $temp['date'] && $tour['nights'] == $temp['nights']) {
+					$tours[$temp['requestid']]['hotels'][] = compose_hotel($hotel, $tour);
+					break;
 				}
 			}
 		}
-		$cnt++; // Для поиска начала периода (от 15 до 20 дней)
+		$temp = Array();
+		$temp['min_price'] = 0;
 	}
-
-	if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
-
-	foreach($result[$temp['requestid']] as $hotel){
-		foreach ($hotel['tours']['tour'] as $tour){
-			if($tour['flydate'] == $temp['date'] && $tour['nights'] == $temp['nights']){
-				$tours[$temp['requestid']]['hotels'][] = compose_hotel($hotel, $tour);
-				break;
-			}
-		}
-	}
-	$temp = Array();
-	$temp['min_price'] = 0;
+	$n15_20 = 0;
 
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours.txt', print_r($tours, 1));
 	/**================================================================================================================

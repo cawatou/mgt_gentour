@@ -50,14 +50,29 @@ while ($arSection = $tours_sections->Fetch()) {
     $sections[] = $form_fields;
 
   
-    $n++;
-    if($n == 10) break;
+    //$n++;
+    //if($n == 16) break;
 }
 
-//echo "<pre>".print_r($sections, 1)."</pre>";
+/*echo "<pre>".print_r($sections, 1)."</pre>";
+die();
+$obSection = new CIBlockSection;
+for($i=0; $i<=77; $i++){    
+    echo "<pre>".print_r($sections[$i], 1)."</pre>";
+    $sections[$i][5] = 10;
+    $sections[$i][6] = 8;
+    $sections[$i][7] = 2;
+    for($j=0; $j<=8; $j++){
+        $data[] = $sections[$i][$j];
+    }
+    $data_form = implode('_', $data);
+    $data = Array();
+    
+    $obSection->Update($sections[$i]['tour_id'], array("UF_FORM_DATA"=>$data_form));
+}*/
 
-//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/sections.txt', print_r($sections, 1));
-//die();
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/sections.txt', print_r($sections, 1));
+die();
 // Получаем весь список запросов из турвизора
 $cnt = 1;
 foreach($sections as $section){
@@ -79,7 +94,7 @@ foreach($sections as $section){
 //echo "<pre>".print_r($requestid, 1)."</pre>";
 //die();
 
-sleep(120);
+sleep(300);
 // Получаем результаты из турвизора
 foreach ($requestid as $k => $rid){
     if($rid == '') {
