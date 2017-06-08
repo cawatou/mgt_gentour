@@ -33,15 +33,15 @@ while ($arSection = $tours_sections->Fetch()) {
     $today = date('d.m.Y');
 
     // Проверка дат
-    if(strtotime($form_fields[1]) < strtotime($today)){
-        $delete_forever[] = Array('tour_id' => $arSection['ID'], 'hotel_id' => $hotelsection_id);
-        continue;
-    }
+//    if(strtotime($form_fields[1]) < strtotime($today)){
+//        $delete_forever[] = Array('tour_id' => $arSection['ID'], 'hotel_id' => $hotelsection_id);
+//        continue;
+//    }
 
     $date = new DateTime('tomorrow');
     $tomorrow = $date->format('d.m.Y');
 
-    if($form_fields[0] < $today) $form_fields[0] = $tomorrow;
+    if(strtotime($form_fields[0]) < strtotime($today)) $form_fields[0] = $tomorrow;
 
     $form_fields['tour_id'] = $arSection['ID'];
     $form_fields['hotel_id'] = $hotelsection_id;
@@ -70,9 +70,10 @@ for($i=0; $i<=77; $i++){
     
     $obSection->Update($sections[$i]['tour_id'], array("UF_FORM_DATA"=>$data_form));
 }*/
+//echo "<pre>".print_r($sections, 1)."</pre>";
 
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/sections.txt', print_r($sections, 1));
-die();
+//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/sections.txt', print_r($sections, 1));
+//die();
 // Получаем весь список запросов из турвизора
 $cnt = 1;
 foreach($sections as $section){
@@ -82,7 +83,7 @@ foreach($sections as $section){
     $country = $section[3];
     $regions = $section[4];    
     $requestid[] = get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to);
-    $cnt++;
+    $cnt++; 
     if($cnt == 3){
         sleep(30);
         $cnt = 1;
@@ -138,4 +139,5 @@ foreach($sections as $k => $section){
 //echo "<hr /> Script execution time: ".($end-$start)." sec!";
 //echo "<hr />";
 file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/endautogen.txt',  "write file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
+exit();
 ?>

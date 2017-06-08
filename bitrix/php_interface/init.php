@@ -3,10 +3,56 @@ AddEventHandler("iblock", "OnAfterIBlockElementUpdate", "OnAfterIBlockElementHan
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", "OnAfterIBlockElementHandler", 1000);
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateHandler", 1000);
 AddEventHandler("iblock", "OnBeforeIBlockElementDelete", "OnBeforeIBlockElementDeleteHandler", 1000);
+AddEventHandler("iblock", "OnAfterIBlockSectionAdd", "OnAfterIBlockSectionAddHandler", 1000);
+
+
+
+//define("LOG_FILENAME", '/bitrix/logfileFor');
 
 $old_name = "";
 $QUESTION_ID = 37; // ID вопроса, в который мы будем добавлять ответы
 
+function OnAfterIBlockSectionAddHandler (&$arFields)
+{
+
+// //Обработка данных при создании секции iblock
+
+
+// 	function OnAfterIBlockSectionAddHandler(&$arFields)
+//     {
+//         if($arFields["ID"]>0)
+//              AddMessage2Log("Запись с кодом ".$arFields["ID"]." добавлена.");
+//         else
+//              AddMessage2Log("Ошибка добавления записи (".$arFields["RESULT_MESSAGE"].").");
+//     }
+
+
+// //Подлючение и работа с базой старого сайта
+
+
+// 	$dbHost='localhost';
+// 	$dbName='mybase';
+// 	$dbUser='myuser';
+// 	$dbPass='mypassword';
+
+
+// 	$myConnect = mysql_connect($dbHost,$dbUser,$dbPass));
+// 	mysql_select_db($dbName,$myConnect);
+
+
+// 	$qwer=mysql_query("select * from `mytable`",$myConnect);
+
+
+// 	while ($arr=mysql_fetch_array($qwer))
+// 	{
+// 		echo $arr[0].' '.$arr[1];
+// 	}
+
+
+// 	mysql_close($myConnect);
+		
+	
+}
 function OnBeforeIBlockElementUpdateHandler (&$arFields)
 {
 	global $old_name;
@@ -436,6 +482,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$filter_hotels = Array();
 
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
 	//die();
 	return $tours;
 }
