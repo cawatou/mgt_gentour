@@ -5,13 +5,16 @@ define("NOT_CHECK_PERMISSIONS", true);
 $_SERVER['DOCUMENT_ROOT'] = '/var/www/tour/data/www/tour.skipodevelop.com';
 $_SERVER['SERVER_NAME'] = 'tour.skipodevelop.com';
 
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/autogen.txt',  "write file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/autogen.txt',  "write file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
 /*
 $start = microtime(true);
 ini_set('error_reporting', E_ALL);
 ini_set('display_errors', 1);
 ini_set('display_startup_errors', 1);
 */
+
+
+
 
 $login = 'i@neoz.su';
 $pass = 'jICPOQJ7';
@@ -138,6 +141,6 @@ foreach($sections as $k => $section){
 //$end = microtime(true);
 //echo "<hr /> Script execution time: ".($end-$start)." sec!";
 //echo "<hr />";
-file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/endautogen.txt',  "write file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/endautogen.txt',  "write file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
 exit();
 ?>

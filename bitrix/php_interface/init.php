@@ -112,10 +112,6 @@ function OnAfterIBlockElementHandler(&$arFields)
 	}
 }
 
-
-
-
-
 // =================================== AUTO GENERATOR =============================================================
 function get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to){
 	$start_time = new DateTime($date_from);
@@ -184,11 +180,12 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 				$json = file_get_contents('http://tourvisor.ru/xml/search.php?' . $get);
 				$json = json_decode($json, 1);
 
+				file_put_contents($_SERVER['DOCUMENT_ROOT'].'/reqid_json.txt', print_r($json, 1), FILE_APPEND);
+				
 				if($requestid == '' && $json['result']['requestid'] != '') $requestid = $json['result']['requestid'];
 				elseif($requestid != '' && $json['result']['requestid'] != '') $requestid = $requestid.','.$json['result']['requestid'];
 				$get = '';
 			}
-
 		}
 	}
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/date_tours.txt', print_r($date_tours, 1));
@@ -200,7 +197,7 @@ function get_status($login, $pass, $requestid){
 	foreach($requestid as $k => $id) {
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=status&format=json');
 		$json = json_decode($json, 1);
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/json.txt', print_r($json, 1));
+		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/json.txt', print_r($json, 1));
 		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/status.txt', $json['data']['status']['progress']."\r\n", FILE_APPEND);
 		if($status == '') $status = $json['data']['status']['progress'];
 		else $status = $status + $json['data']['status']['progress'];
@@ -217,7 +214,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	while ($ob = $res->GetNextElement()) {
 		$hotel = $ob->GetFields();
 		$BX_group['tourvisor_id'][] = $hotel['PROPERTY_TOURVISOR_ID_VALUE'];
-		$BX_group['group'][] = $hotel['PROPERTY_GROUP_VALUE'];
+		$BX_group['group'][$hotel['PROPERTY_TOURVISOR_ID_VALUE']] = $hotel['PROPERTY_GROUP_VALUE'];
 	}
 
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/BX_group.txt', print_r($BX_group, 1));
@@ -483,7 +480,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
-	//die();
+	//die('the end!!!!!!!!!!');
 	return $tours;
 }
 
@@ -667,19 +664,21 @@ function compose_hotel($hotel, $tour){
 function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 	foreach($tours as $requestid => $tour){
 		foreach($tour['hotels'] as $hotel){
-			if($hotel['hotelstars'] <= 3) $filter_hotels['3stars'][] = $hotel;
-			if($hotel['hotelstars'] == 4) $filter_hotels['4stars'][] = $hotel;
-			if($hotel['hotelstars'] == 5) $filter_hotels['5stars'][] = $hotel;
+			// При записи в качестве ключа передаем 'hotelcode' - для избежания дублей
+			if($hotel['hotelstars'] <= 3) $filter_hotels['3stars'][$hotel['hotelcode']] = $hotel;
+			if($hotel['hotelstars'] == 4) $filter_hotels['4stars'][$hotel['hotelcode']] = $hotel;
+			if($hotel['hotelstars'] == 5) $filter_hotels['5stars'][$hotel['hotelcode']] = $hotel;
 		}
-
 
 		if($star_3 < count($filter_hotels['3stars']) && $star_3 != 0) {
 			$iteration = floor(count($filter_hotels['3stars']) / $star_3);
 			$rest = count($filter_hotels['3stars']) % $star_3;
 			for ($i = 1; $i <= $star_3; $i++) {
-				if ($i == 1) $start = 0;
-				elseif($i == $star_3) $iteration = $iteration + $rest; // В последнем массиве добавляются все остальные элементы которые остались при округлении
+				if ($i == 1) $start = 0;				
 				else $start = $start + $iteration;
+
+				if($i == $star_3) $iteration = $iteration + $rest; // В последнем массиве добавляются все остальные элементы которые остались при округлении
+				
 				$filter_hotels['group']['3s'][$i] = array_slice($filter_hotels['3stars'], $start, $iteration);
 			}
 		}elseif(count($filter_hotels['3stars']) != 0){
@@ -690,14 +689,15 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 			$iteration = floor(count($filter_hotels['4stars']) / $star_4);
 			$rest = count($filter_hotels['4stars']) % $star_4;
 			for ($i = 1; $i <= $star_4; $i++) {
-				if ($i == 1) $start = 0;
-				elseif($i == $star_4) $iteration = $iteration + $rest; // В последнем массиве добавляются все остальные элементы которые остались при округлении
+				if ($i == 1) $start = 0;				
 				else $start = $start + $iteration;
+
+				if($i == $star_4) $iteration = $iteration + $rest; // В последнем массиве добавляются все остальные элементы которые остались при округлении
+				
 				$filter_hotels['group']['4s'][] = array_slice($filter_hotels['4stars'], $start, $iteration);
 			}
 		}elseif(count($filter_hotels['4stars']) != 0){
 			foreach($filter_hotels['4stars'] as $hotel) $hotels[$requestid][] = $hotel;
-
 		}
 
 		if($star_5 < count($filter_hotels['5stars']) && $star_5 != 0) {
@@ -705,27 +705,31 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 			$rest = count($filter_hotels['5stars']) % $star_5;
 			for ($i = 1; $i <= $star_5; $i++) {
 				if ($i == 1) $start = 0;
-				elseif($i == $star_5) $iteration = $iteration + $rest; // В последнем массиве добавляются все остальные элементы которые остались при округлении
 				else $start = $start + $iteration;
+
+				if($i == $star_5) $iteration = $iteration + $rest; // В последнем массиве добавляются все остальные элементы которые остались при округлении
+				
 				$filter_hotels['group']['5s'][] = array_slice($filter_hotels['5stars'], $start, $iteration);
 			}
 		}elseif(count($filter_hotels['5stars']) != 0){
 			foreach ($filter_hotels['5stars'] as $hotel) $hotels[$requestid][] = $hotel;
 		}
 
-
 		foreach($filter_hotels['group'] as $groups){
 			foreach($groups as $group){
 				$i=0;
+				$temp_hotel = '';
 				foreach($group as $hotel){
 					if(in_array($hotel['hotelcode'], $BX_group['tourvisor_id'])){
 						$group_value = $BX_group['group'][$hotel['hotelcode']];
 						if($group_value == 1) {
 							$hotels[$requestid][] = $hotel;
+							file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//first_group.txt', print_r($hotel, 1), FILE_APPEND);
 							break;
 						}else{
 							$temp_hotel = $hotel;
-						}
+							file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//temp_hotel.txt', print_r($temp_hotel, 1), FILE_APPEND);
+						}					
 					}
 					$i++;
 					if($i == count($group) && $temp_hotel == '') $hotels[$requestid][] = $group[0];
@@ -733,6 +737,8 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 				}
 			}
 		}
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
 		$filter_hotels = Array();
 	}
 
