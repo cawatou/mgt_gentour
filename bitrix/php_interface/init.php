@@ -157,7 +157,7 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 	$requestid = $get = '';
 	foreach($date_tours as $k => $duration){
 		foreach($duration['date'] as $date){
-			for($i=1; $i <= 2; $i++){
+			for($i=1; $i <= 3; $i++){
 				$params = Array(
 					'authlogin' => $login,
 					'authpass' => $pass,
@@ -171,7 +171,8 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 					'format' => 'json',
 				);
 				if($i == 1) $params['stars'] = '1,2,3';
-				if($i == 2) $params['stars'] = '4,5';
+				if($i == 2) $params['stars'] =  '4';
+				if($i == 3) $params['stars'] =  '5';
 				
 				foreach ($params as $k => $value) {
 					if ($get == '') $get = $k . '=' . $value;
@@ -225,18 +226,20 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$n9_14 = 4;
 	$n15_20 = 1;
 	$temp['min_price'] = $empty = $previous_key = 0;
-	$cnt = 1;
+	$cnt = 0;
 	foreach($requestid as $k => $id) {
-		if($previous_key == 0 || $cnt % 2 != 0) $previous_key = $id;
+		//if($previous_key == 0 || $cnt % 2 != 0) $previous_key = $id;
+		if($cnt == 0 || $cnt % 3 == 0) $previous_key = $id;
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=1000&format=json');
 		$json = json_decode($json, 1);
 		if(isset($json['data']['result']['hotel'])){
-			if($cnt % 2 != 0) $result[$id] = $json['data']['result']['hotel'];
-			elseif($result[$previous_key] != 0) $result[$previous_key] = array_merge($result[$previous_key], $json['data']['result']['hotel']);
+			if($cnt == 0 || $cnt % 3 == 0) $result[$id] = $json['data']['result']['hotel'];
+			elseif(is_array($result[$previous_key])) $result[$previous_key] = array_merge($result[$previous_key], $json['data']['result']['hotel']);
 			else $result[$previous_key] = $json['data']['result']['hotel'];
 		}else{
-			if($cnt % 2 != 0) {
-				$result[$id] = 0;
+			if(!is_array($result[$previous_key])) $result[$previous_key]++;
+			if($result[$previous_key] == 3) {
+				$result[$previous_key] = 0;
 				$empty++;
 			}			
 		}
@@ -244,8 +247,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$tt[$id] = $json['data']['result']['hotel'];
 	}
 	
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
+	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
+	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
 	if(count($result) == $empty && $cron == false) exit('empty');
 	//exit();
 
@@ -737,8 +740,8 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 				}
 			}
 		}
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
+		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
+		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
 		$filter_hotels = Array();
 	}
 
