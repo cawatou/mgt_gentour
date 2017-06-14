@@ -230,7 +230,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	foreach($requestid as $k => $id) {
 		//if($previous_key == 0 || $cnt % 2 != 0) $previous_key = $id;
 		if($cnt == 0 || $cnt % 3 == 0) $previous_key = $id;
-		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=1000&format=json');
+		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=100000&format=json');
 		$json = json_decode($json, 1);
 		if(isset($json['data']['result']['hotel'])){
 			if($cnt == 0 || $cnt % 3 == 0) $result[$id] = $json['data']['result']['hotel'];
@@ -247,7 +247,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$tt[$id] = $json['data']['result']['hotel'];
 	}
 	
-	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
 	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
 	if(count($result) == $empty && $cron == false) exit('empty');
 	//exit();
@@ -612,7 +612,7 @@ function get_date($start_time, $period, $iteration){
 
 // Создаем новый раздел
 function add_section($name, $iblock_id, $departure = '', $min_price = '', $form_data = '', $tour_catid = ''){
-	 if($tour_catid != "") file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/form_data.txt', print_r($form_data, 1));
+	 //if($tour_catid != "") file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/form_data.txt', print_r($form_data, 1));
 	// Параметры для символьного кода (Код необходим для построения url)
 	$params = Array(
 		"max_len" => "100", // обрезает символьный код до 100 символов
@@ -668,7 +668,11 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 	foreach($tours as $requestid => $tour){
 		foreach($tour['hotels'] as $hotel){
 			// При записи в качестве ключа передаем 'hotelcode' - для избежания дублей
-			if($hotel['hotelstars'] <= 3) $filter_hotels['3stars'][$hotel['hotelcode']] = $hotel;
+			if($hotel['hotelstars'] <= 3) {
+				if($hotel['hotelstars'] == 3) $better_three = true;
+				if($better_three == true && $hotel['hotelstars'] < 3) continue;
+				$filter_hotels['3stars'][$hotel['hotelcode']] = $hotel;
+			}
 			if($hotel['hotelstars'] == 4) $filter_hotels['4stars'][$hotel['hotelcode']] = $hotel;
 			if($hotel['hotelstars'] == 5) $filter_hotels['5stars'][$hotel['hotelcode']] = $hotel;
 		}
@@ -727,11 +731,11 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 						$group_value = $BX_group['group'][$hotel['hotelcode']];
 						if($group_value == 1) {
 							$hotels[$requestid][] = $hotel;
-							file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//first_group.txt', print_r($hotel, 1), FILE_APPEND);
+							//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//first_group.txt', print_r($hotel, 1), FILE_APPEND);
 							break;
 						}else{
 							$temp_hotel = $hotel;
-							file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//temp_hotel.txt', print_r($temp_hotel, 1), FILE_APPEND);
+							//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//temp_hotel.txt', print_r($temp_hotel, 1), FILE_APPEND);
 						}					
 					}
 					$i++;
@@ -740,8 +744,8 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 				}
 			}
 		}
-		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
-		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
 		$filter_hotels = Array();
 	}
 
