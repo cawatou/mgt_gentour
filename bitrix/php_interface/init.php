@@ -1,4 +1,15 @@
-<?
+<?/**
+ * $date_tours - Массив соответствий периодов дат и продолжительностей ночей (по нему собирается список requestid)
+ * 
+ * $n2_5 - количество туров от 2 до 5 ночей
+ * $n6_8 - количество туров от 6 до 8 ночей
+ * $n9_14 - количество туров от 9 до 14 ночей
+ * $n15_20 - количество туров от 15 до 20 ночей
+ * 
+ * // В каждом двухнедельном периоде по 2 плашки	
+ * $periods = Array(1=>2, 2=>2, 3=>2, 4=>2) - массив двухнедельных периодов
+ *
+ **/
 AddEventHandler("iblock", "OnAfterIBlockElementUpdate", "OnAfterIBlockElementHandler", 1000);
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", "OnAfterIBlockElementHandler", 1000);
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateHandler", 1000);
@@ -208,6 +219,7 @@ function get_status($login, $pass, $requestid){
 }
 
 function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name = '', $cron = false){
+
 	// Получаем из админки отели отсортированные по группам вручную
 	$arSelect = Array("ID", "NAME", "PROPERTY_group", "PROPERTY_country", "PROPERTY_region", "PROPERTY_star", "PROPERTY_tourvisor_id");
 	$arFilter = Array("IBLOCK_ID" => 29, "ACTIVE" => "Y");
@@ -217,9 +229,9 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$BX_group['tourvisor_id'][] = $hotel['PROPERTY_TOURVISOR_ID_VALUE'];
 		$BX_group['group'][$hotel['PROPERTY_TOURVISOR_ID_VALUE']] = $hotel['PROPERTY_GROUP_VALUE'];
 	}
+	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/BX_group.txt', print_r($BX_group, 1));
 
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/BX_group.txt', print_r($BX_group, 1));
-	
+	$periods = Array(1 => 0, 2 => 0, 3 => 0, 4 => 0); // Периоды двухнедельных интервалов
 	// Если самое дешевое предложение не больше 5 дней период от 2 до 5 дней не учитывается ($n6_8 прибавляется на 1 => $n6_8 = 3)
 	$n2_5 = 1; // Одна дата на продолжительность от 2 до 5 дней (аналогично остальные)
 	$n6_8 = 2;
@@ -227,6 +239,13 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$n15_20 = 1;
 	$temp['min_price'] = $empty = $previous_key = 0;
 	$cnt = 0;
+	$period_num = 1;
+	$start_time = new DateTime($date_from);
+	$end_time = new DateTime($date_to);
+	$interval = $start_time->diff($end_time)->days;
+	if($interval < 56) $interval = 56; // 8 недель
+	$iteration = ceil($interval/14);
+
 	foreach($requestid as $k => $id) {
 		//if($previous_key == 0 || $cnt % 2 != 0) $previous_key = $id;
 		if($cnt == 0 || $cnt % 3 == 0) $previous_key = $id;
@@ -243,8 +262,16 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 				$empty++;
 			}			
 		}
+		
+		// Составляем массив соответствия айди запросов к номеру двухнедельного периода
+		if($cnt == 0 || $cnt % 3 == 0){
+			$periods_reqid[$previous_key] = $period_num;
+			if($period_num == 4) $period_num = 1;
+			else $period_num++;
+		}
+		
 		$cnt++;
-		$tt[$id] = $json['data']['result']['hotel'];
+		//$tt[$id] = $json['data']['result']['hotel'];
 	}
 	
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
@@ -252,11 +279,57 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	if(count($result) == $empty && $cron == false) exit('empty');
 	//exit();
 
+	/**================================================================================================================
+	 * 					Находми предложения продолжительностю от 9 до 14 ночей
+	 * ============================================================================================================ **/
+	for($i=1; $i <= $n9_14; $i++){
+		$cnt = 0;
+		foreach($result as $k => $requestid){
+			//начало периода (от 9 до 14 дней)
+			if($cnt >= $iteration*2 && $cnt < $iteration*3 && !array_key_exists($k, $tours)){
+				if($periods[$periods_reqid[$k]] == 2) continue;
+				foreach ($requestid as $hotel){
+					if(!isset($hotel)) continue;
+					if($temp['min_price'] == 0 || $temp['min_price'] > $hotel['price']) {
+						$temp['min_price'] = $hotel['price'];
+						$temp['requestid'] = $k;
+						$temp['date'] = $hotel['tours']['tour'][0]['flydate'];
+						$temp['nights'] = $hotel['tours']['tour'][0]['nights'];
+					}
+				}
+			}
+			$cnt++; // Для поиска начала периода (от 9 до 14 дней)
+
+		}
+
+		if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
+
+		foreach($result[$temp['requestid']] as $hotel){
+			if(!isset($hotel)) continue;
+			foreach ($hotel['tours']['tour'] as $tour){
+				if($tour['flydate'] == $temp['date'] && $tour['nights'] == $temp['nights']){
+					$tours[$temp['requestid']]['hotels'][] = compose_hotel($hotel, $tour);
+					break;
+				}
+			}
+		}
+		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+		$periods[$period_key]++;
+		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
+		$temp = Array();
+		$temp['min_price'] = 0;
+	}
+	$n9_14 = 0;
+	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r");
+	
+
+
+
 	/**===========================================================================================================
-	 *          Находми первое предложение (Самое дешевое) 
+	 *          Находми предложение (Самое дешевое) 
 	 * ======================================================================================================= **/
-	foreach($result as $k => $requestid){
-		foreach ($requestid as $hotel){
+	foreach($result as $k => $rid){
+		foreach ($rid as $hotel){
 			// Находим минимальную цену и записываем id запроса, количество дней и дату для поиска остальных отелей
 			if($temp['min_price'] == 0 || $temp['min_price'] > $hotel['price']) {
 				$temp['min_price'] = $hotel['price'];
@@ -288,40 +361,34 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			}
 		}
 	}
+	
+	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+	$periods[$period_key]++;
 	$temp = Array();
 	$temp['min_price'] = 0;
 	$n2_5 = 0;
 
 	/**===========================================================================================================
-	 *          Находми второе предложение (Самая ближайщая дата + 4 дня и Самое дешевое)
+	 *          Находми предложение (Самая ближайщая дата + 4 дня и Самое дешевое)
 	 * ======================================================================================================= **/
-//	$date_from = '31.08.2017';
-//	$date_to = '11.11.2017';
-	$start_time = new DateTime($date_from);
-	$end_time = new DateTime($date_to);
-	$interval = $start_time->diff($end_time)->days;
-	if($interval < 56) $interval = 56; // 8 недель
 	
-	$iteration = ceil($interval/14);
 	$period[] = $start_time->format('d.m.Y');
 	// Добавляем еще 3 дня
 	for($i=0; $i<3; $i++){
 		$start_time->modify('+1 day');
 		$period[] = $start_time->format('d.m.Y');
 	}
-
 	// Найдем все отели с любой продолжительностью ночей из первого двухнедельного интервала
-	$i = 0;
-	$requestid = explode(',', $requestid);
+	$i = 0;	
 	foreach($requestid as $k => $id){
 		$surplus = $i % $iteration;
-		if($surplus == 0){
-			$temp['requestid'][] = $id;
+		if($surplus == 0 && ($i == 0 || $i % 3 == 0)){
+			$temp_reqid['requestid'][] = $id;
 		}
 		$i++;
 	}
-
-	foreach($temp['requestid'] as $req_id){
+	
+	foreach($temp_reqid['requestid'] as $req_id){
 		foreach($result[$req_id] as $hotels){
 			foreach($hotels['tours']['tour'] as $tour){
 				if(in_array($tour['flydate'], $period) && $tour['nights'] > 5){
@@ -356,9 +423,10 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			}
 		}
 	}
+	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+	$periods[$period_key]++;
 	$temp = Array();
 	$temp['min_price'] = 0;
-
 
 	/**================================================================================================================
 	 * 					Находми предложения продолжительностю от 6 до 8 ночей
@@ -368,6 +436,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$cnt = 0;
 		foreach($result as $k => $requestid){
 			if($cnt >= $iteration && $cnt < $iteration*2 && $first_n6_8 != $k && !array_key_exists($k, $tours)){
+				if($periods[$periods_reqid[$k]] == 2) continue;
 				foreach ($requestid as $hotel){
 					//начало периода (от 6 до 8 дней)
 					if(!isset($hotel)) continue;
@@ -393,51 +462,12 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 				}
 			}
 		}
-
+		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+		$periods[$period_key]++;
 		$temp = Array();
 		$temp['min_price'] = 0;
 	}
 	$n6_8 = 0;
-
-	/**================================================================================================================
-	 * 					Находми предложения продолжительностю от 9 до 14 ночей
-	 * ============================================================================================================ **/
-	for($i=1; $i <= $n9_14; $i++){
-		$cnt = 0;
-		foreach($result as $k => $requestid){
-			//начало периода (от 9 до 14 дней)
-			if($cnt >= $iteration*2 && $cnt < $iteration*3 && !array_key_exists($k, $tours)){
-				foreach ($requestid as $hotel){
-					if(!isset($hotel)) continue;
-					if($temp['min_price'] == 0 || $temp['min_price'] > $hotel['price']) {
-						$temp['min_price'] = $hotel['price'];
-						$temp['requestid'] = $k;
-						$temp['date'] = $hotel['tours']['tour'][0]['flydate'];
-						$temp['nights'] = $hotel['tours']['tour'][0]['nights'];
-					}
-				}
-			}
-			$cnt++; // Для поиска начала периода (от 9 до 14 дней)
-
-		}
-
-		if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
-
-		foreach($result[$temp['requestid']] as $hotel){
-			if(!isset($hotel)) continue;
-			foreach ($hotel['tours']['tour'] as $tour){
-				if($tour['flydate'] == $temp['date'] && $tour['nights'] == $temp['nights']){
-					$tours[$temp['requestid']]['hotels'][] = compose_hotel($hotel, $tour);
-					break;
-				}
-			}
-		}
-
-		$temp = Array();
-		$temp['min_price'] = 0;
-	}
-	$n9_14 = 0;
-
 
 	/**================================================================================================================
 	 * 					Находми предложения продолжительностю от 15 до 20 ночей
@@ -447,6 +477,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		foreach ($result as $k => $requestid) {
 			//начало периода (от 15 до 20 дней)
 			if ($cnt >= $iteration * 3 && $cnt < $iteration * 4 && !array_key_exists($k, $tours)) {
+				if($periods[$periods_reqid[$k]] == 2) continue;
 				foreach ($requestid as $hotel) {
 					if (!isset($hotel)) continue;
 					if ($temp['min_price'] == 0 || $temp['min_price'] > $hotel['price']) {
@@ -470,6 +501,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 				}
 			}
 		}
+		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+		$periods[$period_key]++;
 		$temp = Array();
 		$temp['min_price'] = 0;
 	}
@@ -482,7 +515,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$filter_hotels = Array();
 
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
+	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r");
 	//die('the end!!!!!!!!!!');
 	return $tours;
 }
@@ -745,7 +779,7 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 			}
 		}
 		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
+		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
 		$filter_hotels = Array();
 	}
 
