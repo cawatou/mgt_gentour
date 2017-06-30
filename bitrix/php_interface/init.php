@@ -17,9 +17,6 @@ AddEventHandler("iblock", "OnBeforeIBlockElementDelete", "OnBeforeIBlockElementD
 AddEventHandler("iblock", "OnAfterIBlockSectionAdd", "OnAfterIBlockSectionAddHandler", 1000);
 
 
-
-//define("LOG_FILENAME", '/bitrix/logfileFor');
-
 $old_name = "";
 $QUESTION_ID = 37; // ID вопроса, в который мы будем добавлять ответы
 
@@ -245,9 +242,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$interval = $start_time->diff($end_time)->days;
 	if($interval < 56) $interval = 56; // 8 недель
 	$iteration = ceil($interval/14);
-
+	
 	foreach($requestid as $k => $id) {
-		//if($previous_key == 0 || $cnt % 2 != 0) $previous_key = $id;
 		if($cnt == 0 || $cnt % 3 == 0) $previous_key = $id;
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=100000&format=json');
 		$json = json_decode($json, 1);
@@ -268,14 +264,11 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$periods_reqid[$previous_key] = $period_num;
 			if($period_num == 4) $period_num = 1;
 			else $period_num++;
-		}
-		
+		}		
 		$cnt++;
-		//$tt[$id] = $json['data']['result']['hotel'];
 	}
 	
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
-	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
 	if(count($result) == $empty && $cron == false) exit('empty');
 	//exit();
 
@@ -284,11 +277,11 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	 * ============================================================================================================ **/
 	for($i=1; $i <= $n9_14; $i++){
 		$cnt = 0;
-		foreach($result as $k => $requestid){
+		foreach($result as $k => $hotels){
 			//начало периода (от 9 до 14 дней)
 			if($cnt >= $iteration*2 && $cnt < $iteration*3 && !array_key_exists($k, $tours)){
 				if($periods[$periods_reqid[$k]] == 2) continue;
-				foreach ($requestid as $hotel){
+				foreach ($hotels as $hotel){
 					if(!isset($hotel)) continue;
 					if($temp['min_price'] == 0 || $temp['min_price'] > $hotel['price']) {
 						$temp['min_price'] = $hotel['price'];
@@ -315,12 +308,13 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		}
 		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 		$periods[$period_key]++;
-		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 		$temp = Array();
 		$temp['min_price'] = 0;
 	}
 	$n9_14 = 0;
-	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r");
+
 	
 
 
@@ -364,10 +358,11 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	
 	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 	$periods[$period_key]++;
+//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 	$temp = Array();
 	$temp['min_price'] = 0;
 	$n2_5 = 0;
-
 	/**===========================================================================================================
 	 *          Находми предложение (Самая ближайщая дата + 4 дня и Самое дешевое)
 	 * ======================================================================================================= **/
@@ -379,7 +374,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$period[] = $start_time->format('d.m.Y');
 	}
 	// Найдем все отели с любой продолжительностью ночей из первого двухнедельного интервала
-	$i = 0;	
+	$i = 0;
 	foreach($requestid as $k => $id){
 		$surplus = $i % $iteration;
 		if($surplus == 0 && ($i == 0 || $i % 3 == 0)){
@@ -387,7 +382,6 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		}
 		$i++;
 	}
-	
 	foreach($temp_reqid['requestid'] as $req_id){
 		foreach($result[$req_id] as $hotels){
 			foreach($hotels['tours']['tour'] as $tour){
@@ -423,8 +417,11 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			}
 		}
 	}
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r('here2', 1)."\n\r", FILE_APPEND);
 	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 	$periods[$period_key]++;
+//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 	$temp = Array();
 	$temp['min_price'] = 0;
 
@@ -464,6 +461,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		}
 		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 		$periods[$period_key]++;
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 		$temp = Array();
 		$temp['min_price'] = 0;
 	}
@@ -503,6 +502,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		}
 		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 		$periods[$period_key]++;
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 		$temp = Array();
 		$temp['min_price'] = 0;
 	}
@@ -516,8 +517,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
 	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r");
-	//die('the end!!!!!!!!!!');
+	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+	die('the end!!!!!!!!!!');
 	return $tours;
 }
 
