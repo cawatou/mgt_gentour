@@ -226,7 +226,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$BX_group['tourvisor_id'][] = $hotel['PROPERTY_TOURVISOR_ID_VALUE'];
 		$BX_group['group'][$hotel['PROPERTY_TOURVISOR_ID_VALUE']] = $hotel['PROPERTY_GROUP_VALUE'];
 	}
-	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/BX_group.txt', print_r($BX_group, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/BX_group.txt', print_r($BX_group, 1));
 
 	$periods = Array(1 => 0, 2 => 0, 3 => 0, 4 => 0); // Периоды двухнедельных интервалов
 	// Если самое дешевое предложение не больше 5 дней период от 2 до 5 дней не учитывается ($n6_8 прибавляется на 1 => $n6_8 = 3)
@@ -417,7 +417,6 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			}
 		}
 	}
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r('here2', 1)."\n\r", FILE_APPEND);
 	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 	$periods[$period_key]++;
 //	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
@@ -516,9 +515,9 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$filter_hotels = Array();
 
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
-	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
 	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
-	die('the end!!!!!!!!!!');
+	//die('the end!!!!!!!!!!');
 	return $tours;
 }
 
@@ -753,7 +752,7 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 				
 				$filter_hotels['group']['5s'][] = array_slice($filter_hotels['5stars'], $start, $iteration);
 			}
-		}elseif(count($filter_hotels['5stars']) != 0){
+		}elseif(count($filter_hotels['5stars']) != 0){  
 			foreach ($filter_hotels['5stars'] as $hotel) $hotels[$requestid][] = $hotel;
 		}
 
@@ -780,7 +779,7 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 			}
 		}
 		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
-		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
 		$filter_hotels = Array();
 	}
 
