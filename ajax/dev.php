@@ -68,7 +68,7 @@ if(isset($_REQUEST['load_siblings'])){
 			"INCLUDE_SUBSECTIONS" => "Y",
 			"SHOW_ALL_WO_SECTION" => "Y",
 		),
-		false
+		false 
 	);
 }
 
@@ -120,8 +120,9 @@ if(isset($_REQUEST['get_result'])){
 	$star_4 = $_REQUEST['hotel4'];
 	$star_5 = $_REQUEST['hotel5'];
 	$cat_name = $_REQUEST['cat_name'];
-
-	$tours = get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name);
+	$departure = $_REQUEST['departure'];
+	
+	$tours = get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, $departure);
 
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/json/'.$_REQUEST['cat_name'].'-['.$_REQUEST['date_from'].' - '.$_REQUEST['date_to'].'].json', json_encode($tours));
     echo "Создается временный файл туров .. (Не перезагружайте страницу)";
