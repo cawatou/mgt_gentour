@@ -10,8 +10,8 @@ $departure = file_get_contents('http://tourvisor.ru/xml/list.php?format=xml&type
 $departure = json_decode($departure); 
 $departure = $departure->lists->departures->departure;
 
-
-/*$test = file_get_contents('http://tourvisor.ru/xml/search.php?authlogin=' . $login . '&authpass=' . $pass . '&departure=1&country=4&datefrom=09.08.2017&dateto=23.08.2017&nightsfrom=6&nightsto=6&format=json');
+/*
+$test = file_get_contents('http://tourvisor.ru/xml/search.php?authlogin=' . $login . '&authpass=' . $pass . '&datefrom=30.07.2017&dateto=30.07.2017&nightsfrom=4&nightsto=4&adults=2&operators=&meal=0&stars=1&rating=0&hoteltypes=&country=47&regions=423&departure=9&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json');
 $json = json_decode($test, 1);
 $reqid = $json['result']['requestid'];
 sleep(25);
