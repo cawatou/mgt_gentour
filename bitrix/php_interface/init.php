@@ -174,15 +174,15 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 			$get = '';		
 		}
 	}
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/date_tours.txt', print_r($date_tours, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/date_tours.txt', print_r($date_tours, 1));
 	return $requestid;
 }
 function get_status($login, $pass, $requestid){
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/requestid.txt', print_r($requestid, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/requestid.txt', print_r($requestid, 1));
 	foreach($requestid as $k => $id) {
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=status&format=json');
 		$json = json_decode($json, 1);
-		if($json['data']['status']['progress'] == 100) file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/status.txt', 'reqid '.$id.' = '.$json['data']['status']['progress']."\r\n", FILE_APPEND);		
+		if($json['data']['status']['progress'] == 100) file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/status.txt', 'reqid '.$id.' = '.$json['data']['status']['progress']."\r\n", FILE_APPEND);		
 		if($status == '') $status = $json['data']['status']['progress'];
 		else $status = $status + $json['data']['status']['progress'];
 	}
@@ -199,14 +199,14 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$BX_group['tourvisor_id'][] = $hotel['PROPERTY_TOURVISOR_ID_VALUE'];
 		$BX_group['group'][$hotel['PROPERTY_TOURVISOR_ID_VALUE']] = $hotel['PROPERTY_GROUP_VALUE'];
 	}
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/BX_group.txt', print_r($BX_group, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/BX_group.txt', print_r($BX_group, 1));
 	$periods = Array(1 => 0, 2 => 0, 3 => 0, 4 => 0); // Периоды двухнедельных интервалов
 	// Если самое дешевое предложение не больше 5 дней период от 2 до 5 дней не учитывается ($n6_8 прибавляется на 1 => $n6_8 = 3)
 	$n2_5 = 1; // Одна дата на продолжительность от 2 до 5 дней (аналогично остальные)
-	$n6_8 = 2;
+	$n6_8 = 3;
 	$n9_15 = 4;
-	$n16_20 = 1;
-	$temp['min_price'] = $empty = $previous_key = 0;
+	$n16_20 = 0;
+	$empty = $previous_key = 0;
 	$cnt = 0;
 	$period_num = 1;
 	$start_time = new DateTime($date_from);
@@ -214,7 +214,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$interval = $start_time->diff($end_time)->days;
 	if($interval < 56) $interval = 56; // 8 недель
 	$iteration = ceil($interval/14);
-
+	
 	foreach($requestid as $k => $id) {
 		sleep (0.1);
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=100000&format=json');
@@ -225,65 +225,74 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$result[$id]['nights'] = $json['data']['result']['hotel'][0]['tours']['tour'][0]['nights'];
 			$result[$id]['date'] = $json['data']['result']['hotel'][0]['tours']['tour'][0]['flydate'];
 			$result[$id]['tours'] = '';
+
+			foreach($json['data']['result']['hotel'] as $k => $extra_hotels){
+				if($k == 0) continue;
+				foreach ($extra_hotels['tours']['tour'] as $extra_tour){
+					if($extra_tour['flydate'] == $result[$id]['date'] && $extra_tour['nights'] == $result[$id]['nights']) continue;
+					$extra_tours[$id][$extra_hotels['hotelcode']] = $extra_hotels;
+					$extra_tours[$id][$extra_hotels['hotelcode']]['departure'] = $departure;
+					$extra_tours[$id][$extra_hotels['hotelcode']]['nights'] = $extra_tour['nights'];
+					$extra_tours[$id][$extra_hotels['hotelcode']]['date'] = $extra_tour['flydate'];
+					$extra_tours[$id][$extra_hotels['hotelcode']]['tours'] = '';
+					if(count($extra_tours[$id]) == 7) break;
+				}				
+				if(count($extra_tours[$id]) == 7) break;
+			}
 		}else{	
 			$result[$id] = '';
 			$empty++;			
-		}
-
+		}	
+		
 		// Составляем массив соответствия айди запросов к номеру двухнедельного периода		
 		$periods_reqid[$id] = $period_num;
 		if($period_num == 4) $period_num = 1;
-		else $period_num++;
-		
+		else $period_num++;		
 		$cnt++;
 	}
 
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/result.txt', print_r($result, 1));
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods_reqid.txt', print_r($periods_reqid, 1));
-	if(count($result) == $empty && $cron == false) exit('empty');
-	//exit();
-	/**================================================================================================================
-	 * 					Находми предложения продолжительностю от 9 до 15 ночей
-	 * ============================================================================================================ **/
-	for($i=1; $i <= $n9_15; $i++){
-		$cnt = 0;
-		foreach($result as $k => $hotels){
-			if(!is_array($hotels)) {
-				$cnt++;
-				continue;
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/result_before.txt', print_r($result, 1));
+	$reserved = array();
+	foreach($result as $id => $check){
+		if($check == ''){
+			foreach($extra_tours as $k => $extra){
+				$next_element = false;
+				foreach($extra as $element) {
+					if(count($reserved) == 0){
+						$result[$id] = $element;
+						$reserved[] = Array($element['nights'] => $element['date']);
+						$next_element = true;
+						break;
+					} 
+					foreach ($reserved as $reserve){
+						$night = key($reserve);
+						$date = current($reserve);
+						file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/data.txt', 'rid = '.$id.', n = '.$night.', d = '.$date.'; El-n = '.$element['nights'].', El-d = '.$element['date']."\r\n", FILE_APPEND);
+						if($element['nights'] != $night && $element['date'] != $date) {							
+							$result[$id] = $element;
+							$reserved[] = Array($element['nights'] => $element['date']);
+							$next_element = true;
+							break;
+						}
+					}	
+					if($next_element) break;
+				}	
+				if($next_element) break;
 			}
-			//начало периода (от 9 до 15 дней)
-			if($cnt >= $iteration*2 && $cnt < $iteration*3 && !array_key_exists($k, $tours)){
-				if($periods[$periods_reqid[$k]] == 2) continue;
-				if($temp['min_price'] == 0 || $temp['min_price'] > $hotels['price']) {
-					$temp['min_price'] = $hotels['price'];
-					$temp['requestid'] = $k;
-					$temp['date'] = $hotels['date'];
-					$temp['nights'] = $hotels['nights'];
-					$temp['departure'] = $departure;
-					$temp['regions'] = $regions;
-					$temp['country'] = $hotels['countrycode'];
-				}
 
-			}
-			$cnt++; // Для поиска начала периода (от 9 до 15 дней)
 		}
-		if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
-
-		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
-		$periods[$period_key]++;
-//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
-//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
-		$temp = Array();
-		$temp['min_price'] = 0;
 	}
-	
-	$n9_15 = 0;
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/reserved.txt', print_r($reserved, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/result_after.txt', print_r($result, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/extra_tours.txt', print_r($extra_tours, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods_reqid.txt', print_r($periods_reqid, 1));
+	if(count($result) == $empty && $cron == false) exit('empty');
+	exit();
 
 	/**===========================================================================================================
 	 *          Находми предложение (Самое дешевое)
 	 * ======================================================================================================= **/
-	foreach($result as $k => $hotels){		
+	foreach($result as $k => $hotels){
 		if(!is_array($hotels)) continue;
 		// Находим минимальную цену и записываем id запроса, количество дней и дату для поиска остальных отелей
 		if($temp['min_price'] == 0 || $temp['min_price'] > $hotels['price'] && !array_key_exists($k, $tours)) {
@@ -294,35 +303,49 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$temp['departure'] = $departure;
 			$temp['regions'] = $regions;
 			$temp['country'] = $hotels['countrycode'];
-		}		
+		}
 	}
 	if($temp['nights'] > 5 && $temp['nights'] < 9){
-		$n6_8 = 2; // Прибавим и сразу же отнимаем
+		$n6_8 = 3; // Прибавим и сразу же отнимаем
+		$n9_15 = 4;
 		$first_n6_8 = $temp['requestid'];
 	}elseif($temp['nights'] > 8 && $temp['nights'] < 15 ){
-		$n6_8 = 3;
-		//$n9_15 = 3;
-	}elseif($temp['nights'] > 15){
-		$n6_8 = 3;
-		$n16_20 = 0;
+		$n6_8 = 4;
+		$n9_15 = 3;
 	}else{
 		$n6_8 = 3;
+		$n9_15 = 4;
 	}
 	if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
-	
+
 	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 	$periods[$period_key]++;
-//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
-//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
+//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 	$temp = Array();
 	$temp['min_price'] = 0;
 	$n2_5 = 0;
+	
+	/**================================================================================================================
+	 * 					Находми предложения продолжительностю от 9 до 15 ночей
+	 * ============================================================================================================ **/
+	$ratio_1 = $iteration*2;
+	$ratio_2 = $iteration*3;
+	$tours = find_tour($n9_15, $result, $ratio_1, $ratio_2, $periods_reqid, $departure, $regions, $cat_name, $periods, $tours);
+
+	$n9_15 = $n9_15 - count($tours);
+
+	
 
 	
 	/**================================================================================================================
 	 * 					Находми предложения продолжительностю от 6 до 8 ночей
 	 * ============================================================================================================ **/
-	// Определяем в каких массивах искать
+	$ratio_1 = $iteration;
+	$ratio_2 = $iteration*2;
+	$tours = find_tour($n6_8, $result, $ratio_1, $ratio_2, $periods_reqid, $departure, $regions, $cat_name, $periods, $tours);
+	
+	/*// Определяем в каких массивах искать
 	for($i=1; $i<=$n6_8; $i++){
 		$cnt = 0;
 		foreach($result as $k => $hotels){
@@ -349,11 +372,11 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		
 		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 		$periods[$period_key]++;
-//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
-//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+//		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 		$temp = Array();
 		$temp['min_price'] = 0;
-	}
+	}*/
 	$n6_8 = 0;
 	
 	foreach($tours as $k => $data){
@@ -363,7 +386,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			if($i == 3) $stars = '5';
 			$get = 'authlogin=' . $login . '&authpass=' . $pass . '&datefrom=' . $data['flydate'] . '&dateto=' . $data['flydate'] . '&nightsfrom=' . $data['nights'] . '&nightsto=' . $data['nights'] . '&adults=2&operators=&meal=0&stars='.$stars.'&rating=0&hoteltypes=&country=' . $data['country'] . '&regions=' . $data['regions'] . '&departure=' . $data['departure'] . '&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json';
 
-			file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/dev/log/get.txt', print_r($get, 1) . "\n\r", FILE_APPEND);
+			file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/dev/log/dev/get.txt', print_r($get, 1) . "\n\r", FILE_APPEND);
 			//$get = 'authlogin=' . $login . '&authpass=' . $pass . '&departure='.$data['departure'].'&country='.$data['country'].'&datefrom='.$data['flydate'].'&dateto='.$data['flydate'].'&nightsfrom='.$data['nights'].'&nightsto='.$data['nights'].'&format=json';
 			$res = file_get_contents('http://tourvisor.ru/xml/search.php?' . $get);
 			$json = json_decode($res, 1);
@@ -391,18 +414,18 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	}
 
 	
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours.txt', print_r($tours, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/tours.txt', print_r($tours, 1));
 	/**================================================================================================================
 	 * 					Фильтруем отели по звездам и по группам их Битрикс
 	 * ============================================================================================================ **/
 	$filter_hotels = Array();
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/tours_after_filter.txt', print_r($tours, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($periods, 1));
 	
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/tt.txt', print_r($tt, 1));
 	return $tours;
-}
+}/*
 function add_tours($cat_name, $departure, $departure_name, $tours, $form_data){
 	//die();
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/cat_name.txt', print_r($cat_name, 1));
@@ -477,7 +500,7 @@ function add_tours($cat_name, $departure, $departure_name, $tours, $form_data){
 			CCatalogProduct::Add($arFields);
 		}
 	}
-};
+};*/
 /*==========================================================================================================*/
 /*=========================================== FUNCTIONS ====================================================*/
 /*==========================================================================================================*/
@@ -515,7 +538,7 @@ function get_date($start_time, $period, $iteration){
 }
 // Создаем новый раздел
 function add_section($name, $iblock_id, $departure = '', $min_price = '', $form_data = '', $tour_catid = ''){
-	//if($tour_catid != "") file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/form_data.txt', print_r($form_data, 1));
+	//if($tour_catid != "") file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/form_data.txt', print_r($form_data, 1));
 	// Параметры для символьного кода (Код необходим для построения url)
 	$params = Array(
 		"max_len" => "100", // обрезает символьный код до 100 символов
@@ -546,9 +569,13 @@ function compose_tour($tour, $key, $cat_name){
 	$result['night_interval'] = $tour['nights'];
 	$result['min_price'] = $tour['min_price'];
 	$result['departure'] = $tour['departure'];
-	foreach($tour['regions'] as $k => $region){
-	    if($k == 0) $regions = $region;
-	    else $regions = $regions.','.$region;
+	if(is_array($tour['regions'])){
+		foreach($tour['regions'] as $k => $region){
+			if($k == 0) $regions = $region;
+			else $regions = $regions.','.$region;
+		}
+	}else{
+		$regions = $tour['regions'];
 	}
 	$result['regions'] = $regions;
 	$result['country'] = $tour['country'];
@@ -570,6 +597,45 @@ function compose_hotel($hotel, $tour){
 	$result['price'] = $tour['price'];
 	return $result;
 }
+function find_tour($tour_count, $result, $ratio_1, $ratio_2, $periods_reqid, $departure, $regions, $cat_name, $periods, $tours){
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/count.txt', print_r('+ '.$tour_count , 1)."\n\r", FILE_APPEND);
+	$temp['min_price'] = 0;	
+	for($i=1; $i <= $tour_count; $i++){
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/count.txt', print_r('- '.$i, 1)."\n\r", FILE_APPEND);
+		$cnt = 0;
+		foreach($result as $k => $hotels){
+			if(!is_array($hotels)) {
+				$cnt++;
+				continue;
+			}
+			//начало периода
+			if($cnt >= $ratio_1 && $cnt < $ratio_2 && !array_key_exists($k, $tours)){
+				if($periods[$periods_reqid[$k]] == 2) continue;
+				if($temp['min_price'] == 0 || $temp['min_price'] > $hotels['price']) {
+					$temp['min_price'] = $hotels['price'];
+					$temp['requestid'] = $k;
+					$temp['date'] = $hotels['date'];
+					$temp['nights'] = $hotels['nights'];
+					$temp['departure'] = $departure;
+					$temp['regions'] = $regions;
+					$temp['country'] = $hotels['countrycode'];
+				}
+
+			}
+			$cnt++; // Для поиска начала периода (от 9 до 15 дней)
+		}
+		if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
+
+		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+		$periods[$period_key]++;
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
+		$temp = Array();
+		$temp['min_price'] = 0;		
+	}
+	return $tours;
+}
+
 function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 	foreach($tours as $requestid => $tour){
 		foreach($tour['hotels'] as $hotel){
@@ -630,11 +696,11 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 						$group_value = $BX_group['group'][$hotel['hotelcode']];
 						if($group_value == 1) {
 							$hotels[$requestid][] = $hotel;
-							//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//first_group.txt', print_r($hotel, 1), FILE_APPEND);
+							//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev//first_group.txt', print_r($hotel, 1), FILE_APPEND);
 							break;
 						}else{
 							$temp_hotel = $hotel;
-							//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log//temp_hotel.txt', print_r($temp_hotel, 1), FILE_APPEND);
+							//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev//temp_hotel.txt', print_r($temp_hotel, 1), FILE_APPEND);
 						}
 					}
 					$i++;
@@ -643,8 +709,8 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 				}
 			}
 		}
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/hotels.txt', print_r($hotels, 1));
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/hotels.txt', print_r($hotels, 1));
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
 		$filter_hotels = Array();
 	}
 	foreach($tours as $requestid => $tour){

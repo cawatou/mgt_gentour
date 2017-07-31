@@ -52,10 +52,8 @@ while ($arSection = $tours_sections->Fetch()) {
     $form_fields['cat_name'] = $arSection['NAME'];
 
     $sections[] = $form_fields;
-
-    
-    
-    if($n == 3) break;
+    $n++;
+    if($n == 1) break;
 }
 
 /*echo "<pre>".print_r($sections, 1)."</pre>";
@@ -75,7 +73,7 @@ for($i=0; $i<=77; $i++){
     $obSection->Update($sections[$i]['tour_id'], array("UF_FORM_DATA"=>$data_form));
 }*/
 echo "<pre>".print_r($sections, 1)."</pre>";
-//exit();
+
 //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/sections.txt', print_r($sections, 1));
 
 // Получаем весь список запросов из турвизора
