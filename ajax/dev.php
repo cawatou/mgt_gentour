@@ -121,8 +121,10 @@ if(isset($_REQUEST['get_result'])){
 	$star_5 = $_REQUEST['hotel5'];
 	$cat_name = $_REQUEST['cat_name'];
 	$departure = $_REQUEST['departure'];
+	$regions = $_REQUEST['regions'];
+	if(count($regions) > 1) $regions = implode(',', $regions);
 	
-	$tours = get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, $departure);
+	$tours = get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, $departure, $regions);
 
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/json/'.$_REQUEST['cat_name'].'-['.$_REQUEST['date_from'].' - '.$_REQUEST['date_to'].'].json', json_encode($tours));
     echo "Создается временный файл туров .. (Не перезагружайте страницу)";

@@ -103,11 +103,14 @@ function OnAfterIBlockElementHandler(&$arFields)
 }
 // =================================== AUTO GENERATOR =============================================================
 function get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to){
-	$start_time = new DateTime($date_from);
+	$today = new DateTime('today');
+	$tommorow = new DateTime('tomorrow');
+	$start_time = new DateTime($date_from);	
+	if ($start_time < $today) $start_time = $tommorow;
 	$end_time = new DateTime($date_to);
 	$temp_time = new DateTime($date_from);
 	$interval = $start_time->diff($end_time)->days;
-	if($interval < 56){
+	if($interval < 56 || $interval > 56){
 		$interval = 56; // 8 недель
 		$end_time = $temp_time->modify('+'.$interval.' day');
 		$temp_time = new DateTime($date_from);
@@ -161,6 +164,7 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 				if ($get == '') $get = $k . '=' . $value;
 				else $get = $get . '&' . $k . '=' . $value;
 			}
+			sleep (0.1);
 			$json = file_get_contents('http://tourvisor.ru/xml/search.php?' . $get);
 			$json = json_decode($json, 1);
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/reqid_json.txt', print_r($json, 1), FILE_APPEND);
@@ -178,15 +182,14 @@ function get_status($login, $pass, $requestid){
 	foreach($requestid as $k => $id) {
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=status&format=json');
 		$json = json_decode($json, 1);
-		//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/json.txt', print_r($json, 1));
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/status.txt', $json['data']['status']['progress']."\r\n", FILE_APPEND);
+		if($json['data']['status']['progress'] == 100) file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/status.txt', 'reqid '.$id.' = '.$json['data']['status']['progress']."\r\n", FILE_APPEND);		
 		if($status == '') $status = $json['data']['status']['progress'];
 		else $status = $status + $json['data']['status']['progress'];
 	}
 	$status = $status / count($requestid);
 	return $status;
 }
-function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name = '', $departure, $cron = false){
+function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name = '', $departure, $regions, $cron = false){
 	// Получаем из админки отели отсортированные по группам вручную
 	$arSelect = Array("ID", "NAME", "PROPERTY_group", "PROPERTY_country", "PROPERTY_region", "PROPERTY_star", "PROPERTY_tourvisor_id");
 	$arFilter = Array("IBLOCK_ID" => 29, "ACTIVE" => "Y");
@@ -213,6 +216,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$iteration = ceil($interval/14);
 
 	foreach($requestid as $k => $id) {
+		sleep (0.1);
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=100000&format=json');
 		$json = json_decode($json, 1);
 		if(isset($json['data']['result']['hotel'])){
@@ -221,7 +225,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$result[$id]['nights'] = $json['data']['result']['hotel'][0]['tours']['tour'][0]['nights'];
 			$result[$id]['date'] = $json['data']['result']['hotel'][0]['tours']['tour'][0]['flydate'];
 			$result[$id]['tours'] = '';
-		}else{			
+		}else{	
+			$result[$id] = '';
 			$empty++;			
 		}
 
@@ -243,6 +248,10 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	for($i=1; $i <= $n9_15; $i++){
 		$cnt = 0;
 		foreach($result as $k => $hotels){
+			if(!is_array($hotels)) {
+				$cnt++;
+				continue;
+			}
 			//начало периода (от 9 до 15 дней)
 			if($cnt >= $iteration*2 && $cnt < $iteration*3 && !array_key_exists($k, $tours)){
 				if($periods[$periods_reqid[$k]] == 2) continue;
@@ -252,6 +261,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 					$temp['date'] = $hotels['date'];
 					$temp['nights'] = $hotels['nights'];
 					$temp['departure'] = $departure;
+					$temp['regions'] = $regions;
 					$temp['country'] = $hotels['countrycode'];
 				}
 
@@ -267,12 +277,14 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$temp = Array();
 		$temp['min_price'] = 0;
 	}
+	
 	$n9_15 = 0;
 
 	/**===========================================================================================================
 	 *          Находми предложение (Самое дешевое)
 	 * ======================================================================================================= **/
 	foreach($result as $k => $hotels){		
+		if(!is_array($hotels)) continue;
 		// Находим минимальную цену и записываем id запроса, количество дней и дату для поиска остальных отелей
 		if($temp['min_price'] == 0 || $temp['min_price'] > $hotels['price'] && !array_key_exists($k, $tours)) {
 			$temp['min_price'] = $hotels['price'];
@@ -280,6 +292,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$temp['date'] = $hotels['date'];
 			$temp['nights'] = $hotels['nights'];
 			$temp['departure'] = $departure;
+			$temp['regions'] = $regions;
 			$temp['country'] = $hotels['countrycode'];
 		}		
 	}
@@ -313,6 +326,10 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	for($i=1; $i<=$n6_8; $i++){
 		$cnt = 0;
 		foreach($result as $k => $hotels){
+			if(!is_array($hotels)) {
+			    $cnt++; 
+			    continue;
+			} 
 			if($cnt >= $iteration && $cnt < $iteration*2 && $first_n6_8 != $k && !array_key_exists($k, $tours)){
 				if($periods[$periods_reqid[$k]] == 2) continue;				
 				//начало периода (от 6 до 8 дней)					
@@ -322,6 +339,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 					$temp['date'] = $hotels['date'];
 					$temp['nights'] = $hotels['nights'];
 					$temp['departure'] = $departure;
+					$temp['regions'] = $regions;
 					$temp['country'] = $hotels['countrycode'];
 				}				
 			}
@@ -337,40 +355,52 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$temp['min_price'] = 0;
 	}
 	$n6_8 = 0;
-
+	
 	foreach($tours as $k => $data){
-		$res = file_get_contents('http://tourvisor.ru/xml/search.php?authlogin=' . $login . '&authpass=' . $pass . '&departure='.$data['departure'].'&country='.$data['country'].'&datefrom='.$data['flydate'].'&dateto='.$data['flydate'].'&nightsfrom='.$data['night'].'&nightsto='.$data['night'].'&format=json');
-		$json = json_decode($res, 1);
-		$reqid = $json['result']['requestid'];
-		sleep(30);
-		
-		for($i=1; ; $i++){
-			$res = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $reqid . '&type=result&page='.$i.'&onpage=100&format=json');
-			$result = json_decode($res, 1);
-			if(count($result['data']['result']['hotel'] == 0)) break;
-			$tours[$k]['hotels'] = $result['data']['result']['hotel'];
-		}
+		for($i=1; $i <= 3; $i++) {
+			if($i == 1) $stars = '1';
+			if($i == 2) $stars = '4';
+			if($i == 3) $stars = '5';
+			$get = 'authlogin=' . $login . '&authpass=' . $pass . '&datefrom=' . $data['flydate'] . '&dateto=' . $data['flydate'] . '&nightsfrom=' . $data['nights'] . '&nightsto=' . $data['nights'] . '&adults=2&operators=&meal=0&stars='.$stars.'&rating=0&hoteltypes=&country=' . $data['country'] . '&regions=' . $data['regions'] . '&departure=' . $data['departure'] . '&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json';
 
-		/*foreach ($hotel['tours']['tour'] as $tour){
-			if($tour['flydate'] == $temp['date'] && $tour['nights'] == $temp['nights']){
-				$tours[$temp['requestid']]['hotels'][] = compose_hotel($hotel, $tour);
-				break;
+			file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/dev/log/get.txt', print_r($get, 1) . "\n\r", FILE_APPEND);
+			//$get = 'authlogin=' . $login . '&authpass=' . $pass . '&departure='.$data['departure'].'&country='.$data['country'].'&datefrom='.$data['flydate'].'&dateto='.$data['flydate'].'&nightsfrom='.$data['nights'].'&nightsto='.$data['nights'].'&format=json';
+			$res = file_get_contents('http://tourvisor.ru/xml/search.php?' . $get);
+			$json = json_decode($res, 1);
+			$reqid[$k][] = $json['result']['requestid'];
+			sleep(0.1);
+		}
+	}
+	sleep (30);
+	$result = Array();
+	foreach ($reqid as $k => $ids){
+		foreach($ids as $id){
+			for($i=1; ; $i++){
+				$res = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&page='.$i.'&onpage=100&format=json');
+				$result = json_decode($res, 1);
+
+				$tours[$k]['hotels_rid'][] = $id;
+				if(count($result['data']['result']['hotel']) == 0) break;
+				$tt[$id][] = json_decode($res, 1);
+				foreach ($result['data']['result']['hotel'] as $hotel){
+					$tours[$k]['hotels'][] = compose_hotel($hotel, $hotel['tours']['tour'][0]);
+				}
 			}
-		}*/
+		}
+		
 	}
 
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1));
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours.txt', print_r($tours, 1));
 	
-	exit();
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours.txt', print_r($tours, 1));
 	/**================================================================================================================
 	 * 					Фильтруем отели по звездам и по группам их Битрикс
 	 * ============================================================================================================ **/
 	$filter_hotels = Array();
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tours_after_filter.txt', print_r($tours, 1));
-	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
-	//die('the end!!!!!!!!!!');
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/periods.txt', print_r($periods, 1));
+	
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/tt.txt', print_r($tt, 1));
 	return $tours;
 }
 function add_tours($cat_name, $departure, $departure_name, $tours, $form_data){
@@ -516,7 +546,13 @@ function compose_tour($tour, $key, $cat_name){
 	$result['night_interval'] = $tour['nights'];
 	$result['min_price'] = $tour['min_price'];
 	$result['departure'] = $tour['departure'];
+	foreach($tour['regions'] as $k => $region){
+	    if($k == 0) $regions = $region;
+	    else $regions = $regions.','.$region;
+	}
+	$result['regions'] = $regions;
 	$result['country'] = $tour['country'];
+	$result['nights'] = $tour['nights'];
 	return $result;
 }
 function compose_hotel($hotel, $tour){
@@ -603,7 +639,7 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 					}
 					$i++;
 					if($i == count($group) && $temp_hotel == '') $hotels[$requestid][] = $group[0];
-					if(is_array($temp_hotel)) $hotels[$requestid][] = $temp_hotel;
+					if($i == count($group) && is_array($temp_hotel)) $hotels[$requestid][] = $temp_hotel;
 				}
 			}
 		}

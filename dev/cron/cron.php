@@ -23,8 +23,9 @@ $pass = 'jICPOQJ7';
 require_once($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule("iblock");
 $n = 0;
-$tours_sections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
+$tours_sections = CIBlockSection::GetList(array("ID"=>"DESC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
 while ($arSection = $tours_sections->Fetch()) {
+
     //echo "<pre>".print_r($arSection, 1)."</pre>";
     // Получаем id категории отелей из битрикса
 
@@ -52,9 +53,9 @@ while ($arSection = $tours_sections->Fetch()) {
 
     $sections[] = $form_fields;
 
-  
-    //$n++;
-    //if($n == 16) break;
+    
+    
+    if($n == 3) break;
 }
 
 /*echo "<pre>".print_r($sections, 1)."</pre>";
@@ -73,10 +74,10 @@ for($i=0; $i<=77; $i++){
     
     $obSection->Update($sections[$i]['tour_id'], array("UF_FORM_DATA"=>$data_form));
 }*/
-//echo "<pre>".print_r($sections, 1)."</pre>";
-
+echo "<pre>".print_r($sections, 1)."</pre>";
+//exit();
 //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/sections.txt', print_r($sections, 1));
-//die();
+
 // Получаем весь список запросов из турвизора
 $cnt = 1;
 foreach($sections as $section){
@@ -93,7 +94,7 @@ foreach($sections as $section){
     }
 }
 
-//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/requestid_cron.txt', print_r($requestid, 1));
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/requestid_cron.txt', print_r($requestid, 1));
 
 //echo "<pre>".print_r($requestid, 1)."</pre>";
 //die();
@@ -113,13 +114,17 @@ foreach ($requestid as $k => $rid){
     $star_4 = $sections[$k][6];
     $star_5 = $sections[$k][7];
     $cat_name = $sections[$k]['cat_name'];
+    $departure = $sections[$k][2];
+    $regions = $sections[$k][4];
     
     $status[] = get_status($login, $pass, $requestid);
-    $all_tours[] = get_result($login, $pass, $rid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, true);
+    $all_tours[] = get_result($login, $pass, $rid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, $departure, $regions, true);
+
+    //$all_tours[] = get_result($login, $pass, $rid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, true);
 }
 
 
-//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/all_tours.txt', print_r($all_tours, 1));
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/all_tours.txt', print_r($all_tours, 1));
 //die();
 
 // Удаляем и записываем новые элементы
