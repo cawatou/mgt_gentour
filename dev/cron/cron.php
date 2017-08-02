@@ -25,7 +25,8 @@ CModule::IncludeModule("iblock");
 $n = 0;
 $tours_sections = CIBlockSection::GetList(array("ID"=>"DESC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
 while ($arSection = $tours_sections->Fetch()) {
-
+    $n++;
+    if($n < 16) continue;
     //echo "<pre>".print_r($arSection, 1)."</pre>";
     // Получаем id категории отелей из битрикса
 
@@ -52,8 +53,8 @@ while ($arSection = $tours_sections->Fetch()) {
     $form_fields['cat_name'] = $arSection['NAME'];
 
     $sections[] = $form_fields;
-    $n++;
-    if($n == 1) break;
+    
+    
 }
 
 /*echo "<pre>".print_r($sections, 1)."</pre>";
@@ -73,7 +74,7 @@ for($i=0; $i<=77; $i++){
     $obSection->Update($sections[$i]['tour_id'], array("UF_FORM_DATA"=>$data_form));
 }*/
 echo "<pre>".print_r($sections, 1)."</pre>";
-
+//die();
 //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/sections.txt', print_r($sections, 1));
 
 // Получаем весь список запросов из турвизора
