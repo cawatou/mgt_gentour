@@ -180,6 +180,7 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 function get_status($login, $pass, $requestid){
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/requestid.txt', print_r($requestid, 1));
 	foreach($requestid as $k => $id) {
+		sleep (0.1);
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=status&format=json');
 		$json = json_decode($json, 1);
 		if($json['data']['status']['progress'] == 100) file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/status.txt', 'reqid '.$id.' = '.$json['data']['status']['progress']."\r\n", FILE_APPEND);		
@@ -212,7 +213,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$start_time = new DateTime($date_from);
 	$end_time = new DateTime($date_to);
 	$interval = $start_time->diff($end_time)->days;
-	if($interval < 56) $interval = 56; // 8 недель
+	if($interval < 56 || $interval > 56) $interval = 56; // 8 недель
 	$iteration = ceil($interval/14);
 	
 	$reserved = array();
@@ -388,20 +389,22 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/tt.txt', print_r($tt, 1));
 	return $tours;
 }
-function add_tours($cat_name, $departure, $departure_name, $tours, $form_data){
-	//die();
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/cat_name.txt', print_r($cat_name, 1));
+function add_tours($cat_name, $departure, $departure_name, $tours, $form_data, $discount){
 	$min_cat_price = $tours;
 	$min_cat_price = array_shift($min_cat_price);
-	$tour_catid = add_section($cat_name, 20, $departure, $min_cat_price['min_price'], $form_data, false);
+	
+	$min_price = $min_cat_price['min_price'] - ($min_cat_price['min_price']/100 * $discount);
+	$tour_catid = add_section($cat_name, 20, $departure, $min_price, $form_data, false);
 	$hotel_catid = add_section($cat_name, 23, false, false, false, $tour_catid);
 	foreach($tours as $tour){
+		$price = floor($tour['min_price'] / 100) * 100;
+		$price = $price - ($price/100 * $discount);
 		$PROP = array(
 			'DEPARTURE' => $departure_name,
 			'COUNTRY' => $tour['hotels'][0]['countryname'],
 			'CURORT' => $tour['hotels'][0]['regionname'],
 			'DATEFROM' => $tour['flydate'],
-			'MIN_PRICE' => floor($tour['min_price'] / 100) * 100,
+			'MIN_PRICE' => $price,
 			'DAYCOUNT' => $tour['night_interval'],
 		);
 		$el = new CIBlockElement;
@@ -430,13 +433,15 @@ function add_tours($cat_name, $departure, $departure_name, $tours, $form_data){
 		);
 		CCatalogProduct::Add($arFields);
 		foreach($tour['hotels'] as $hotel){
+			$price = floor($hotel['price'] / 100) * 100;
+			$price = $price - ($price/100 * $discount);
 			$PROP = array(
 				'hotelcode' => $hotel['hotelcode'],
 				'countryname' => $hotel['countryname'],
 				'regionname' => $hotel['regionname'],
 				'hotelstars' => $hotel['hotelstars'],
 				'nights' => $hotel['nights'],
-				'price' => floor($hotel['price'] / 100) * 100, // Округляем в меньшую сторону до 100
+				'price' => $price, // Округляем в меньшую сторону до 100
 				'TOURIDBX' => $tour_id,
 				'img' => trim($hotel['picturelink'], "//"),
 				'meal' => $hotel['mealrussian'],

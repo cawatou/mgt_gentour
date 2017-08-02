@@ -23,10 +23,10 @@ $pass = 'jICPOQJ7';
 require_once($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule("iblock");
 $n = 0;
-$tours_sections = CIBlockSection::GetList(array("ID"=>"DESC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
+$tours_sections = CIBlockSection::GetList(array("ID"=>"ASC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
 while ($arSection = $tours_sections->Fetch()) {
     $n++;
-    if($n < 16) continue;
+    //if($n < 16) continue;
     //echo "<pre>".print_r($arSection, 1)."</pre>";
     // Получаем id категории отелей из битрикса
 
@@ -53,7 +53,7 @@ while ($arSection = $tours_sections->Fetch()) {
     $form_fields['cat_name'] = $arSection['NAME'];
 
     $sections[] = $form_fields;
-    
+    if($n >= 16) break;
     
 }
 
@@ -134,7 +134,8 @@ foreach($sections as $k => $section){
     $cat_name = $section['cat_name'];
     $departure = $section[2];
     $departure_name = $section[8];
-    add_tours($cat_name, $departure, $departure_name, $all_tours[$k], $form_data[$k]);
+    $discount = $section[9];
+    add_tours($cat_name, $departure, $departure_name, $all_tours[$k], $form_data[$k], $discount);
 }
 
 

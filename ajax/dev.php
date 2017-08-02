@@ -143,13 +143,15 @@ if(isset($_REQUEST['new_items'])){
 	$star_3 = $_REQUEST['hotel3'];
 	$star_4 = $_REQUEST['hotel4'];
 	$star_5 = $_REQUEST['hotel5'];
+	$discount = $_REQUEST['discount'];
+
 	// Получаем массив из json'a
     $json = file_get_contents($_SERVER['DOCUMENT_ROOT'].'/dev/json/'.$cat_name.'-['.$date_from.' - '.$date_to.'].json');
     $tours = json_decode($json, 1);
 	// Данные для автогенерации тура
-	$form_data = $date_from.'_'.$date_to.'_'.$departure.'_'.$country.'_'.$regions.'_'.$star_3.'_'.$star_4.'_'.$star_5.'_'.$departure_name;
+	$form_data = $date_from.'_'.$date_to.'_'.$departure.'_'.$country.'_'.$regions.'_'.$star_3.'_'.$star_4.'_'.$star_5.'_'.$departure_name.'_'.$discount;
 
-	add_tours($cat_name, $departure, $departure_name, $tours, $form_data);
+	add_tours($cat_name, $departure, $departure_name, $tours, $form_data, $discount);
     echo "Туры добавлены.";
 }
 ?>
