@@ -118,8 +118,6 @@ foreach ($requestid as $k => $rid){
     
     $status[] = get_status($login, $pass, $requestid);
     $all_tours[] = get_result($login, $pass, $rid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, $departure, $regions, true);
-
-    //$all_tours[] = get_result($login, $pass, $rid, $date_from, $date_to, $star_3, $star_4, $star_5, $cat_name, true);
 }
 
 
@@ -138,14 +136,6 @@ foreach($sections as $k => $section){
     add_tours($cat_name, $departure, $departure_name, $all_tours[$k], $form_data[$k], $discount);
 }
 
-
-//echo "<pre>".print_r($requestid, 1)."</pre>";
-//echo "<pre>".print_r($sections, 1)."</pre>";
-//echo "<pre>".print_r($status, 1)."</pre>";
-//echo "<pre>".print_r($all_tours, 1)."</pre>";
-//$end = microtime(true);
-//echo "<hr /> Script execution time: ".($end-$start)." sec!";
-//echo "<hr />";
 file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/endautogen.txt',  "write file  - ".date("d.m.Y H:i")."\r\n", FILE_APPEND);
 exit();
 ?>

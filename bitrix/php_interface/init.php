@@ -103,10 +103,7 @@ function OnAfterIBlockElementHandler(&$arFields)
 }
 // =================================== AUTO GENERATOR =============================================================
 function get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to){
-	$today = new DateTime('today');
-	$tommorow = new DateTime('tomorrow');
-	$start_time = new DateTime($date_from);	
-	if ($start_time < $today) $start_time = $tommorow;
+	$start_time = find_startdate($date_from);	
 	$end_time = new DateTime($date_to);
 	$temp_time = new DateTime($date_from);
 	$interval = $start_time->diff($end_time)->days;
@@ -200,8 +197,10 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$BX_group['tourvisor_id'][] = $hotel['PROPERTY_TOURVISOR_ID_VALUE'];
 		$BX_group['group'][$hotel['PROPERTY_TOURVISOR_ID_VALUE']] = $hotel['PROPERTY_GROUP_VALUE'];
 	}
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/BX_group.txt', print_r($BX_group, 1));
+	//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/BX_group.txt', print_r($BX_group, 1));
+	
 	$periods = Array(1 => 0, 2 => 0, 3 => 0, 4 => 0); // Периоды двухнедельных интервалов
+	$tours['periods'] = $periods;
 	// Если самое дешевое предложение не больше 5 дней период от 2 до 5 дней не учитывается ($n6_8 прибавляется на 1 => $n6_8 = 3)
 	$n2_5 = 1; // Одна дата на продолжительность от 2 до 5 дней (аналогично остальные)
 	$n6_8 = 3;
@@ -210,28 +209,33 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$empty = $previous_key = 0;
 	$cnt = 0;
 	$period_num = 1;
-	$start_time = new DateTime($date_from);
-	$end_time = new DateTime($date_to);
-	$interval = $start_time->diff($end_time)->days;
-	if($interval < 56 || $interval > 56) $interval = 56; // 8 недель
+	$interval = 56; // 8 недель
 	$iteration = ceil($interval/14);
-	
 	$reserved = array();
 	$j = 0;
+	$start_time = find_startdate($date_from);
+	
 	foreach($requestid as $k => $id) {
 		sleep (0.1);
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=100000&format=json');
 		$json = json_decode($json, 1);
 		if(isset($json['data']['result']['hotel'])){
+			if($k == 0) $country = $json['data']['result']['hotel'][0]['countrycode']; // Необходим для тура с ближайшей датой 
+			
 			$result[$id] = $json['data']['result']['hotel'][0];
 			$result[$id]['departure'] = $departure;
 			$result[$id]['nights'] = $json['data']['result']['hotel'][0]['tours']['tour'][0]['nights'];
 			$result[$id]['date'] = $json['data']['result']['hotel'][0]['tours']['tour'][0]['flydate'];
 			$result[$id]['tours'] = '';
 			
-			foreach($json['data']['result']['hotel'] as $k => $extra_hotels){
-				if($k == 0) continue;
+			
+			foreach($json['data']['result']['hotel'] as $key => $extra_hotels){
+
 				foreach ($extra_hotels['tours']['tour'] as $extra_tour){
+					// Составляем массив из первых двухнедельных периодов для поиска тура на ближайшую дату
+					if($k == 0 || $k % 4 == 0) $near_tours[$id][] = $extra_tour;
+					// Находим доп туры для полного заполнения $result в случае пустых значений
+					if($k == 0) continue;
 					$compare = 0;
 					if($extra_tour['flydate'] == $result[$id]['date'] && $extra_tour['nights'] == $result[$id]['nights']) continue;
 					foreach($reserved as $reserve){
@@ -246,7 +250,6 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 						$extra_tours[$j]['nights'] = $extra_tour['nights'];
 						$extra_tours[$j]['date'] = $extra_tour['flydate'];
 						$extra_tours[$j]['tours'] = '';
-						
 						$reserved[] = Array($extra_tour['nights'] => $extra_tour['flydate']);
 					}
 				}
@@ -265,7 +268,6 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/result_before.txt', print_r($result, 1));
 	$i = $j = 0;
-	//$extra_tours = array_reverse($extra_tours);
 	foreach($result as $id => $check){
 		$i++;
 		$compare = 0;
@@ -280,8 +282,10 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/result_after.txt', print_r($result, 1));
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/extra_tours.txt', print_r($extra_tours, 1));
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods_reqid.txt', print_r($periods_reqid, 1));
-	if(count($result) == $empty && $cron == false) exit('empty');
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/near_tours.txt', print_r($near_tours, 1));
 	
+	if(count($result) == $empty && $cron == false) exit('empty');
+	//die();
 
 	/**===========================================================================================================
 	 *          Находми предложение (Самое дешевое)
@@ -299,7 +303,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$temp['country'] = $hotels['countrycode'];
 		}
 	}
-	if($temp['nights'] > 5 && $temp['nights'] < 9){
+	/*if($temp['nights'] > 5 && $temp['nights'] < 9){
 		$n6_8 = 3; // Прибавим и сразу же отнимаем
 		$n9_15 = 4;
 		$first_n6_8 = $temp['requestid'];
@@ -309,16 +313,53 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	}else{
 		$n6_8 = 3;
 		$n9_15 = 4;
-	}
+	}*/
 	if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
 
 	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
-	$periods[$period_key]++;
-//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
-//	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
+	$tours['periods'][$period_key]++;	
 	$temp = Array();
 	$temp['min_price'] = 0;
-	$n2_5 = 0;
+
+
+
+
+
+	/**===========================================================================================================
+	 *          Находми предложение (Самая ближайщая дата + 4 дня и Самое дешевое)
+	 * ======================================================================================================= **/
+
+	$near_period[] = $start_time->format('d.m.Y');
+	// Добавляем еще 3 дня
+	for($i=0; $i<=3; $i++){
+		$start_time->modify('+1 day');
+		$near_period[] = $start_time->format('d.m.Y');
+	}
+	foreach($near_tours as $id => $hotels){
+		foreach($hotels as $tour){
+			if(in_array($tour['flydate'], $near_period) && $tour['nights'] > 5){
+				if($temp['min_price'] == 0 || $temp['min_price'] > $tour['price']) {
+					$temp['min_price'] = $tour['price'];
+					$temp['requestid'] = $id;
+					$temp['date'] = $tour['flydate'];
+					$temp['nights'] = $tour['nights'];
+					$temp['departure'] = $departure;
+					$temp['regions'] = $regions;
+					$temp['country'] = $country;
+				}
+			}
+		}		
+	}
+	
+	if(count($temp) > 1) {
+		$n6_8 = 3;
+		$n9_15 = 3;
+		$tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
+		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+		$tours['periods'][$period_key]++;
+		$temp = Array();
+		$temp['min_price'] = 0;
+	}	
 	
 	/**================================================================================================================
 	 * 					Находми предложения продолжительностю от 9 до 15 ночей
@@ -338,10 +379,10 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$ratio_1 = $iteration;
 	$ratio_2 = $iteration*2;
 	$tours = find_tour($n6_8, $result, $ratio_1, $ratio_2, $periods_reqid, $departure, $regions, $cat_name, $periods, $tours);
-
 	$n6_8 = 0;
 	
 	foreach($tours as $k => $data){
+		if($k == 'periods') continue;
 		for($i=1; $i <= 3; $i++) {
 			if($i == 1) $stars = '1';
 			if($i == 2) $stars = '4';
@@ -367,13 +408,12 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 
 				$tours[$k]['hotels_rid'][] = $id;
 				if(count($result['data']['result']['hotel']) == 0) break;
-				$tt[$id][] = json_decode($res, 1);
+				$all_hotels[$id][] = json_decode($res, 1);
 				foreach ($result['data']['result']['hotel'] as $hotel){
 					$tours[$k]['hotels'][] = compose_hotel($hotel, $hotel['tours']['tour'][0]);
 				}
 			}
-		}
-		
+		}		
 	}
 
 	
@@ -384,9 +424,9 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$filter_hotels = Array();
 	$tours = hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group);
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/tours_after_filter.txt', print_r($tours, 1));
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($periods, 1));
-	
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/tt.txt', print_r($tt, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($tours['periods'], 1));	
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/all_hotels.txt', print_r($all_hotels, 1));
+	die();
 	return $tours;
 }
 function add_tours($cat_name, $departure, $departure_name, $tours, $form_data, $discount){
@@ -565,10 +605,8 @@ function compose_hotel($hotel, $tour){
 	return $result;
 }
 function find_tour($tour_count, $result, $ratio_1, $ratio_2, $periods_reqid, $departure, $regions, $cat_name, $periods, $tours){
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/count.txt', print_r('+ '.$tour_count , 1)."\n\r", FILE_APPEND);
 	$temp['min_price'] = 0;	
 	for($i=1; $i <= $tour_count; $i++){
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/count.txt', print_r('- '.$i, 1)."\n\r", FILE_APPEND);
 		$cnt = 0;
 		foreach($result as $k => $hotels){
 			if(!is_array($hotels)) {
@@ -577,7 +615,7 @@ function find_tour($tour_count, $result, $ratio_1, $ratio_2, $periods_reqid, $de
 			}
 			//начало периода
 			if($cnt >= $ratio_1 && $cnt < $ratio_2 && !array_key_exists($k, $tours)){
-				if($periods[$periods_reqid[$k]] == 2) continue;
+				if($tours['periods'][$periods_reqid[$k]] == 2) continue;
 				if($temp['min_price'] == 0 || $temp['min_price'] > $hotels['price']) {
 					$temp['min_price'] = $hotels['price'];
 					$temp['requestid'] = $k;
@@ -594,15 +632,15 @@ function find_tour($tour_count, $result, $ratio_1, $ratio_2, $periods_reqid, $de
 		if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
 
 		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+		$tours['periods'][$period_key]++;
 		$periods[$period_key]++;
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($periods, 1)."\n\r", FILE_APPEND);
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($tours['periods'], 1)."\n\r", FILE_APPEND);
 		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/temp.txt', print_r($temp, 1)."\n\r", FILE_APPEND);
 		$temp = Array();
 		$temp['min_price'] = 0;		
 	}
 	return $tours;
 }
-
 function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 	foreach($tours as $requestid => $tour){
 	
@@ -689,5 +727,12 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 		if(isset($hotels[$requestid])) $tours[$requestid]['hotels'] = $hotels[$requestid];
 	}
 	return $tours;
+}
+function find_startdate($date_from){
+	$today = new DateTime('today');
+	$tommorow = new DateTime('tomorrow');
+	$start_time = new DateTime($date_from);
+	if ($start_time < $today) $start_time = $tommorow;
+	return $start_time;
 }
 ?>
