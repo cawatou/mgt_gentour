@@ -11,7 +11,7 @@ $departure = json_decode($departure);
 $departure = $departure->lists->departures->departure;
 
 
-$test = file_get_contents('http://tourvisor.ru/xml/search.php?authlogin=' . $login . '&authpass=' . $pass . '&datefrom=09.08.2017&dateto=09.08.2017&nightsfrom=10&nightsto=10&adults=2&operators=&meal=0&stars=1&rating=0&hoteltypes=&country=6&regions=32,33,34,35&departure=21&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json');
+/*$test = file_get_contents('http://tourvisor.ru/xml/search.php?authlogin=' . $login . '&authpass=' . $pass . '&datefrom=09.08.2017&dateto=09.08.2017&nightsfrom=10&nightsto=10&adults=2&operators=&meal=0&stars=1&rating=0&hoteltypes=&country=6&regions=32,33,34,35&departure=21&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json');
 $json = json_decode($test, 1);
 $reqid = $json['result']['requestid'];
 sleep(25);
@@ -19,7 +19,7 @@ sleep(25);
 for($i=1; $i<=10; $i++){
     $res = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $reqid . '&type=result&page='.$i.'&onpage=100&format=json');
     $result[] = json_decode($res, 1);
-} 
+} */
 
 /*==========================================================================================================*/
 $rsSections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 20));

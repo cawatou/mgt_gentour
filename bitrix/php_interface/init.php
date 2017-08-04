@@ -301,9 +301,12 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$temp['departure'] = $departure;
 			$temp['regions'] = $regions;
 			$temp['country'] = $hotels['countrycode'];
+
+			$cheap_tour_date = $hotels['date'];
+			$cheap_tour_night = $hotels['nights'];
 		}
 	}
-	/*if($temp['nights'] > 5 && $temp['nights'] < 9){
+	if($temp['nights'] > 5 && $temp['nights'] < 9){
 		$n6_8 = 3; // Прибавим и сразу же отнимаем
 		$n9_15 = 4;
 		$first_n6_8 = $temp['requestid'];
@@ -313,7 +316,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	}else{
 		$n6_8 = 3;
 		$n9_15 = 4;
-	}*/
+	}
 	if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
 
 	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
@@ -351,10 +354,14 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		}		
 	}
 	
+	if($cheap_tour_date == $temp['date'] && $cheap_tour_night == $temp['nights']) $temp = Array();
+	
 	if(count($temp) > 1) {
 		$n6_8 = 3;
 		$n9_15 = 3;
-		$tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
+		$near_key = 'near_'.$temp['requestid'];
+		$tours[$near_key] = compose_tour($temp, $near_key, $cat_name);
+		file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/dev/log/dev/test.txt', print_r($tours, 1) . "\n\r", FILE_APPEND);
 		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 		$tours['periods'][$period_key]++;
 		$temp = Array();
