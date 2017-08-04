@@ -53,7 +53,7 @@ while ($arSection = $tours_sections->Fetch()) {
     $form_fields['cat_name'] = $arSection['NAME'];
 
     $sections[] = $form_fields;
-    if($n >= 16) break;
+    //if($n >= 16) break;
     
 }
 

@@ -426,7 +426,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/tours_after_filter.txt', print_r($tours, 1));
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/periods.txt', print_r($tours['periods'], 1));	
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/all_hotels.txt', print_r($all_hotels, 1));
-	die();
+
 	return $tours;
 }
 function add_tours($cat_name, $departure, $departure_name, $tours, $form_data, $discount){
