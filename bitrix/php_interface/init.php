@@ -437,12 +437,19 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	return $tours;
 }
 function add_tours($cat_name, $departure, $departure_name, $tours, $form_data, $discount){
-	$min_cat_price = $tours;
-	$min_cat_price = array_shift($min_cat_price);
+	$i = 0;
+	foreach($tours as $tour){
+		$i++;
+		if($i == 1) continue;
+		if($i == 2){
+			$min_price = $tour['min_price'];
+			break;
+		}
+	}
 	
-	$min_price = $min_cat_price['min_price'] - ($min_cat_price['min_price']/100 * $discount);
-	$tour_catid = add_section($cat_name, 20, $departure, $min_price, $form_data, false);
-	$hotel_catid = add_section($cat_name, 23, false, false, false, $tour_catid);
+	$min_price = $min_price - ($min_price/100 * $discount);
+	$tour_catid = add_section($cat_name, 20, $departure, $min_price, $form_data, false, $discount);
+	$hotel_catid = add_section($cat_name, 23, false, false, false, $tour_catid, false);
 	foreach($tours as $tour){
 		$price = floor($tour['min_price'] / 100) * 100;
 		$price = $price - ($price/100 * $discount);
@@ -551,7 +558,7 @@ function get_date($start_time, $period, $iteration){
 	return $result;
 }
 // Создаем новый раздел
-function add_section($name, $iblock_id, $departure = '', $min_price = '', $form_data = '', $tour_catid = ''){
+function add_section($name, $iblock_id, $departure = '', $min_price = '', $form_data = '', $tour_catid = '', $discount = ''){
 	//if($tour_catid != "") file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/form_data.txt', print_r($form_data, 1));
 	// Параметры для символьного кода (Код необходим для построения url)
 	$params = Array(
@@ -572,6 +579,7 @@ function add_section($name, $iblock_id, $departure = '', $min_price = '', $form_
 	if($min_price) $arFields['UF_MIN_PRICE'] = floor($min_price / 100) * 100;
 	if($form_data) $arFields['UF_FORM_DATA'] = $form_data;
 	if($tour_catid) $arFields['UF_TOUR_ID'] = $tour_catid;
+	if($discount) $arFields['UF_DISCOUNT'] = $discount;
 	$arFields['UF_GENERATED'] = 0;
 	$id = $bs->Add($arFields);
 	return $id;
