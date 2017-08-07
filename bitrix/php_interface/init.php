@@ -620,8 +620,9 @@ function find_tour($tour_count, $result, $ratio_1, $ratio_2, $periods_reqid, $de
 				$cnt++;
 				continue;
 			}
+			$near_key = 'near_'.$k;
 			//начало периода
-			if($cnt >= $ratio_1 && $cnt < $ratio_2 && !array_key_exists($k, $tours)){
+			if($cnt >= $ratio_1 && $cnt < $ratio_2 && !array_key_exists($k, $tours) && !array_key_exists($near_key, $tours)){
 				if($tours['periods'][$periods_reqid[$k]] == 2) continue;
 				if($temp['min_price'] == 0 || $temp['min_price'] > $hotels['price']) {
 					$temp['min_price'] = $hotels['price'];
