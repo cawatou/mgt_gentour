@@ -23,42 +23,41 @@ $pass = 'jICPOQJ7';
 require_once($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/main/include/prolog_before.php");
 CModule::IncludeModule("iblock");
 $n = 0;
-for($i=0; $i<=1; $i++){
-    $tours_sections = CIBlockSection::GetList(array("ID"=>"ASC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
-    while ($arSection = $tours_sections->Fetch()) {
-        $n++;
-        //if($n < 16) continue;
-        //echo "<pre>".print_r($arSection, 1)."</pre>";
-        // Получаем id категории отелей из битрикса
 
-        $hotels_sections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 23, "UF_TOUR_ID" => $arSection['ID']), false, array('ID'));
-        while ($hotel_field = $hotels_sections->Fetch()) $hotelsection_id = $hotel_field['ID'];
+$tours_sections = CIBlockSection::GetList(array("ID"=>"ASC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
+while ($arSection = $tours_sections->Fetch()) {
+    $n++;
+    //if($n < 16) continue;
+    //echo "<pre>".print_r($arSection, 1)."</pre>";
+    // Получаем id категории отелей из битрикса
 
-        $form_data[] = $arSection['UF_FORM_DATA'];
-        $form_fields = explode("_", $arSection['UF_FORM_DATA']);
-        $today = date('d.m.Y');
+    $hotels_sections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 23, "UF_TOUR_ID" => $arSection['ID']), false, array('ID'));
+    while ($hotel_field = $hotels_sections->Fetch()) $hotelsection_id = $hotel_field['ID'];
 
-        // Проверка дат
+    $form_data[] = $arSection['UF_FORM_DATA'];
+    $form_fields = explode("_", $arSection['UF_FORM_DATA']);
+    $today = date('d.m.Y');
+
+    // Проверка дат
 //    if(strtotime($form_fields[1]) < strtotime($today)){
 //        $delete_forever[] = Array('tour_id' => $arSection['ID'], 'hotel_id' => $hotelsection_id);
 //        continue;
 //    }
 
-        $date = new DateTime('tomorrow');
-        $tomorrow = $date->format('d.m.Y');
+    $date = new DateTime('tomorrow');
+    $tomorrow = $date->format('d.m.Y');
 
-        if(strtotime($form_fields[0]) < strtotime($today)) $form_fields[0] = $tomorrow;
+    if(strtotime($form_fields[0]) < strtotime($today)) $form_fields[0] = $tomorrow;
 
-        $form_fields['tour_id'] = $arSection['ID'];
-        $form_fields['hotel_id'] = $hotelsection_id;
-        $form_fields['cat_name'] = $arSection['NAME'];
+    $form_fields['tour_id'] = $arSection['ID'];
+    $form_fields['hotel_id'] = $hotelsection_id;
+    $form_fields['cat_name'] = $arSection['NAME'];
 
-        $sections[] = $form_fields;
-        //if($n >= 16) break;
-
-    }
-
+    $sections[] = $form_fields;
+    if($n == 3) break;
 }
+
+
 
 /*echo "<pre>".print_r($sections, 1)."</pre>";
 die();
