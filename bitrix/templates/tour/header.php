@@ -25,7 +25,7 @@ while($ob = $res->GetNextElement())
 		 $officeForCity = $CITY_ID;
 		 if( $arFields['ID']==$CITY_ID ) {
 			 $User_city['city']  = $arFields['NAME'];
-			 //$CURRENT_CITY = 
+			 $User_city['tvid'] = $arFields['UF_CITYID'];
 		 }
 	}
 	else {
@@ -84,6 +84,8 @@ $countryArr = json_decode($json);
 foreach($cityArr->lists->departures->departure as $c){
 	if($c->name==$User_city['city']) {
 		$TVID = $c->id;
+	}else{
+		$TVID = $User_city['tvid'];
 	}
 }
 ?>
@@ -172,6 +174,9 @@ foreach($cityArr->lists->departures->departure as $c){
 </style>
 </head>
 <body>
+<?//if($_REQUEST['dev']) echo "<pre>".print_r($cityArr, 1)."</pre>";?>
+<div class="iecontainer">
+
 <div id="page-preloader"><span class="spinner"></span></div>
 <div id="panel"><?//$APPLICATION->ShowPanel();?></div>
 <div class="formobileviewport"></div>
@@ -203,18 +208,18 @@ foreach($array as $symbol => $sub_array)
 			</li>
 			<li class="mobile-calls"> <a href="#" class="callback" data-toggle="modal" data-target="#callback"><i class="glyphicon glyphicon-earphone" style="color:#fff;margin-right:10px;"></i> Заказать обратный звонок</a> </li>
 			<?$APPLICATION->IncludeComponent(
-		"bitrix:menu", 
-		"tabs", 
-		Array(
-			"ROOT_MENU_TYPE"	=>	"top",
-			"MAX_LEVEL"	=>	"1",
-			"USE_EXT"	=>	"N",
-			"MENU_CACHE_TYPE" => "A",
-			"MENU_CACHE_TIME" => "3600",
-			"MENU_CACHE_USE_GROUPS" => "N",
-			"MENU_CACHE_GET_VARS" => Array()
-		)
-	);?>
+				"bitrix:menu",
+				"tabs",
+				Array(
+					"ROOT_MENU_TYPE"	=>	"top",
+					"MAX_LEVEL"	=>	"1",
+					"USE_EXT"	=>	"N",
+					"MENU_CACHE_TYPE" => "A",
+					"MENU_CACHE_TIME" => "3600",
+					"MENU_CACHE_USE_GROUPS" => "N",
+					"MENU_CACHE_GET_VARS" => Array()
+				)
+			);?>
 		</ul>
 <div class="cityAll2" ><ol id="cityx2"><?=$citychko?></ol></div>
 		<nav class="navbar">
@@ -226,8 +231,8 @@ foreach($array as $symbol => $sub_array)
 					<div class="cityAll" ><ol id="cityx"><?=$citychko?></ol></div>
 				</li>
 				<li class="phones"> 
-				<span><b>8 812 123 45 67 </b></span> 
-				<span class="p2">8 800 900 80 70 </i></span>
+				<span><b> </b></span> 
+				<span class="p2"> </i></span>
 				</li>
 				<li class="addresses" style="position:relative;"><i class="glyphicon glyphicon-map-marker red-style" ></i> <b>Адреса офисов</b> 
 					<div class="adressAll">
