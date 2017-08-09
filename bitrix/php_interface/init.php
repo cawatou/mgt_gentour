@@ -355,8 +355,16 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	}
 	
 	if($cheap_tour_date == $temp['date'] && $cheap_tour_night == $temp['nights']) $temp = Array();
-	
+
+
+
 	if(count($temp) > 1) {
+		if($temp['nights'] > 5 && $temp['nights'] < 9){
+			$n6_8--; // Прибавим и сразу же отнимаем			
+		}elseif($temp['nights'] > 8 && $temp['nights'] < 15 ){
+			$n9_15--;
+		}
+
 		$n6_8 = 3;
 		$n9_15 = 3;
 		$near_key = 'near_'.$temp['requestid'];
@@ -374,8 +382,6 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$ratio_1 = $iteration*2;
 	$ratio_2 = $iteration*3;
 	$tours = find_tour($n9_15, $result, $ratio_1, $ratio_2, $periods_reqid, $departure, $regions, $cat_name, $periods, $tours);
-
-	$n9_15 = $n9_15 - count($tours);
 
 	
 
@@ -736,7 +742,7 @@ function hotels_filter($tours, $star_3, $star_4, $star_5, $BX_group){
 			}
 		}
 		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/hotels.txt', print_r($hotels, 1));
-		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
+		file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/filter_hotels/filter_hotels_'.$requestid.'.txt', print_r($filter_hotels, 1));
 		$filter_hotels = Array();
 	}
 	foreach($tours as $requestid => $tour){

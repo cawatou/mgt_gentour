@@ -136,6 +136,8 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
               </div>
           </div>
       </div>
+
+
       <div class="modal fade" id="forgot" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
         <div class="modal-dialog" role="document">
             <div class="modal-content">
@@ -149,6 +151,8 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
                  </div>
              </div>
          </div>
+
+
          <div class="modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
@@ -171,6 +175,8 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
                     </div>
                 </div>
             </div>
+
+
             <div class="modal fade" id="orderfor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
@@ -193,6 +199,8 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
                         </div>
                     </div>
                 </div>
+
+
                 <div class="modal fade" id="soc" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                     <div class="modal-dialog" role="document">
                         <div class="modal-content">
