@@ -75,8 +75,8 @@ if($_REQUEST['id']==7) {
 
 
 
-if($_REQUEST['id']==9) {
-
+if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
+	
 	include_once ("sms_prosto.php");
 
 
@@ -85,7 +85,7 @@ if($_REQUEST['id']==9) {
 	// Из модального (Подписаться на sms рассылку)
 	if(isset($_REQUEST['form_text_74'])) $city = $_REQUEST['form_text_74'];
 	// Из модального (Отправить заявку на тур или оплатить в офисе)
-	if(isset($_REQUEST['select-office'])) $city = $_REQUEST['select-office'];
+	if(isset($_REQUEST['form_hidden_40'])) $city = $_REQUEST['form_hidden_40'];
 
 	if(isset($_REQUEST['form_text_73'])) $phone = preg_replace('~\D+~','',$_REQUEST['form_text_73']);
 	if(isset($_REQUEST['form_text_37'])) $phone = preg_replace('~\D+~','',$_REQUEST['form_text_37']);
@@ -95,7 +95,8 @@ if($_REQUEST['id']==9) {
 	// 70 - вайбер
 	// 71 - телеграм
 	// 72 - смс
-	
+	if($_REQUEST['form_checkbox_sms_spam']) $soc = 72;
+ 	
 	switch($soc){
 		case 69:
 		$socName = 'whatsapp';
@@ -116,16 +117,12 @@ if($_REQUEST['id']==9) {
 	}
 	$city = $city . ' ' . $socName;
 	
-
-
-
 	// Просматриваем список абонентских баз, которые добавлены на сервисе
 	$baseId = 0;
 	$key = $API_KEY; // API KEY (запросите в Support@)
 	$result = smsapi_get_list_base_nologin_key($key, $params = NULL);
-	//var_dump($result); // раскомментируйте, чтобы посмотреть, что возвращает $result
 
-		//Далее, пример обработки полученных данных
+	//Далее, пример обработки полученных данных
 	if (isset($result['response'])) {
 		
 		if ($result['response']['msg']['err_code'] > 0) {
@@ -144,8 +141,7 @@ if($_REQUEST['id']==9) {
 				}
 				else if($city2 == $value['base_title']) {
 					$baseId = $key;
-				}
-					//echo "id базы: $key Наименование: ".$value['base_title']." создана ".$value['created']." <br>";
+				}					
 			}
 			
 			unset($my_arr);
@@ -166,8 +162,7 @@ if($_REQUEST['id']==9) {
 
 	$result = smsapi_add_number_to_base_nologin_key($key, $phone, $id_base, array()); // Возвращает массив $result с ответом сервера
 	//var_dump($result); // Получили ответ в виде массива. Раскомментируйте, чтобы посмотреть, что возвращает $result
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tt.txt', print_r($result, 1));
-		//Далее, пример обработки полученных данных
+	//Далее, пример обработки полученных данных
 	if (isset($result['response'])) {
 		
 		if ($result['response']['msg']['err_code'] > 0) {
@@ -181,9 +176,12 @@ if($_REQUEST['id']==9) {
 		}			
 	}
 
-	
-	
-
+//	echo "<pre>".print_r($city, 1)."</pre>";
+//	echo "<pre>".print_r($phone, 1)."</pre>";
+//	echo "<pre>".print_r($socName, 1)."</pre>";
+//	echo "<pre>".print_r($baseId, 1)."</pre>";
+//	echo "<pre>".print_r($result, 1)."</pre>";
+//	exit();
 	// $req = file_get_contents("http://api.sms-prosto.ru/?key=".$API_KEY."&method=add_number_to_base&phone=".$phone."&id_base=".$idbase."&fam=Any&name=Body");
 	//echo  $req;
 }

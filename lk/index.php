@@ -956,6 +956,7 @@ $rqID = $_REQUEST['ID'];
 								$arFields = $ob->GetFields();
 								$filtCity[] = $arFields['NAME'];
 								$filtCityId[] = $arFields['ID'];
+								$tourvisor_id[] = $arFields['UF_CITYID'];
 							}
 							
 							if(count($filtCity)>0){
@@ -1566,51 +1567,40 @@ $rqID = $_REQUEST['ID'];
 											<tbody>
 
 												<?
-												$arFilter = Array("IBLOCK_ID"=>20 ,"UF_GENERATED"=>1 );
+												$arFilter = Array("IBLOCK_ID"=>20 ,"UF_GENERATED"=>1, "UF_DEPARTURE" => $tourvisor_id);
 												$res = CIBlockSection::GetList(Array("ID"=>"DESC"), $arFilter,true, Array("ID","IBLOCK_ID","ACTIVE","SORT","PICTURE","NAME","UF_DEPARTURE"));
 												while ($resr = $res->GetNext()) {
-
-
+													//echo "<pre>".print_r($resr, 1)."</pre>";
 													$arSelect = Array("ID","IBLOCK_ID","ACTIVE","SORT","TIMESTAMP_X","NAME","PREVIEW_PICTURE","PROPERTY_COUNTRY","PROPERTY_PRICE","PROPERTY_PRICEDISCOUNT","PROPERTY_CURORT","PROPERTY_DAYCOUNT","PROPERTY_TUROPERATOR","PROPERTY_DATEFROM","PROPERTY_DATETO","PROPERTY_DEPARTURE");
 													$arFilter2 = Array("IBLOCK_ID"=>20,  "IBLOCK_SECTION_ID"=>$resr['ID']);
 													$res2 = CIBlockElement::GetList(Array(), $arFilter2, false, Array("nPageSize"=>50), $arSelect);
 													while($ob = $res2->GetNextElement()){
-														$arFields = $ob->GetFields();  
-/*
- echo "<pre>";
-	var_dump($arFields);
-	echo "</pre>";
- $arProps = $ob->GetProperties();
-echo "<pre>";
-	var_dump($arProps);
-	echo "</pre>";
-	*/
-}
+														$arFields = $ob->GetFields();
+													}
+												?>
+												<tr>
+													<th scope="row"><?=explode(',', $resr['ID'])[0]?></th>
+													<td><?=$resr['NAME']?></td>
+													<td>из <?=$arFields['PROPERTY_DEPARTURE_VALUE']?></td>
+													<td><?=$arFields['PROPERTY_COUNTRY_VALUE']?>/<?=$arFields['PROPERTY_CURORT_VALUE']?></td>
+													<td><?=$arFields['PROPERTY_DATEFROM_VALUE']?>,<br> <?=$arFields['PROPERTY_DATETO_VALUE']?></td>
+													<td><s><?=$arFields['PROPERTY_PRICE_VALUE']?></s><br> <?=$arFields['PROPERTY_PRICEDISCOUNT_VALUE']?></td>
+													<td> </td>
+													<td><?if($resr['ACTIVE']=='Y'){?><span class="green">Показывать</span><?}else{?><span class="red">Скрывать</span><?}?></td>
+													<td><div class="form-group ">
+														<input  name="sortindex" class="form-control" data-id="<?=$resr['ID']?>" value="<?=$resr['SORT']?>"/>
+													</div></td>
+													<td><a class="edit fa fa-pencil" data-id="<?=$resr['ID']?>"></a> <a class="copy fa  fa-copy" data-id="<?=$resr['ID']?>"></a> <a class="delete fa  fa-trash-o" data-id="<?=$resr['ID']?>"></a></td>
+												</tr>
+												<?
+												}?>
+											</tbody>
+										</table>
 
-?>			
-<tr> 
-	<th scope="row"><?=explode(',', $resr['ID'])[0]?></th> 
-	<td><?=$resr['NAME']?></td> 
-	<td>из <?=$arFields['PROPERTY_DEPARTURE_VALUE']?></td> 
-	<td><?=$arFields['PROPERTY_COUNTRY_VALUE']?>/<?=$arFields['PROPERTY_CURORT_VALUE']?></td>  
-	<td><?=$arFields['PROPERTY_DATEFROM_VALUE']?>,<br> <?=$arFields['PROPERTY_DATETO_VALUE']?></td> 
-	<td><s><?=$arFields['PROPERTY_PRICE_VALUE']?></s><br> <?=$arFields['PROPERTY_PRICEDISCOUNT_VALUE']?></td> 
-	<td> </td> 
-	<td><?if($resr['ACTIVE']=='Y'){?><span class="green">Показывать</span><?}else{?><span class="red">Скрывать</span><?}?></td> 
-	<td><div class="form-group ">
-		<input  name="sortindex" class="form-control" data-id="<?=$resr['ID']?>" value="<?=$resr['SORT']?>"/>
-	</div></td> 
-	<td><a class="edit fa fa-pencil" data-id="<?=$resr['ID']?>"></a> <a class="copy fa  fa-copy" data-id="<?=$resr['ID']?>"></a> <a class="delete fa  fa-trash-o" data-id="<?=$resr['ID']?>"></a></td>
-</tr> 
-<?
-}?>
-</tbody>
-</table>
-
-<div class="row">
-	<div class="col-md-12 col-xs-12 navi-bottom">
-		<!--a class="chev" href=""><i class="fa  fa-chevron-left "></i> предыдущая</a-->
-		<a class="navg active" href="#">1</a>
+									<div class="row">
+										<div class="col-md-12 col-xs-12 navi-bottom">
+											<!--a class="chev" href=""><i class="fa  fa-chevron-left "></i> предыдущая</a-->
+											<a class="navg active" href="#">1</a>
 										<!--a class="navg" href="#">2</a>
 										<a class="navg ">3</a-->
 											<!--a class="chev" href="/content/companion/?PAGEN_1=2">следующая <i class="fa  fa-chevron-right "></i></a-->
@@ -1638,16 +1628,8 @@ echo "<pre>";
 											$arFieldz[] = $ob->GetFields();
 
 											$arProps[] = $ob->GetProperties();
- /*
-echo "<pre>";
-	var_dump($turs);
-	echo "</pre>";*/
-/*echo "<pre>";
-	var_dump($arProps);
-	echo "</pre>";*/
-	
-}
-endif;?>
+										}
+										endif;?>
 
 
 <div class="row">
@@ -1778,14 +1760,11 @@ endif;?>
 								$arFields3[] = $ob->GetFields();
 								
 								$arProps3[] = $ob->GetProperties();
-	/*echo "<pre>";*
-		var_dump($arProps3);
-		echo "</pre>";*/
-	}
-}
-else {
-	$arFields3[]= array();
-}
+								}
+							}
+							else {
+								$arFields3[]= array();
+							}
 
 
 ?>
