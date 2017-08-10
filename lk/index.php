@@ -6,6 +6,7 @@ if(!CSite::InGroup(array(1,5,10))){
 }
 GLOBAL $cityArr,$operatorArr,$countryArr,$TVID;
 $rqID = $_REQUEST['ID'];
+$reload = $_REQUEST['reload'];
 ?>
 <style>
 	.hotelbasehide {
@@ -884,11 +885,11 @@ $rqID = $_REQUEST['ID'];
 	</div>
 	<div class="overflow ">
 		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" <?if(empty($rqID)){?>class="active"<?}?>><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Персональная информация</a></li>
+			<li role="presentation" <?if(empty($rqID) && empty($reload)){?>class="active"<?}?>><a href="#home" aria-controls="home" role="tab" data-toggle="tab">Персональная информация</a></li>
 			<?
 			if(CSite::InGroup(array(10))){
 				?>
-				<li role="presentation" ><a href="#orders" aria-controls="orders" role="tab" data-toggle="tab">Заявки и заказы</a></li>
+				<li role="presentation" ><a href="#orders" <?=($reload == 'orders')?'class="active"':'';?> aria-controls="orders" role="tab" data-toggle="tab">Заявки и заказы</a></li>
 				<li role="presentation"  <?if(!empty($rqID)){?>class="active"<?}?>><a href="#vitturs" aria-controls="turs" role="tab" data-toggle="tab">Витрина туров</a></li>
 				<li><a href="http://tour.skipodevelop.com/dev/">Генерация туров</a></li>
 				<li><a href="http://tour.skipodevelop.com/dev/hotel_groups.php">Группы туров</a></li>
@@ -905,7 +906,7 @@ $rqID = $_REQUEST['ID'];
 			<li role="presentation" ><a href="/?logout=yes" role="tab">Выйти</a></li>
 		</ul>
 		<div class="tab-content">
-			<div role="tabpanel" class="tab-pane <?if(!isset($rqID)){?>active<?}?>" id="home">
+			<div role="tabpanel" class="tab-pane <?if(!isset($rqID) && empty($reload)){?>active<?}?>" id="home">
 				<?$APPLICATION->IncludeComponent(
 					"bitrix:main.profile", 
 					"tour", 
@@ -926,7 +927,7 @@ $rqID = $_REQUEST['ID'];
 					false
 					);?>
 				</div>
-				<div role="tabpanel" class="tab-pane " id="orders">
+				<div role="tabpanel" class="tab-pane <?=($reload == 'orders')?'active':'';?>" id="orders">
 					<?
 					global $USER;
 					if(is_object($USER)&&!CSite::InGroup(array(1)))
@@ -1260,7 +1261,7 @@ $rqID = $_REQUEST['ID'];
 								<td width="20%">Коментарий клиента</td>
 								<td>Сотрудник</td>
 								<td width="20%">Комментари сотрудника</td>
-								<td>Статус</td>
+								<td>Статус <a id="reload_lkorders" style="float:right" href="#">Обновить</a></td>
 							</tr>
 						</thead>
 						<tbody>
