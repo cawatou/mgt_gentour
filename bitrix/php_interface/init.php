@@ -14,34 +14,45 @@ AddEventHandler("iblock", "OnAfterIBlockElementUpdate", "OnAfterIBlockElementHan
 AddEventHandler("iblock", "OnAfterIBlockElementAdd", "OnAfterIBlockElementHandler", 1000);
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateHandler", 1000);
 AddEventHandler("iblock", "OnBeforeIBlockElementDelete", "OnBeforeIBlockElementDeleteHandler", 1000);
-AddEventHandler("iblock", "OnAfterIBlockSectionAdd", "OnAfterIBlockSectionAddHandler", 1000);
+AddEventHandler("iblock", "OnAfterIBlockSectionAdd", "OnAfterIBlockSectionAddHandler");
 $old_name = "";
 $QUESTION_ID = 37; // ID вопроса, в который мы будем добавлять ответы
-function OnAfterIBlockSectionAddHandler (&$arFields)
-{
-// //Обработка данных при создании секции iblock
-// 	function OnAfterIBlockSectionAddHandler(&$arFields)
-//     {
-//         if($arFields["ID"]>0)
-//              AddMessage2Log("Запись с кодом ".$arFields["ID"]." добавлена.");
-//         else
-//              AddMessage2Log("Ошибка добавления записи (".$arFields["RESULT_MESSAGE"].").");
-//     }
-// //Подлючение и работа с базой старого сайта
-// 	$dbHost='localhost';
-// 	$dbName='mybase';
-// 	$dbUser='myuser';
-// 	$dbPass='mypassword';
-// 	$myConnect = mysql_connect($dbHost,$dbUser,$dbPass));
-// 	mysql_select_db($dbName,$myConnect);
-// 	$qwer=mysql_query("select * from `mytable`",$myConnect);
-// 	while ($arr=mysql_fetch_array($qwer))
-// 	{
-// 		echo $arr[0].' '.$arr[1];
-// 	}
-// 	mysql_close($myConnect);
+function OnAfterIBlockSectionAddHandler (&$arFields){
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/add_section.txt', print_r($arFields, 1));
+	if($arFields['IBLOCK_ID'] == 16){
+		$section_id = $arFields['ID'];
+		$city_name = $arFields['NAME'];
+		$tourvisor_id = $arFields['UF_CITYID'];
 
-
+		// Добавляем новый элемент в инфоблок соседние города
+		$PROP = array(
+			'city_id' => $tourvisor_id
+		);
+		$el = new CIBlockElement;
+		// Параметры для символьного кода (Код необходим для построения url)
+		$params = Array(
+			"max_len" => "100", // обрезает символьный код до 100 символов
+			"change_case" => "L", // буквы преобразуются к нижнему регистру
+			"replace_space" => "_", // меняем пробелы на нижнее подчеркивание
+			"replace_other" => "_", // меняем левые символы на нижнее подчеркивание
+			"delete_repeat_replace" => "true", // удаляем повторяющиеся нижние подчеркивания
+			"use_google" => "false", // отключаем использование google
+		);
+		$arLoadProductArray = array(
+			'IBLOCK_ID' => 24,
+			'NAME' => $city_name,
+			"CODE" => CUtil::translit($city_name, "ru" , $params),
+			'ACTIVE' => 'Y',
+			'PROPERTY_VALUES' => $PROP
+		);
+		$siblingcity_id = $el->Add($arLoadProductArray);
+		$arFields = array(
+			"ID" => $siblingcity_id,
+			"VAT_ID" => 1, //тип ндс
+			"VAT_INCLUDED" => "Y" //НДС входит в стоимость
+		);
+		CCatalogProduct::Add($arFields);
+	}
 }
 function OnBeforeIBlockElementUpdateHandler (&$arFields)
 {
