@@ -328,8 +328,14 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 		$n6_8 = 3;
 		$n9_15 = 4;
 	}
-	if(count($temp) > 1) $tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name);
+	if(count($temp) > 1) {$tours[$temp['requestid']] = compose_tour($temp, $temp['requestid'], $cat_name); 
+	//Artem
+	$period_key_min=$periods_reqid[$temp['requestid']];
+	//Artem
+	}
 
+	
+	
 	$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
 	$tours['periods'][$period_key]++;	
 	$temp = Array();
@@ -376,12 +382,18 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			$n9_15--;
 		}
 
-		$n6_8 = 3;
-		$n9_15 = 3;
 		$near_key = 'near_'.$temp['requestid'];
 		$tours[$near_key] = compose_tour($temp, $near_key, $cat_name);
 		file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/dev/log/dev/test.txt', print_r($tours, 1) . "\n\r", FILE_APPEND);
 		$period_key = $periods_reqid[$temp['requestid']]; // Получаем номер ключа массива $periods;
+		
+		//Artem
+		if ($period_key_min == $period_key){
+			$n9_15 = 3;
+			$n6_8 = 3;
+		}
+		//Artem
+		
 		$tours['periods'][$period_key]++;
 		$temp = Array();
 		$temp['min_price'] = 0;

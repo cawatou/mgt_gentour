@@ -2633,17 +2633,17 @@ border: none  !important;
 						<div class="col-md-4">
 							<div class="form-group ">
 								<label for="">Логин</label>
-								<input class="form-control" value="" name="login" maxlength="50">
+								<input class="form-control fields" value="" name="login" maxlength="50">
 							</div>
 							<div class="form-group ">
 								<label for="">Email</label>
-								<input class="form-control" name="email" type="email">
+								<input class="form-control fields" name="email" type="email">
 							</div>							
 						</div>
 						<div class="col-md-4">
 							<div class="form-group ">
 								<label for="">Пароль</label>
-								<input class="form-control" type="password" name="password" maxlength="50">
+								<input class="form-control fields" type="password" name="pass" maxlength="50">
 							</div>
 							<div class="form-group ">
 								<label for="">Город</label>
@@ -2658,11 +2658,11 @@ border: none  !important;
 						<div class="col-md-4">
 							<div class="form-group ">
 								<label for="">Подтверждение пароля</label>
-								<input class="form-control" name="confirm_pass" maxlength="50" type="password">
+								<input class="form-control fields" name="confirm_pass" maxlength="50" type="password">
 							</div>							
 							<div class="form-group ">
 								<label for="">Офис</label>
-								<select name="regional_city">
+								<select name="regional_office">
 									<option value="0">Офис</option>
 									<?foreach($filtOffice as $k => $office):?>
 										<option value="<?=$officeID[$k]?>"><?=$office?></option>
