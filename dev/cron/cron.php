@@ -82,6 +82,8 @@ echo "<pre>".print_r($sections, 1)."</pre>";
 // Получаем весь список запросов из турвизора
 $cnt = 1;
 foreach($sections as $section){
+    CIBlockSection::Delete($section['tour_id']);
+    CIBlockSection::Delete($section['hotel_id']);
     $date_from = $section[0];
     $date_to = $section[1];
     $departure = $section[2];
@@ -129,8 +131,6 @@ file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/all_tours.txt', print_r($all_t
 // Удаляем и записываем новые элементы
 foreach($sections as $k => $section){
     if($all_tours[$k] == 0) continue;
-    CIBlockSection::Delete($section['tour_id']);
-    CIBlockSection::Delete($section['hotel_id']);
     $cat_name = $section['cat_name'];
     $departure = $section[2];
     $departure_name = $section[8];
