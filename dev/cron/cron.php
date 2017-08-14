@@ -24,7 +24,7 @@ require_once($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/main/include/prolog_befo
 CModule::IncludeModule("iblock");
 $n = 0;
 
-$tours_sections = CIBlockSection::GetList(array("ID"=>"ASC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
+$tours_sections = CIBlockSection::GetList(array("timestamp_x"=>"ASC"), array('IBLOCK_ID' => 20, "UF_GENERATED" => 0, "ACTIVE" => "Y"), false, array('ID', 'UF_FORM_DATA', 'NAME'));
 while ($arSection = $tours_sections->Fetch()) {
     $n++;
     //if($n < 16) continue;
@@ -54,7 +54,7 @@ while ($arSection = $tours_sections->Fetch()) {
     $form_fields['cat_name'] = $arSection['NAME'];
 
     $sections[] = $form_fields;
-    if($n == 3) break;
+    if($n == 1) break;
 }
 
 
@@ -76,7 +76,7 @@ for($i=0; $i<=77; $i++){
     $obSection->Update($sections[$i]['tour_id'], array("UF_FORM_DATA"=>$data_form));
 }*/
 echo "<pre>".print_r($sections, 1)."</pre>";
-//die();
+// die();
 //file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/sections.txt', print_r($sections, 1));
 
 // Получаем весь список запросов из турвизора
@@ -90,7 +90,7 @@ foreach($sections as $section){
     $requestid[] = get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to);
     $cnt++; 
     if($cnt == 3){
-        sleep(30);
+        sleep(10);
         $cnt = 1;
     }
 }
@@ -100,7 +100,7 @@ file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/requestid_cron.txt', print_r($
 //echo "<pre>".print_r($requestid, 1)."</pre>";
 //die();
 
-sleep(300);
+sleep(45);
 // Получаем результаты из турвизора
 foreach ($requestid as $k => $rid){
     if($rid == '') {
