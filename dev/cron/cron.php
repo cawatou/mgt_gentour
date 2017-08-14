@@ -17,7 +17,7 @@ ini_set('display_startup_errors', 1);
 
 
 $login = 'i@neoz.su';
-$pass = 'jICPOQJ7';
+$pass = 'jICPOQJ7'; 
 
 
 require_once($_SERVER['DOCUMENT_ROOT']."/bitrix/modules/main/include/prolog_before.php");

@@ -172,7 +172,7 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 				if ($get == '') $get = $k . '=' . $value;
 				else $get = $get . '&' . $k . '=' . $value;
 			}
-			sleep (0.3);
+			sleep (0.1);
 			$json = file_get_contents('http://tourvisor.ru/xml/search.php?' . $get);
 			$json = json_decode($json, 1);
 			file_put_contents($_SERVER['DOCUMENT_ROOT'].'/reqid_json.txt', print_r($json, 1), FILE_APPEND);
@@ -188,7 +188,7 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 function get_status($login, $pass, $requestid){
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/requestid.txt', print_r($requestid, 1));
 	foreach($requestid as $k => $id) {
-		sleep (0.3);
+		sleep (0.1);
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=status&format=json');
 		$json = json_decode($json, 1);
 		if($json['data']['status']['progress'] == 100) file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/status.txt', 'reqid '.$id.' = '.$json['data']['status']['progress']."\r\n", FILE_APPEND);		
@@ -225,13 +225,14 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	$reserved = array();
 	$j = 0;
 	$start_time = find_startdate($date_from);
+	$country = 0;
 	
 	foreach($requestid as $k => $id) {
-		sleep (0.3);
+		sleep (0.1);
 		$json = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&onpage=100000&format=json');
 		$json = json_decode($json, 1);
 		if(isset($json['data']['result']['hotel'])){
-			$country = $json['data']['result']['hotel'][0]['countrycode']; // Необходим для тура с ближайшей датой 
+			if($country == 0) $country = $json['data']['result']['hotel'][0]['countrycode']; // Необходим для тура с ближайшей датой
 			
 			$result[$id] = $json['data']['result']['hotel'][0];
 			$result[$id]['departure'] = $departure;
@@ -422,8 +423,8 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 			if($i == 1) $stars = '1';
 			if($i == 2) $stars = '4';
 			if($i == 3) $stars = '5';
-			$get = 'authlogin=' . $login . '&authpass=' . $pass . '&datefrom=' . $data['flydate'] . '&dateto=' . $data['flydate'] . '&nightsfrom=' . $data['nights'] . '&nightsto=' . $data['nights'] . '&adults=2&operators=&meal=0&stars='.$stars.'&rating=0&hoteltypes=&country=' . $data['country'] . '&regions=' . $data['regions'] . '&departure=' . $data['departure'] . '&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json';
-			sleep (0.3);
+			$get = 'authlogin=' . $login . '&authpass=' . $pass . '&datefrom=' . $data['flydate'] . '&dateto=' . $data['flydate'] . '&nightsfrom=' . $data['nights'] . '&nightsto=' . $data['nights'] . '&adults=2&operators=&meal=0&stars='.$stars.'&rating=0&hoteltypes=&country=' . $data['country'] . '&regions=' . $data['regions'] . '&departure=' . $data['departure'] . '&pricefrom=0&priceto=2000010&currency=0&directonly=0&showoperator=1&pricetype=0&format=json';
+			sleep (0.1);
 			file_put_contents($_SERVER['DOCUMENT_ROOT'] . '/dev/log/dev/get.txt', print_r($get, 1) . "\n\r", FILE_APPEND);
 			//$get = 'authlogin=' . $login . '&authpass=' . $pass . '&departure='.$data['departure'].'&country='.$data['country'].'&datefrom='.$data['flydate'].'&dateto='.$data['flydate'].'&nightsfrom='.$data['nights'].'&nightsto='.$data['nights'].'&format=json';
 			$res = file_get_contents('http://tourvisor.ru/xml/search.php?' . $get);
@@ -437,7 +438,7 @@ function get_result($login, $pass, $requestid, $date_from, $date_to, $star_3, $s
 	foreach ($reqid as $k => $ids){
 		foreach($ids as $id){
 			for($i=1; ; $i++){
-				sleep (0.3);
+				sleep (0.1);
 				$res = file_get_contents('http://tourvisor.ru/xml/result.php?authlogin=' . $login . '&authpass=' . $pass . '&requestid=' . $id . '&type=result&page='.$i.'&onpage=100&format=json');
 				$result = json_decode($res, 1);
 
