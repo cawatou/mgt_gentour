@@ -1,5 +1,6 @@
 <?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-$APPLICATION->SetTitle("Поиск");?>
+$APPLICATION->SetTitle("Поиск");
+?>
 <style>
 	body {
 		background:url(/bitrix/templates/tour/images/bgr/online_bg.jpg);
@@ -106,6 +107,9 @@ $APPLICATION->SetTitle("Поиск");?>
 		background-attachment:fixed;
 		background-size:cover;
 	}
+
+	.getme.prices {transition: .2s;}
+	.getme.active {transform: scale(1.1, 1.1);}
 	.navbar {
 		position:fixed !important;
 		background:rgba(0,0,0,0.5);
@@ -210,8 +214,8 @@ $APPLICATION->SetTitle("Поиск");?>
 	.hidecheck {
 		display:none;
 	}
-	.fieldset li{ 
-		margin: 5px 0 5px 15px;
+	.fieldset li{
+		margin: 5px 0 5px 20px;
 		cursor:pointer;
 	}
 	.fieldset {
@@ -230,6 +234,9 @@ $APPLICATION->SetTitle("Поиск");?>
 		border-radius:3px;
 		margin-right:10px;
 		cursor:pointer;
+	}
+	.fa-sort {
+		margin-top: 2px;
 	}
 	.checkeds {
 		width: 11px;
@@ -277,9 +284,9 @@ $APPLICATION->SetTitle("Поиск");?>
 		border: 2px solid #cccccc;
 		background: #fff;
 		color: #db3636;
-		line-height: 40px;
+		line-height: 42px;
 		display: inline-block;
-		height: 40px;
+		height: 42px;
 		width: auto;
 		text-align: center;
 		padding: 10px;
@@ -380,7 +387,7 @@ $APPLICATION->SetTitle("Поиск");?>
 		font-size: 9px;
 		font-weight: bold;
 		background: #db3636;
-		color: #fff;
+		color: #fff !important;
 		border-radius: 25px;
 		text-transform: uppercase;
 		float: right;
@@ -403,7 +410,7 @@ $APPLICATION->SetTitle("Поиск");?>
 		text-transform: uppercase;
 		font-size: 9px;
 		font-weight: bold;
-		padding: 8px 18px;
+		padding: 8px 10px;
 		margin-right: 10px;
 	}
 	.gray {
@@ -458,19 +465,20 @@ $APPLICATION->SetTitle("Поиск");?>
 		font-size:13px;
 		display: table-row;
 	}
-	.buythistour:hover {
+	.ordthistour:hover,.buythistour:hover {
 		background:#db3636;
 		color:#fff;
 		text-decoration:none;
 		cursor:pointer;
 	}
-	.buythistour {
+	.buythistour,.ordthistour  {
 		background: #ccc;
 		color: #fff;
 		border-radius: 50%;
 		width: 30px;
-		line-height: 30px;
+		line-height: 30px !important;
 		padding-left: 5px;
+		display: inline-block;
 	}
 	.footlinez{
 		background:#f0f0f0;
@@ -577,8 +585,7 @@ $APPLICATION->SetTitle("Поиск");?>
 
 
 	.starq{
-		//float:left;
-		width: 185px;
+	//float:left;
 	}
 	.starq:after {
 		clear:both;
@@ -592,8 +599,8 @@ $APPLICATION->SetTitle("Поиск");?>
 		height:43px;
 	}
 
-	.starq > input { display: none; } 
-	.starq > label:before { 
+	.starq > input { display: none; }
+	.starq > label:before {
 		margin: 5px;
 		font-size: 2.2em;
 		font-family: FontAwesome;
@@ -601,14 +608,14 @@ $APPLICATION->SetTitle("Поиск");?>
 		content: "\f005";
 	}
 
-	.starq > .half:before { 
+	.starq > .half:before {
 		content: "\f089";
 		position: absolute;
 	}
 
-	.starq > label { 
-		color: #ddd; 
-		float: right; 
+	.starq > label {
+		color: #ddd;
+		float: right;
 		cursor:pointer;
 	}
 
@@ -621,7 +628,7 @@ $APPLICATION->SetTitle("Поиск");?>
 	.starq > input:checked + label:hover, /* hover current star when changing rating */
 	.starq > input:checked ~ label:hover,
 	.starq > label:hover ~ input:checked ~ label, /* lighten current selection */
-	.starq > input:checked ~ label:hover ~ label { color: #FFED85;  } 
+	.starq > input:checked ~ label:hover ~ label { color: #FFED85;  }
 
 </style>
 <div class="container search search-container-page">
@@ -634,11 +641,10 @@ $APPLICATION->SetTitle("Поиск");?>
 	</div>
 	<div class="row ">
 		<div class="col-md-12">
-			<form method=post action="/search/" style="margin-bottom: 0px; border-radius: 5px 5px 0 0" id="buy-online-form">
-				<input type="hidden" name="buyonline_page_referrer" value="catalog-online-request">
-				
-				<div style=" border-radius: 5px 5px 0 0" class="search-form">
+			<form id="tourvisor">
+				<div class="search-form">
 					<h1>Поиск туров</h1>
+					<div id="searchpageidentificator"></div>
 					<div class="row">
 						<div class="col-md-3">
 
@@ -657,44 +663,42 @@ $APPLICATION->SetTitle("Поиск");?>
 								<label>Курорт  &nbsp; <input type="checkbox" name="any_curort" /> <span>Любой</span></label>
 								<ul class="fieldset chkcur regionskurort"></ul>
 							</div>
-
-
 						</div>
 						<div class="col-md-9">
 							<div class="row">
 								<div class="col-md-4">
 									<div class="form-group">
-										<label>Страна</label> 
-										<select name="countryID"  class="form-control"><option>Любая</option></select>
-									</div>
-									<div class="form-group">
-										<label>Класс отеля от</label>
-										<div class="starq">						
-											<input type="radio" id="53" name="hotelstar" value="5"><label for="53"> </label><br>
-											<input type="radio" id="54" name="hotelstar" value="4"><label for="54"> </label><br>
-											<input type="radio" id="55" name="hotelstar" value="3"><label for="55"> </label><br>
-											<input type="radio" id="56" name="hotelstar" value="2"><label for="56"> </label><br>
-											<input type="radio" id="57" name="hotelstar" value="1"><label for="57"> </label>	
-										</div>
-									</div>
-									<div class="form-group">
-										<label>Питание</label> 
-										<select name="eats" class="form-control">
-											<option value="">Любое</option>
-											<?foreach($meals as $m){?>
-											<option value="<?=$m['id']?>"><?=$m['russianfull']?></option>
-											<?}?>
+										<label>Страна</label>
+										<select name="countryID" data-city="<?=$_SESSION['search']['countryID']?>"  class="form-control">
 
 										</select>
 									</div>
 									<div class="form-group">
-										<label>Рейтинг отеля</label> 
+										<label>Класс отеля от</label>
+										<div class="starq">
+											<input type="radio" id="53" name="hotelstar" value="5"><label for="53"> </label><br>
+											<input type="radio" id="54" name="hotelstar" value="4"><label for="54"> </label><br>
+											<input type="radio" id="55" name="hotelstar" value="3"><label for="55"> </label><br>
+											<input type="radio" id="56" name="hotelstar" value="2"><label for="56"> </label><br>
+											<input type="radio" id="57" name="hotelstar" value="1"><label for="57"> </label>
+										</div>
+									</div>
+									<div class="form-group">
+										<label>Питание</label>
+										<select name="eats" class="form-control">
+											<option value="">Любое</option>
+											<?foreach($meals as $m){?>
+												<option value="<?=$m['id']?>"><?=$m['russianfull']?></option>
+											<?}?>
+										</select>
+									</div>
+									<div class="form-group">
+										<label>Рейтинг отеля</label>
 										<select name="raiting" class="form-control"><option value="">Любое</option><option value="1">от 1</option><option value="2">от 2</option><option value="3">от 3</option><option value="4">от 4</option><option value="5">от 5</option></select>
 									</div>
 								</div>
 								<div class="col-md-8">
 									<div class="row">
-										
 										<div class="col-md-5">
 											<div class="form-group restnterval">
 												<label>Интервал дат вылета</label>
@@ -702,7 +706,7 @@ $APPLICATION->SetTitle("Поиск");?>
 													<div class="col-md-12">
 														<div class="form-group">
 															<div class="input-group " >
-															<input type="text" name="daterangefly" class=" form-control" value="<?if(isset($_SESSION['search']['datefrom']) && isset($_SESSION['search']['dateto'])) echo $_SESSION['search']['datefrom']. ' - '. $_SESSION['search']['dateto']; ?>" placeholder="Интервал" />
+																<input type="text" name="daterangefly" class=" form-control" value="<?if(isset($_SESSION['search']['daterangefly'])) echo $_SESSION['search']['daterangefly']; ?>" placeholder="Интервал" />
 																<span class="input-group-addon">
 																	<span class="calendarico "></span>
 																</span>
@@ -726,46 +730,47 @@ $APPLICATION->SetTitle("Поиск");?>
 											<div class="form-group">
 												<label>взрослых</label>
 												<select name="adult" class="form-control" >
-													<?for($i=1;$i<=4;$i++){?>
-														<option value=<?=$i?> <?if(isset($_SESSION['search']['child'])==$i){?>selected<?}?>><?=$i?></option>
+													<?for($i=1;$i<=4;$i++) {?>
+														<option value=<?=$i?> <?if($_SESSION['search']['adult']==$i){?>selected<?}?>><?=$i?></option>
 													<?}?>
 												</select>
 											</div>
 										</div>
 										<div class="col-md-2">
 											<div class="form-group">
-											<label>детей</label>
-											 <select name="child" class="form-control" >
-												<option value=0>0</option>
-												<?for($i=1;$i<=4;$i++){?>
-												<option value=<?=$i?> <?if(isset($_SESSION['search']['child'])==$i){?>selected<?}?>><?=$i?></option>
-												<?}?>
-											 </select>
+												<label>детей</label>
+												<select name="child" class="form-control" >
+													<option value=0>0</option>
+													<?for($i=1;$i<=4;$i++){?>
+														<option value=<?=$i?> <?if($_SESSION['search']['child']==$i){?>selected<?}?>><?=$i?></option>
+													<?}?>
+												</select>
 											</div>
 										</div>
 									</div>
 									<div class="row">
 										<div class="col-md-7">
 											<div class="form-group">
-												<label>Отель</label> &nbsp; <input type="checkbox" name="hotel[]" value="any">  любой &nbsp; <!--  <input type="checkbox" name="hotel[]" value="checks">показать отмеченные
-												<input type="text" class="form-control" placeholder="Введите название отеля">-->
-											</div> 
+												<label>Отель</label> &nbsp; <input type="checkbox" name="hotel[]" value="any">  любой &nbsp;<!-- <input type="checkbox" name="hotel[]" value="checks"> показать отмеченные
+												<input type="text" class="form-control" placeholder="Введите название отеля"> -->
+											</div>
 											<div class="form-group">
 												<ul class="fieldset chkcur hotelscheck">
-													Выберите страну
+													Выберите страну прибытия чтобы увидеть список доступных отелей
 												</ul>
 											</div>
 										</div>
 										<div class="col-md-5 ageOfChildz">
-											<?if(CSite::InGroup(array(1,10))){?>
-											<div class="form-group">
-												<label>Туроператор</label> &nbsp; <input type="checkbox" name="operator[]" value=""> любой
-												<ul class="fieldset chkcur turoperators">
+											<? if(in_array(1,$USER->GetUserGroupArray())|| in_array(10,$USER->GetUserGroupArray()) ||in_array(5,$USER->GetUserGroupArray())){?>
+												<div class="form-group">
+													<label>Туроператор</label> &nbsp; <input type="checkbox" name="operator[]" value=""> любой
+													<ul class="fieldset chkcur turoperators">
 
-												</ul>
-											</div>
+													</ul>
+												</div>
 											<?}?>
 										</div>
+
 									</div>
 								</div>
 							</div>
@@ -774,7 +779,7 @@ $APPLICATION->SetTitle("Поиск");?>
 					</div>
 					<div class="row">
 						<div class="col-md-3">
-							<label>цена</label> 
+							<label>цена</label>
 							<div class="pricebox"><span class="sel">руб</span> <span>у.е.</span></div>
 							<input type="text" name="amount" id="amount" readonly style="border:0; color:#f6931f; font-weight:bold;">
 							<div id="slider-range"></div>
@@ -799,7 +804,7 @@ $APPLICATION->SetTitle("Поиск");?>
 								</div>
 								<div class="col-md-4">
 									<div class="overbtn">
-										<button class=" buyonline-btn" style="width: 173px;height: 48px;font-size: 18px;display: block;padding: 0 24px;margin-top: 42px;float: left;"><i style="margin-right: 20px;" class="fa fa-search"></i> Найти</button>
+										<button><i class="fa fa-search"></i> Найти</button>
 									</div>
 								</div>
 							</div>
@@ -809,8 +814,39 @@ $APPLICATION->SetTitle("Поиск");?>
 			</form>
 		</div>
 	</div>
-</div>
 
+	<div class="overflow hotels-found-are-there" <?if(isset($_REQUEST['ID'])){?>style="display:block !important;"<?}?>>
+		<div class="row results">
+			<div class="col-md-9">
+				<div class="row">
+					<div class="col-md-4">
+						<div class="form-group">
+							<select name="sortby" id="sortby" class="form-control">
+								<option selected value="price">Сортировать по цене</option>
+								<option value="rait">Сортировать по рейтингу</option>
+								<option value="star">Сортировать по кол-ву звезд</option>
+								<option value="name">Сортировать по названию</option>
+							</select>
+						</div>
+					</div>
+					<div class="col-md-4">
+						<a style="display: none" href="#" class="butn"><i class="fa fa-link"></i></a>
+						<a href="#" class="butn" data-direction="ASC" id="sortHotels"><i class="fa fa-sort"></i></a>
+						<?if(CSite::InGroup(array(1,10))){?><a style="display: none" href="#" class="butntx">туроператоры</a><?}?>
+					</div>
+					<div class="col-md-4">
+
+					</div>
+				</div>
+			</div>
+
+		</div>
+		<div class="founded">
+
+
+		</div>
+	</div>
+</div>
 <div style="    width: 1140px;" class="container">
 	<div style="margin-top: 0;" class=" buyonline">
 
@@ -851,12 +887,40 @@ $APPLICATION->SetTitle("Поиск");?>
 	</div>
 </div>
 
+<div style="display:none;">
+	<?
+	$PLACEMARKS = array();
+	$APPLICATION->IncludeComponent("bitrix:map.google.view",".default",array(
+			"API_KEY" => "AIzaSyDVcwlJJsdy7gvq6LePrBSLE5UvPuIqrvg",
+			"INIT_MAP_TYPE" => "MAP",
+			"MAP_DATA" => serialize(
+				array(
+					'google_lat' => 0, // координаты центра карты
+					'google_lon' => 0, // используем координаты последнего маркера
+					'google_scale' => 10, // масштаб карты 0-20
+					'PLACEMARKS' => $PLACEMARKS // подготовленный ранее массив маркеров
+				)
+			),
+			"MAP_WIDTH" => "100%",
+			"MAP_HEIGHT" => "210px",
+			"CONTROLS" => array( ),
+			"OPTIONS" => array(
+				"ENABLE_DBLCLICK_ZOOM",
+				"ENABLE_DRAGGING",
+				"ENABLE_KEYBOARD"
+			),
+			"MAP_ID" => "googlemaps0"
+		)
+	);
+	?>
+</div>
+
 <div class="container-fluid footer-all" >
 	<?$APPLICATION->IncludeFile(
 		$APPLICATION->GetTemplatePath("footer_inc.php"),
 		Array(),
 		Array("MODE"=>"html")
-		);?>
+	);?>
 
-	</div>
-	<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
+</div>
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/footer.php");?>
