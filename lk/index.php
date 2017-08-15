@@ -991,7 +991,7 @@ if(is_object($USER)&&!CSite::InGroup(array(1))) {
 
 				$o = 0;
 				$sale = array();
-				echo "<pre>" . print_r($arUser, 1) . "</pre>";
+				//echo "<pre>" . print_r($arUser, 1) . "</pre>";
 				if ($arUser["UF_AGENT"] == 1 || CSite::InGroup(array(1))) {
 
 					if (!CModule::IncludeModule("sale")) die();
@@ -1017,27 +1017,13 @@ if(is_object($USER)&&!CSite::InGroup(array(1))) {
 					$arFilter = array(
 						"FIELDS" => array(
 							array(
-								"CODE" => "questcity",
-								"FILTER_TYPE" => "text",
-								"VALUE" => implode(' | ', $filtCity),
+								"CODE" => "chooseoffice",
+								"VALUE" => implode(' | ', $officeID),
 								"EXACT_MATCH" => "Y"
 							)
 						)
 					);
-
-					//print_r(implode(' | ', $filtCity));
-					// if(count($filtCity)>0){
-
-					// 	$arFields[] = array(
-					// 		"SID"              => "questcity",
-					// 		"VALUE"             => implode(' | ', $filtCity),
-					// 		"PARAMETER_NAME" => "ANSWER_VALUE",
-					// 		);
-
-					// 	//$arFilter["FIELDS"] = $arFields;
-					// }
-					//$rsResults = CFormResult::GetList($FORM_ID, ($by="s_timestamp"), ($order="desc"), $arFilter, $is_filtered,"Y",10);
-
+				
 					$rsResults = CFormResult::GetList($FORM_ID,
 						($by = "s_timestamp"),
 						($order = "desc"),

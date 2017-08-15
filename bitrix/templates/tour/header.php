@@ -81,14 +81,14 @@ $operatorArr = json_decode($json);
 $json = file_get_contents('http://tourvisor.ru/xml/list.php?authlogin='.AUTH.'&authpass='.PASS.'&format=json&type=country');
 $countryArr = json_decode($json);
 
-foreach($cityArr->lists->departures->departure as $c){
-	if($c->name==$User_city['city']) {
+foreach($cityArr->lists->departures->departure as $c) {
+	if ($c->name == $User_city['city']) {
 		$TVID = $c->id;
-	}else{
+	} else {
 		$TVID = $User_city['tvid'];
 	}
-}
-?>
+	$tvcity[$c->id] = $c->name;
+}?>
 
 
 <!--[if IE]><html xmlns="http://www.w3.org/1999/xhtml" xml:lang="<?=LANGUAGE_ID?>" lang="<?=LANGUAGE_ID?>"><![endif]-->
@@ -197,10 +197,11 @@ foreach($array as $symbol => $sub_array)
     $citychko .= '<li><h3>'.  $symbol.'</h3><div class="letterlist">';
     foreach($sub_array as $key => $ct)
     {
-        $citychko .=  '<p><a href="#" data-citytv="'.$city_tourvisor[$key].'" data-city="'.$key.'" ';  if($ct==$User_city['city']) $citychko .=  ' class="active" '; $citychko .=  '>'.$ct.'</a></p>' ;
+        $citychko .=  '<p><a href="#" data-citytv="'.$city_tourvisor[$key].'" data-citytvname="'.$tvcity[$city_tourvisor[$key]].'" data-city="'.$key.'" ';  if($ct==$User_city['city']) $citychko .=  ' class="active" '; $citychko .=  '>'.$ct.'</a></p>' ;
     }
     $citychko .=  '</div></li>	';
 }
+//if($_REQUEST['dev']) echo "<pre>".print_r($tvcity, 1)."</pre>";
 ?>
 <ul class="navigation">
 			<li class="nav-item cl"><a></a></li>
