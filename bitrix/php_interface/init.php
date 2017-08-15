@@ -480,7 +480,7 @@ function add_tours($cat_name, $departure, $departure_name, $tours, $form_data, $
 	$tour_catid = add_section($cat_name, 20, $departure, $min_price, $form_data, false, $discount);
 	$hotel_catid = add_section($cat_name, 23, false, false, false, $tour_catid, false);
 	foreach($tours as $tour){
-		$price = floor($tour['min_price'] / 100) * 100;
+		$price = $tour['min_price'];
 		$price = $price - ($price/100 * $discount);
 		$PROP = array(
 			'DEPARTURE' => $departure_name,
@@ -516,7 +516,7 @@ function add_tours($cat_name, $departure, $departure_name, $tours, $form_data, $
 		);
 		CCatalogProduct::Add($arFields);
 		foreach($tour['hotels'] as $hotel){
-			$price = floor($hotel['price'] / 100) * 100;
+			$price = $hotel['price'];
 			$price = $price - ($price/100 * $discount);
 			$PROP = array(
 				'hotelcode' => $hotel['hotelcode'],
@@ -605,7 +605,7 @@ function add_section($name, $iblock_id, $departure = '', $min_price = '', $form_
 		"CODE" => CUtil::translit($name, "ru" , $params),
 	);
 	if($departure) $arFields['UF_DEPARTURE'] = $departure;
-	if($min_price) $arFields['UF_MIN_PRICE'] = floor($min_price / 100) * 100;
+	if($min_price) $arFields['UF_MIN_PRICE'] = $min_price;
 	if($form_data) $arFields['UF_FORM_DATA'] = $form_data;
 	if($tour_catid) $arFields['UF_TOUR_ID'] = $tour_catid;
 	if($discount) $arFields['UF_DISCOUNT'] = $discount;
