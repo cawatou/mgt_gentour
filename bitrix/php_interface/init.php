@@ -15,6 +15,8 @@ AddEventHandler("iblock", "OnAfterIBlockElementAdd", "OnAfterIBlockElementHandle
 AddEventHandler("iblock", "OnBeforeIBlockElementUpdate", "OnBeforeIBlockElementUpdateHandler", 1000);
 AddEventHandler("iblock", "OnBeforeIBlockElementDelete", "OnBeforeIBlockElementDeleteHandler", 1000);
 AddEventHandler("iblock", "OnAfterIBlockSectionAdd", "OnAfterIBlockSectionAddHandler");
+AddEventHandler("iblock", "OnBeforeIBlockSectionDelete", "OnBeforeIBlockSectionDeleteHandler");
+
 $old_name = "";
 $QUESTION_ID = 37; // ID вопроса, в который мы будем добавлять ответы
 function OnAfterIBlockSectionAddHandler (&$arFields){
@@ -54,15 +56,13 @@ function OnAfterIBlockSectionAddHandler (&$arFields){
 		CCatalogProduct::Add($arFields);
 	}
 }
-function OnBeforeIBlockElementUpdateHandler (&$arFields)
-{
+function OnBeforeIBlockElementUpdateHandler (&$arFields){
 	global $old_name;
 	$arr = CIblockElement::GetByID($arFields["ID"]);
 	if ($ar = $arr->Fetch())
 		$old_name = trim ($ar["NAME"]);
 }
-function OnBeforeIBlockElementDeleteHandler ($ID)
-{
+function OnBeforeIBlockElementDeleteHandler ($ID){
 	global $QUESTION_ID;
 	$arr = CIblockElement::GetByID($ID);
 	if ($ar = $arr->Fetch())
@@ -73,8 +73,7 @@ function OnBeforeIBlockElementDeleteHandler ($ID)
 			CFormAnswer::Delete($arAnswerDel["ID"]);
 	}
 }
-function OnAfterIBlockElementHandler(&$arFields)
-{
+function OnAfterIBlockElementHandler(&$arFields){
 	//Здесь надо поменять ID инфоблока, из которого мы будем брать названия элементов
 	if ($arFields["IBLOCK_ID"] != '7' || intval($arFields["RESULT"]) <= 0)
 		return $arFields;
@@ -112,6 +111,23 @@ function OnAfterIBlockElementHandler(&$arFields)
 		}
 	}
 }
+function OnBeforeIBlockSectionDeleteHandler($id){
+	$section = CIBlockSection::GetByID($id);
+	if($ar_res = $section->GetNext()) {
+		if($ar_res['IBLOCK_ID'] == 16){
+			$arFilter = Array("IBLOCK_ID" => 24, "NAME" => $ar_res['NAME']);
+			$arSelect = Array("ID");
+			$element = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize" => 1), $arSelect);
+			while ($ob = $element->GetNextElement()) {
+				$fields = $ob->GetFields();
+				CIBlockElement::Delete($fields['ID']);
+				//file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/delete_section.txt', print_r($fields, 1));
+			}
+		}
+		
+	}
+}
+
 // =================================== AUTO GENERATOR =============================================================
 function get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to){
 	$start_time = find_startdate($date_from);	
