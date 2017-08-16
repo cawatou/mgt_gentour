@@ -21,6 +21,9 @@ if(filter_var($_REQUEST['email'], FILTER_VALIDATE_EMAIL)) {
         $user = new CUser;
         $fields = Array(
             "ACTIVE" => "Y",
+            "NAME" => $_REQUEST['name'],
+            "SECOND_NAME" => $_REQUEST['mid_name'],
+            "LAST_NAME" => $_REQUEST['last_name'],
             "UF_CITYCPO" => array($office),
             "UF_CITYFLY" => array($city),
         );

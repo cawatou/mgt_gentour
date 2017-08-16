@@ -2624,6 +2624,10 @@ border: none  !important;
 								<input class="form-control fields" value="" name="login" maxlength="50">
 							</div>
 							<div class="form-group ">
+								<label for="">Имя</label>
+								<input class="form-control fields" name="name" type="name">
+							</div>
+							<div class="form-group ">
 								<label for="">Email</label>
 								<input class="form-control fields" name="email" type="email">
 							</div>							
@@ -2632,6 +2636,10 @@ border: none  !important;
 							<div class="form-group ">
 								<label for="">Пароль</label>
 								<input class="form-control fields" type="password" name="pass" maxlength="50">
+							</div>
+							<div class="form-group ">
+								<label for="">Отчество</label>
+								<input class="form-control fields" name="mid_name" type="mid_name">
 							</div>
 							<div class="form-group ">
 								<label for="">Город</label>
@@ -2647,7 +2655,11 @@ border: none  !important;
 							<div class="form-group ">
 								<label for="">Подтверждение пароля</label>
 								<input class="form-control fields" name="confirm_pass" maxlength="50" type="password">
-							</div>							
+							</div>
+							<div class="form-group ">
+								<label for="">Фамилия</label>
+								<input class="form-control fields" name="last_name" type="last_`name">
+							</div>
 							<div class="form-group ">
 								<label for="">Офис</label>
 								<select name="regional_office">
@@ -2656,9 +2668,11 @@ border: none  !important;
 										<option value="<?=$officeID[$k]?>"><?=$office?></option>
 									<?endforeach?>
 								</select>
-							</div>						
+							</div>							
 						</div> 
-						<p style="text-align: center"><input type="submit" name="save" value="Добавить"></p>
+						<div class="col-md-12">
+							<p style="text-align: center"><input type="submit" name="save" value="Добавить"></p>
+						</div>						
 					</form>
 				</div>
 			</div>
