@@ -1,5 +1,9 @@
 <? require($_SERVER["DOCUMENT_ROOT"] . "/bitrix/header.php");
 $APPLICATION->SetTitle("dev");
+if(!CSite::InGroup(array(1))){
+    $APPLICATION->RestartBuffer();
+    header("Location: /");
+}
 //$APPLICATION->RestartBuffer();
 // Логин и пароль от API (tourvisor.ru)
 $login = 'i@neoz.su';

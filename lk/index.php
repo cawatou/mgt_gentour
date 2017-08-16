@@ -27,7 +27,8 @@ if(is_object($USER)&&!CSite::InGroup(array(1))) {
 		$filtCity = array();
 		$filtOffice = array();
 		$officeID = array();
-
+		$current_user = $arUser;
+		
 		$arSelect = Array("ID", "NAME", "UF_CITYID");
 		$arFilter = Array("IBLOCK_ID" => 16, "ID" => $arUser["UF_CITYFLY"]);
 		$res = CIBlockSection::GetList(Array("NAME" => "ASC"), $arFilter, false, $arSelect);
@@ -39,6 +40,7 @@ if(is_object($USER)&&!CSite::InGroup(array(1))) {
 		}
 	}
 }
+if(CSite::InGroup(array(1))) $admin = true;
 ?>
 <style>
 	.hotelbasehide {
@@ -931,7 +933,7 @@ if(is_object($USER)&&!CSite::InGroup(array(1))) {
 																						  role="tab"
 																						  data-toggle="tab">Витрина
 						туров</a></li>
-				<li><a href="http://tour.skipodevelop.com/dev/">Генерация туров</a></li>
+				<?if($admin):?><li><a href="http://tour.skipodevelop.com/dev/">Генерация туров</a></li><?endif?>
 				<li><a href="http://tour.skipodevelop.com/dev/hotel_groups.php">Группы туров</a></li>
 			<? else: ?>
 				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Этапы
@@ -1154,7 +1156,7 @@ if(is_object($USER)&&!CSite::InGroup(array(1))) {
 						$o++;
 					}
 
-				}
+				}				
 				?>
 				<div class="row ">
 					<div class="col-md-3">
