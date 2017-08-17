@@ -553,41 +553,36 @@ while($ob = $socNet->GetNextElement()){
 	
     <section id="ourpeople" class="vertical-scrolling" >
         <h1 class="ourpeople"><?=$arr[7]['name']?></h1>
-		
     </section>
 
-   
 	<section class="vertical-scrolling"  >
-		<?
-		
-		
-$APPLICATION->IncludeComponent("bitrix:map.google.view",".default",array(
-    "API_KEY" => "AIzaSyDVcwlJJsdy7gvq6LePrBSLE5UvPuIqrvg",
-	"INIT_MAP_TYPE" => "MAP",
-	"MAP_DATA" => serialize(
-                  array(
-                     'google_lat' => $MAP[0],
-                     'google_lon' => $MAP[1],
-                     'google_scale' => 10, 
-                     'PLACEMARKS' => $PLACEMARKS
-                     )
-               ),
-    "MAP_WIDTH" => "100%",
-    "MAP_HEIGHT" => "100%",
-    "CONTROLS" => array(
-            "SMALL_ZOOM_CONTROL",
-            "TYPECONTROL",
-            "SCALELINE"
-        ),
-    "OPTIONS" => array(
-            
-            "ENABLE_DBLCLICK_ZOOM",
-            "ENABLE_DRAGGING",
-            "ENABLE_KEYBOARD"
-        ),
-    "MAP_ID" => "googlemaps2"
-    )
-);?>
+		<?$APPLICATION->IncludeComponent("bitrix:map.google.view",".default",array(
+			"API_KEY" => "AIzaSyDVcwlJJsdy7gvq6LePrBSLE5UvPuIqrvg",
+			"INIT_MAP_TYPE" => "MAP",
+			"MAP_DATA" => serialize(
+						  array(
+							 'google_lat' => $MAP[0],
+							 'google_lon' => $MAP[1],
+							 'google_scale' => 10,
+							 'PLACEMARKS' => $PLACEMARKS
+							 )
+					   ),
+			"MAP_WIDTH" => "100%",
+			"MAP_HEIGHT" => "100%",
+			"CONTROLS" => array(
+					"SMALL_ZOOM_CONTROL",
+					"TYPECONTROL",
+					"SCALELINE"
+				),
+			"OPTIONS" => array(
+
+					"ENABLE_DBLCLICK_ZOOM",
+					"ENABLE_DRAGGING",
+					"ENABLE_KEYBOARD"
+				),
+			"MAP_ID" => "googlemaps2"
+			)
+		);?>
 		
 		<div class="mapbgr"></div>
 		<div class="mapover">
