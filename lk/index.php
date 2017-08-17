@@ -915,6 +915,7 @@ if(CSite::InGroup(array(1))) $admin = true;
 	<div class="row ">
 		<div class="col-md-12">
 			<h1>Личный кабинет</h1>
+			<?if($_REQUEST['dev']) echo "<pre>".print_r($arUser['DATE_REGISTER'], 1)."</pre>";?>
 		</div>
 	</div>
 	<div class="overflow ">
@@ -1017,6 +1018,7 @@ if(CSite::InGroup(array(1))) $admin = true;
 
 					//echo implode(' | ', $filtCity);
 					$arFilter = array(
+						"TIME_CREATE_1" => $arUser['DATE_REGISTER'],
 						"FIELDS" => array(
 							array(
 								"CODE" => "chooseoffice",
@@ -1069,6 +1071,7 @@ if(CSite::InGroup(array(1))) $admin = true;
 					/*========================== Форма подбор тура ==================================*/
 					$FORM_ID = 5;
 					$arFilter = array(
+						"TIME_CREATE_1" => $arUser['DATE_REGISTER'],
 						"FIELDS" => array(
 							array(
 								"SID" => "WHICHOFFICE",
@@ -1116,7 +1119,7 @@ if(CSite::InGroup(array(1))) $admin = true;
 
 					/*========================== Форма обратного звонка ==================================*/
 					$FORM_ID = 3;
-					$arFilter = array();
+					$arFilter = array("TIME_CREATE_1" => $arUser['DATE_REGISTER']);
 
 
 					if (count($filtCity) > 0) {
@@ -2427,24 +2430,24 @@ if(CSite::InGroup(array(1))) $admin = true;
 									if (!in_array(1, $USER->GetUserGroupArray()) && !in_array(10, $USER->GetUserGroupArray())) {
 										$c = 1;
 										echo '<style>
-
-.chatbox>.row>.col-md-6:first-child {
-	display: none;
-}
-.chatbox>.row>.col-md-6:last-child {
-	width: 100% !important;
-}
-.onlinechat {
-	width: 50% !important;
-	padding-bottom: 20px;
-	margin-left: auto !important;
-	margin-right: auto !important;
-}
- #mesage .chatbox {
-background-color: transparent !important;
-border: none  !important;
-}
-</style>';
+										
+										.chatbox>.row>.col-md-6:first-child {
+											display: none;
+										}
+										.chatbox>.row>.col-md-6:last-child {
+											width: 100% !important;
+										}
+										.onlinechat {
+											width: 50% !important;
+											padding-bottom: 20px;
+											margin-left: auto !important;
+											margin-right: auto !important;
+										}
+										 #mesage .chatbox {
+											background-color: transparent !important;
+											border: none  !important;
+											}
+										</style>';
 										$dead_detected = true;
 									} else {
 										$c = 100;
