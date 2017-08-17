@@ -29,8 +29,6 @@ while($ob = $res->GetNextElement())
 	$topNews = $arFields["PREVIEW_TEXT"];
 }
 
-
-
 //Получаем соц сети
 $arSelect = Array("ID", "NAME", "PREVIEW_PICTURE", "PREVIEW_TEXT");
 $arFilter = array(
@@ -48,11 +46,7 @@ while($ob = $socNet->GetNextElement()){
 
 	$socNetArFields = $ob->GetFields();  
 	$socNetArProps = $ob->GetProperties();
-}
-
-
-
-?>
+}?>
 <script>
 </script>
 <style>
@@ -84,8 +78,7 @@ while($ob = $socNet->GetNextElement()){
 				<div class="topNews">
 					<i class="closeNews">X</i>
 					<?=$topNews?>
-				</div>
-			
+				</div>			
 		</div>
 		<form id="startsearch">
 			<div class="container formazaprosa">
@@ -160,14 +153,11 @@ while($ob = $socNet->GetNextElement()){
 								</div>
 							</li>
 						</ul>
-
 						<div class="search_btn">
 							<button type="button" class="btn btn-default btn-lg searchall">
 								<span class="glyphicon glyphicon-search" aria-hidden="true" style="color:#fff;"></span>
 							</button>
 						</div>
-
-
 						<br style="clear:both;">
 					</div>
 				</div>
@@ -190,13 +180,9 @@ while($ob = $socNet->GetNextElement()){
 					<div class="hotlist"><span class="fa fa-list-ul"></span></div>
 					<div class="hotthumb active"><span class="thumb"></span></div>
 				</div>
-			</div>
-			
-		
-			<?
-			$_REQUEST['showcase'] = 1;
+			</div>		
+			<?$_REQUEST['showcase'] = 1;
 			$_REQUEST['city_id'] = $TVID;
-
 			$APPLICATION->IncludeComponent("bitrix:news.list",
 				"showcase",
 				array(
@@ -209,66 +195,49 @@ while($ob = $socNet->GetNextElement()){
 					"SHOW_ALL_WO_SECTION" => "Y",
 		 		),
 				false
-			);
-
-			?>
-
-
-			
+			);?>			
 		</div>
 	</section>
-	<section class="vertical-scrolling remaining_tours" style="">
-		
-		<?
-			$_REQUEST['remaining_tours'] = 1;
-			unset($_REQUEST['showcase']);
-			$_REQUEST['city_id'] = $TVID;
-
-
-			$APPLICATION->IncludeComponent("bitrix:news.list",
-				"showcase",
-				array(
-					"IBLOCK_ID" => 20,
-					"PROPERTY_CODE" => array(),
-					"FILTER_NAME" => 'arrFilter',
-					"CACHE_TYPE" => 'N',
-					"PRICE_CODE" => array("BASE"),
-					"INCLUDE_SUBSECTIONS" => "Y",
-					"SHOW_ALL_WO_SECTION" => "Y",
-		 		),
-				false
-			);
-
-			?>
-
+	<section class="vertical-scrolling remaining_tours" style="">		
+		<?$_REQUEST['remaining_tours'] = 1;
+		unset($_REQUEST['showcase']);
+		$_REQUEST['city_id'] = $TVID;
+		$APPLICATION->IncludeComponent("bitrix:news.list",
+			"showcase",
+			array(
+				"IBLOCK_ID" => 20,
+				"PROPERTY_CODE" => array(),
+				"FILTER_NAME" => 'arrFilter',
+				"CACHE_TYPE" => 'N',
+				"PRICE_CODE" => array("BASE"),
+				"INCLUDE_SUBSECTIONS" => "Y",
+				"SHOW_ALL_WO_SECTION" => "Y",
+			),
+			false
+		);
+		?>
 	</section>
 	<section class="vertical-scrolling sibling_tours " style="background:url('<?=$arr[3]['src']?>') no-repeat center center;">
-		<?
-			$_REQUEST['load_siblings'] = 1;
-			$_REQUEST['city_id'] = $TVID;
+		<?$_REQUEST['load_siblings'] = 1;
+		$_REQUEST['city_id'] = $TVID;
 
-			$APPLICATION->IncludeComponent("bitrix:news.list",
-				"showcase_sibling",
-				array(
-					"IBLOCK_ID" => 20,
-					"PROPERTY_CODE" => array(),
-					"FILTER_NAME" => 'arrFilter',
-					"CACHE_TYPE" => 'N',
-					"PRICE_CODE" => array("BASE"),
-					"INCLUDE_SUBSECTIONS" => "Y",
-					"SHOW_ALL_WO_SECTION" => "Y",
-		 		),
-				false
-			);
-		?>
-
+		$APPLICATION->IncludeComponent("bitrix:news.list",
+			"showcase_sibling",
+			array(
+				"IBLOCK_ID" => 20,
+				"PROPERTY_CODE" => array(),
+				"FILTER_NAME" => 'arrFilter',
+				"CACHE_TYPE" => 'N',
+				"PRICE_CODE" => array("BASE"),
+				"INCLUDE_SUBSECTIONS" => "Y",
+				"SHOW_ALL_WO_SECTION" => "Y",
+			),
+			false
+		);?>
 	</section>
     <section class="vertical-scrolling"  style="background:url('<?=$arr[8]['src']?>') no-repeat center center;">
     	<h1 class="we-are-in-socials">Мы в социальных сетях</h1>
-        <div class="socials-block">
-        	
-        </div>
-		
+        <div class="socials-block"></div>		
     </section>
     <section class="vertical-scrolling"  id="articles" >
 		<div class="container reviewnart">
@@ -276,52 +245,50 @@ while($ob = $socNet->GetNextElement()){
 				<div class="col-md-3 col-xs-12 reviews" >
 					<h1 ><?=$arr[5]['name']?></h1>
 					<div  class="row owl-carousel reviewes" >
-					<?$APPLICATION->IncludeComponent("bitrix:news.list", "review", Array(
-					"IBLOCK_TYPE"	=>	"services",
-					"IBLOCK_ID"	=>	"12",
-					"NEWS_COUNT"	=>	"5",
-					"SORT_BY1"	=>	"ACTIVE_FROM",
-					"SORT_ORDER1"	=>	"DESC",
-					"SORT_BY2"	=>	"SORT",
-					"SORT_ORDER2"	=>	"ASC",
-					"FILTER_NAME"	=>	"",
-					"FIELD_CODE"	=>	array(	),
-					"PROPERTY_CODE"	=>	array(
-						0	=>	"NAME",
-						1	=>	"",
-					),
-					"DETAIL_URL"	=>	"/content/review/#ELEMENT_ID#/",
-					"CACHE_TYPE"	=>	"A",
-					"CACHE_TIME"	=>	"3600",
-					"CACHE_FILTER"	=>	"N",
-					"PREVIEW_TRUNCATE_LEN"	=>	"0",
-					"ACTIVE_DATE_FORMAT"	=>	"j M Y",
-					"DISPLAY_PANEL"	=>	"N",
-					"SET_TITLE"	=>	"N",
-					"INCLUDE_IBLOCK_INTO_CHAIN"	=>	"Y",
-					"ADD_SECTIONS_CHAIN"	=>	"Y",
-					"HIDE_LINK_WHEN_NO_DETAIL"	=>	"N",
-					"PARENT_SECTION"	=>	"",
-					"DISPLAY_TOP_PAGER"	=>	"N",
-					"DISPLAY_BOTTOM_PAGER"	=>	"N",
-					"PAGER_TITLE"	=>	"Попутчики",
-					"PAGER_SHOW_ALWAYS"	=>	"N",
-					"PAGER_TEMPLATE"	=>	"",
-					"PAGER_DESC_NUMBERING"	=>	"N",
-					"PAGER_DESC_NUMBERING_CACHE_TIME"	=>	"36000",
-					"PAGER_SHOW_ALL" => "N",
-					"DISPLAY_DATE"	=>	"Y",
-					"DISPLAY_NAME"	=>	"Y",
-					"DISPLAY_PICTURE"	=>	"Y",
-					"DISPLAY_PREVIEW_TEXT"	=>	"Y",
-					"DETAIL_FIELD_CODE" => array(
-						  0 => "SHOW_COUNTER",
-						  1 => "",
-					   )
-					)
-					);?>
-					
-						
+						<?$APPLICATION->IncludeComponent("bitrix:news.list", "review", Array(
+							"IBLOCK_TYPE"	=>	"services",
+							"IBLOCK_ID"	=>	"12",
+							"NEWS_COUNT"	=>	"5",
+							"SORT_BY1"	=>	"ACTIVE_FROM",
+							"SORT_ORDER1"	=>	"DESC",
+							"SORT_BY2"	=>	"SORT",
+							"SORT_ORDER2"	=>	"ASC",
+							"FILTER_NAME"	=>	"",
+							"FIELD_CODE"	=>	array(	),
+							"PROPERTY_CODE"	=>	array(
+								0	=>	"NAME",
+								1	=>	"",
+							),
+							"DETAIL_URL"	=>	"/content/review/#ELEMENT_ID#/",
+							"CACHE_TYPE"	=>	"A",
+							"CACHE_TIME"	=>	"3600",
+							"CACHE_FILTER"	=>	"N",
+							"PREVIEW_TRUNCATE_LEN"	=>	"0",
+							"ACTIVE_DATE_FORMAT"	=>	"j M Y",
+							"DISPLAY_PANEL"	=>	"N",
+							"SET_TITLE"	=>	"N",
+							"INCLUDE_IBLOCK_INTO_CHAIN"	=>	"Y",
+							"ADD_SECTIONS_CHAIN"	=>	"Y",
+							"HIDE_LINK_WHEN_NO_DETAIL"	=>	"N",
+							"PARENT_SECTION"	=>	"",
+							"DISPLAY_TOP_PAGER"	=>	"N",
+							"DISPLAY_BOTTOM_PAGER"	=>	"N",
+							"PAGER_TITLE"	=>	"Попутчики",
+							"PAGER_SHOW_ALWAYS"	=>	"N",
+							"PAGER_TEMPLATE"	=>	"",
+							"PAGER_DESC_NUMBERING"	=>	"N",
+							"PAGER_DESC_NUMBERING_CACHE_TIME"	=>	"36000",
+							"PAGER_SHOW_ALL" => "N",
+							"DISPLAY_DATE"	=>	"Y",
+							"DISPLAY_NAME"	=>	"Y",
+							"DISPLAY_PICTURE"	=>	"Y",
+							"DISPLAY_PREVIEW_TEXT"	=>	"Y",
+							"DETAIL_FIELD_CODE" => array(
+								  0 => "SHOW_COUNTER",
+								  1 => "",
+							   )
+							)
+						);?>
 					</div>
 					<a href="/content/testimonals/" class="reviewlink">Все отзывы</a>
 				</div>
@@ -353,8 +320,7 @@ while($ob = $socNet->GetNextElement()){
 				}
 				</style>
 				<div class="col-md-3 col-md-offset-1 col-xs-12 articles" >
-				<?
-				GLOBAL $filterArt;
+				<?GLOBAL $filterArt;
 				$filterArt = array(
 					"PROPERTY_TOPNEWS_VALUE"=> "Нет"
 				);
@@ -400,7 +366,7 @@ while($ob = $socNet->GetNextElement()){
 					<h1 class="poputchik"><?=$arr[4]['name']?></h1>
 					<div class=" poputchiki">
 						<div  class="poputki owl-carousel ">
-						<?$APPLICATION->IncludeComponent("bitrix:news.list", "companion", Array(
+							<?$APPLICATION->IncludeComponent("bitrix:news.list", "companion", Array(
 								"IBLOCK_TYPE"	=>	"companion",
 								"IBLOCK_ID"	=>	"17",
 								"NEWS_COUNT"	=>	"10",
@@ -445,106 +411,102 @@ while($ob = $socNet->GetNextElement()){
 									  1 => "",
 								   )
 								)
-								);?>
-						</div>
-						
+							);?>
+						</div>					
 						<a href="/content/companion/" class="btnusers">посмотреть всех попутчиков</a>
 					</div>
 				</div>
 			</div>
-		</div>
-				
+		</div>				
 	</section>  
     <section class="vertical-scrolling" style="background:url('<?=$arr[6]['src']?>')"  id="franchize">
         <div class="container franch" >
 			<div  class="row row-flex row-flex-wrap" >
 				<div class=" col-md-6  col-xs-12 pc-ver" >
-				<?$APPLICATION->IncludeComponent("bitrix:news.list", "franchize", Array(
-					"IBLOCK_TYPE"	=>	"services",
-					"IBLOCK_ID"	=>	"36",
-					"NEWS_COUNT"	=>	"3",
-					"SORT_BY1"	=>	"ACTIVE_FROM",
-					"SORT_ORDER1"	=>	"DESC",
-					"SORT_BY2"	=>	"SORT",
-					"SORT_ORDER2"	=>	"ASC",
-					"FILTER_NAME"	=>	"",
-					"FIELD_CODE"	=>	array(	),
-					"DETAIL_URL"	=>	"/content/franchize/#ELEMENT_ID#/",
-					"CACHE_TYPE"	=>	"A",
-					"CACHE_TIME"	=>	"3600",
-					"CACHE_FILTER"	=>	"N",
-					"PREVIEW_TRUNCATE_LEN"	=>	"0",
-					"ACTIVE_DATE_FORMAT"	=>	"j M Y",
-					"DISPLAY_PANEL"	=>	"N",
-					"SET_TITLE"	=>	"N",
-					"INCLUDE_IBLOCK_INTO_CHAIN"	=>	"Y",
-					"ADD_SECTIONS_CHAIN"	=>	"Y",
-					"HIDE_LINK_WHEN_NO_DETAIL"	=>	"N",
-					"PARENT_SECTION"	=>	"",
-					"DISPLAY_TOP_PAGER"	=>	"N",
-					"DISPLAY_BOTTOM_PAGER"	=>	"N",
-					"PAGER_TITLE"	=>	"Франшиза",
-					"PAGER_SHOW_ALWAYS"	=>	"N",
-					"PAGER_TEMPLATE"	=>	"",
-					"PAGER_DESC_NUMBERING"	=>	"N",
-					"PAGER_DESC_NUMBERING_CACHE_TIME"	=>	"36000",
-					"PAGER_SHOW_ALL" => "N",
-					"PARENT_SECTION_CODE" => "franchiz",
-					"DISPLAY_DATE"	=>	"Y",
-					"DISPLAY_NAME"	=>	"Y",
-					"DISPLAY_PICTURE"	=>	"Y",
-					"DISPLAY_PREVIEW_TEXT"	=>	"Y",
-					"DETAIL_FIELD_CODE" => array(
-						  0 => "SHOW_COUNTER",
-						  1 => "",
-					   )
-					)
-					);?>
-					
+					<?$APPLICATION->IncludeComponent("bitrix:news.list", "franchize", Array(
+						"IBLOCK_TYPE"	=>	"services",
+						"IBLOCK_ID"	=>	"36",
+						"NEWS_COUNT"	=>	"3",
+						"SORT_BY1"	=>	"ACTIVE_FROM",
+						"SORT_ORDER1"	=>	"DESC",
+						"SORT_BY2"	=>	"SORT",
+						"SORT_ORDER2"	=>	"ASC",
+						"FILTER_NAME"	=>	"",
+						"FIELD_CODE"	=>	array(	),
+						"DETAIL_URL"	=>	"/content/franchize/#ELEMENT_ID#/",
+						"CACHE_TYPE"	=>	"A",
+						"CACHE_TIME"	=>	"3600",
+						"CACHE_FILTER"	=>	"N",
+						"PREVIEW_TRUNCATE_LEN"	=>	"0",
+						"ACTIVE_DATE_FORMAT"	=>	"j M Y",
+						"DISPLAY_PANEL"	=>	"N",
+						"SET_TITLE"	=>	"N",
+						"INCLUDE_IBLOCK_INTO_CHAIN"	=>	"Y",
+						"ADD_SECTIONS_CHAIN"	=>	"Y",
+						"HIDE_LINK_WHEN_NO_DETAIL"	=>	"N",
+						"PARENT_SECTION"	=>	"",
+						"DISPLAY_TOP_PAGER"	=>	"N",
+						"DISPLAY_BOTTOM_PAGER"	=>	"N",
+						"PAGER_TITLE"	=>	"Франшиза",
+						"PAGER_SHOW_ALWAYS"	=>	"N",
+						"PAGER_TEMPLATE"	=>	"",
+						"PAGER_DESC_NUMBERING"	=>	"N",
+						"PAGER_DESC_NUMBERING_CACHE_TIME"	=>	"36000",
+						"PAGER_SHOW_ALL" => "N",
+						"PARENT_SECTION_CODE" => "franchiz",
+						"DISPLAY_DATE"	=>	"Y",
+						"DISPLAY_NAME"	=>	"Y",
+						"DISPLAY_PICTURE"	=>	"Y",
+						"DISPLAY_PREVIEW_TEXT"	=>	"Y",
+						"DETAIL_FIELD_CODE" => array(
+							  0 => "SHOW_COUNTER",
+							  1 => "",
+						   )
+						)
+					);?>					
 				</div>
 				<div class=" col-md-6  col-xs-12 mobile-section" >
-				<?$APPLICATION->IncludeComponent("bitrix:news.list", "training", Array(
-					"IBLOCK_TYPE"	=>	"services",
-					"IBLOCK_ID"	=>	"4",
-					"NEWS_COUNT"	=>	"3",
-					"SORT_BY1"	=>	"ACTIVE_FROM",
-					"SORT_ORDER1"	=>	"DESC",
-					"SORT_BY2"	=>	"SORT",
-					"SORT_ORDER2"	=>	"ASC",
-					"FILTER_NAME"	=>	"",
-					"FIELD_CODE"	=>	array(	),
-					"DETAIL_URL"	=>	"/content/training/#ELEMENT_ID#/",
-					"CACHE_TYPE"	=>	"A",
-					"CACHE_TIME"	=>	"3600",
-					"CACHE_FILTER"	=>	"N",
-					"PREVIEW_TRUNCATE_LEN"	=>	"0",
-					"ACTIVE_DATE_FORMAT"	=>	"j M Y",
-					"DISPLAY_PANEL"	=>	"N",
-					"SET_TITLE"	=>	"N",
-					"INCLUDE_IBLOCK_INTO_CHAIN"	=>	"Y",
-					"ADD_SECTIONS_CHAIN"	=>	"Y",
-					"HIDE_LINK_WHEN_NO_DETAIL"	=>	"N",
-					"PARENT_SECTION"	=>	"",
-					"DISPLAY_TOP_PAGER"	=>	"N",
-					"DISPLAY_BOTTOM_PAGER"	=>	"N",
-					"PAGER_TITLE"	=>	"Франшиза",
-					"PAGER_SHOW_ALWAYS"	=>	"N",
-					"PAGER_TEMPLATE"	=>	"",
-					"PAGER_DESC_NUMBERING"	=>	"N",
-					"PAGER_DESC_NUMBERING_CACHE_TIME"	=>	"36000",
-					"PAGER_SHOW_ALL" => "N",
-					"PARENT_SECTION_CODE" => "training",
-					"DISPLAY_DATE"	=>	"Y",
-					"DISPLAY_NAME"	=>	"Y",
-					"DISPLAY_PICTURE"	=>	"Y",
-					"DISPLAY_PREVIEW_TEXT"	=>	"Y",
-					"DETAIL_FIELD_CODE" => array(
-						  0 => "SHOW_COUNTER",
-						  1 => "",
-					   )
-					)
-					);?>
-					
+					<?$APPLICATION->IncludeComponent("bitrix:news.list", "training", Array(
+						"IBLOCK_TYPE"	=>	"services",
+						"IBLOCK_ID"	=>	"4",
+						"NEWS_COUNT"	=>	"3",
+						"SORT_BY1"	=>	"ACTIVE_FROM",
+						"SORT_ORDER1"	=>	"DESC",
+						"SORT_BY2"	=>	"SORT",
+						"SORT_ORDER2"	=>	"ASC",
+						"FILTER_NAME"	=>	"",
+						"FIELD_CODE"	=>	array(	),
+						"DETAIL_URL"	=>	"/content/training/#ELEMENT_ID#/",
+						"CACHE_TYPE"	=>	"A",
+						"CACHE_TIME"	=>	"3600",
+						"CACHE_FILTER"	=>	"N",
+						"PREVIEW_TRUNCATE_LEN"	=>	"0",
+						"ACTIVE_DATE_FORMAT"	=>	"j M Y",
+						"DISPLAY_PANEL"	=>	"N",
+						"SET_TITLE"	=>	"N",
+						"INCLUDE_IBLOCK_INTO_CHAIN"	=>	"Y",
+						"ADD_SECTIONS_CHAIN"	=>	"Y",
+						"HIDE_LINK_WHEN_NO_DETAIL"	=>	"N",
+						"PARENT_SECTION"	=>	"",
+						"DISPLAY_TOP_PAGER"	=>	"N",
+						"DISPLAY_BOTTOM_PAGER"	=>	"N",
+						"PAGER_TITLE"	=>	"Франшиза",
+						"PAGER_SHOW_ALWAYS"	=>	"N",
+						"PAGER_TEMPLATE"	=>	"",
+						"PAGER_DESC_NUMBERING"	=>	"N",
+						"PAGER_DESC_NUMBERING_CACHE_TIME"	=>	"36000",
+						"PAGER_SHOW_ALL" => "N",
+						"PARENT_SECTION_CODE" => "training",
+						"DISPLAY_DATE"	=>	"Y",
+						"DISPLAY_NAME"	=>	"Y",
+						"DISPLAY_PICTURE"	=>	"Y",
+						"DISPLAY_PREVIEW_TEXT"	=>	"Y",
+						"DETAIL_FIELD_CODE" => array(
+							  0 => "SHOW_COUNTER",
+							  1 => "",
+						   )
+						)
+					);?>					
 				</div>
 				<div class="clearfix"></div>
 			</div>
