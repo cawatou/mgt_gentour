@@ -156,7 +156,7 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
          <div class="modal fade" id="question" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
             <div class="modal-dialog" role="document">
                 <div class="modal-content">
-                    <? $APPLICATION->IncludeComponent("bitrix:form.result.new", "question", Array(
+                    <?$APPLICATION->IncludeComponent("bitrix:form.result.new", "question", Array(
                         "SEF_MODE" => "N",
                         "WEB_FORM_ID" => 2,
                         "EDIT_URL" => "",
@@ -171,7 +171,7 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
                         "CACHE_TIME" => "3600",
                         "VARIABLE_ALIASES" => Array("RESULT_ID" => "RESULT_ID", "WEB_FORM_ID" => "WEB_FORM_ID")
                         )
-                        ); ?>
+                    ); ?>
                     </div>
                 </div>
             </div>
@@ -180,7 +180,7 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
             <div class="modal fade" id="orderfor" tabindex="-1" role="dialog" aria-labelledby="myModalLabel">
                 <div class="modal-dialog" role="document">
                     <div class="modal-content">
-                        <? $APPLICATION->IncludeComponent("bitrix:form.result.new", "orderfor", Array(
+                        <?$APPLICATION->IncludeComponent("bitrix:form.result.new", "orderfor", Array(
                             "SEF_MODE" => "N",
                             "WEB_FORM_ID" => 5,
                             "EDIT_URL" => "",
@@ -195,7 +195,7 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
                             "CACHE_TIME" => "3600",
                             "VARIABLE_ALIASES" => Array("RESULT_ID" => "RESULT_ID", "WEB_FORM_ID" => "WEB_FORM_ID")
                             )
-                            ); ?>
+                        ); ?>
                         </div>
                     </div>
                 </div>
@@ -224,7 +224,7 @@ if (!$USER->IsAuthorized() && empty($CITY_ID)){?>
                                     "CACHE_TIME" => "3600",
                                     "VARIABLE_ALIASES" => Array("RESULT_ID" => "RESULT_ID", "WEB_FORM_ID" => "WEB_FORM_ID")
                                     )
-                                    ); ?>
+                                ); ?>
                                 </div>
                             </div>
                         </div>

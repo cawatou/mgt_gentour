@@ -1,10 +1,8 @@
-<?
-require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php"); 
+<?require($_SERVER["DOCUMENT_ROOT"]."/bitrix/modules/main/include/prolog_before.php");
 
 CModule::IncludeModule("iblock");
 CModule::IncludeModule("form");
 CModule::IncludeModule("main");
-
 
 if($_REQUEST['id']==7) {
 	$el = new CIBlockElement;
@@ -46,8 +44,6 @@ if($_REQUEST['id']==7) {
 		}
 
 		$PROP[$ar_props['ID']] = $ar_props['VALUE'];
-
-
 	}
 
 	$val = $getPropeertySumm + $plus;
@@ -70,10 +66,7 @@ if($_REQUEST['id']==7) {
 	else {
 		echo 'Error';
 	}
-
 }
-
-
 
 if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
 	
@@ -227,7 +220,8 @@ if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
 
 // }
 
-if($_REQUEST['id']==7) $tpl ="vote"; else  $tpl ="question";
+if($_REQUEST['id']==7) $tpl ="vote";
+else  $tpl ="question";
 $APPLICATION->IncludeComponent("bitrix:form.result.new",$tpl,Array(
 	
 	"SEF_MODE" => "N", 
@@ -250,5 +244,19 @@ $APPLICATION->IncludeComponent("bitrix:form.result.new",$tpl,Array(
 	)
 );
 
+// Форма заявки Франшизы
+if($_REQUEST['id'] == 10){
+	$FORM_ID = 10;
+	// массив значений ответов
+	$arValues = array (
+		"form_text_84" => $_REQUEST['name'],    
+		"form_text_85" => $_REQUEST['phone'],    
+	);
 
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/value.txt', print_r($arValues, 1));
+	// создадим новый результат
+	if ($RESULT_ID = CFormResult::Add($FORM_ID, $arValues)){
+		die("done");
+	}
+}
 ?>
