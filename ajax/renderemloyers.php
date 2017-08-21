@@ -8,7 +8,7 @@ CModule::IncludeModule("main");
 if (isset($_REQUEST['city'])) {?>
     <div class="container ourpeoples">
         <div class="row">
-            <div class="col-md-10 col-xs-12 tt">
+            <div class="col-md-10 col-xs-12">
                 <div class="row owl-carousel workers">
                     <?$officeForCity = $_REQUEST['city'];
                     $PROPoffice = "";
