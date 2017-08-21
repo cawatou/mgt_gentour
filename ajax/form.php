@@ -252,11 +252,24 @@ if($_REQUEST['id'] == 10){
 		"form_text_84" => $_REQUEST['name'],    
 		"form_text_85" => $_REQUEST['phone'],    
 	);
-
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/value.txt', print_r($arValues, 1));
+	
 	// создадим новый результат
-	if ($RESULT_ID = CFormResult::Add($FORM_ID, $arValues)){
-		die("done");
-	}
+	CFormResult::Add($FORM_ID, $arValues);
+	
+}
+
+// Форма вопрос Франшизы
+if($_REQUEST['id'] == 11) {
+	$FORM_ID = 11;
+	// массив значений ответов
+	$arValues = array(
+		"form_text_126" => $_REQUEST['form_text_126'],
+		"form_text_127" => $_REQUEST['form_text_127'],
+		"form_email_128" => $_REQUEST['form_email_128'],
+		"form_textarea_129" => $_REQUEST['form_textarea_129'],
+	);
+
+	// создадим новый результат
+	CFormResult::Add($FORM_ID, $arValues);
 }
 ?>

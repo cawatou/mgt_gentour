@@ -131,14 +131,10 @@ function OnBeforeIBlockSectionDeleteHandler($id){
 // =================================== AUTO GENERATOR =============================================================
 function get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to){
 	$start_time = find_startdate($date_from);	
-	$end_time = new DateTime($date_to);
-	$temp_time = new DateTime($date_from);
-	$interval = $start_time->diff($end_time)->days;
-	if($interval < 56 || $interval > 56){
-		$interval = 56; // 8 недель
-		$end_time = $temp_time->modify('+'.$interval.' day');
-		$temp_time = new DateTime($date_from);
-	}
+	$temp_time = new DateTime($start_time);	
+	$interval = 56; // 8 недель
+	$end_time = $temp_time->modify('+'.$interval.' day');
+	
 	$iteration = ceil($interval/14);
 	for($i=1; $i<=$iteration; $i++){
 		if($i == 1) $temp_time->modify('+13 day');

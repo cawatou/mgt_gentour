@@ -296,20 +296,17 @@ $whyWeObj = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"
 			<div class="col-md-3">
 				<div class="franchorder">
 					<h2>Заявка</h2>
-					<?$APPLICATION->IncludeComponent("bitrix:form.result.new", "franchise", Array(
-							"SEF_MODE" => "N",
-							"WEB_FORM_ID" => 10,
-							"EDIT_URL" => "",
-							"CHAIN_ITEM_TEXT" => "",
-							"CHAIN_ITEM_LINK" => "",
-							"IGNORE_CUSTOM_TEMPLATE" => "Y",
-							"SUCCESS_URL" => "",
-							"USE_EXTENDED_ERRORS" => "Y",
-							"CACHE_TYPE" => "A",
-							"CACHE_TIME" => "3600",
-							"VARIABLE_ALIASES" => Array("RESULT_ID" => "RESULT_ID", "WEB_FORM_ID" => "WEB_FORM_ID")
-						)
-					);?>
+					<form class="franchise">
+						<div class="form-group ">
+							<label for="iname">Имя</label>
+							<input id="iname" class="form-control" name="name"  />
+						</div>
+						<div class="form-group ">
+							<label for="phone">Телефон</label>
+							<input id="phone" class="form-control" name="phone" placeholder="+7(___)___-__-__" />
+						</div>
+						<button type="submit" class=" btnformmodalred">отправить заявку</button>
+					</form>
 				</div>
 			</div>
 		</div>
@@ -437,7 +434,7 @@ $whyWeObj = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"
 					<div class="row ">
 						<div class="col-md-12">
 							<a href="skype:franchise_154?call" class="linkmenu">позвонить по Skype</a>
-							<a href="#" class="linkmenu"  data-toggle="modal" data-target="#question">Задать вопрос</a>
+							<a href="#" class="linkmenu"  data-toggle="modal" data-target="#question_franchise">Задать вопрос</a>
 							<a href="#" class="linkmenu" data-toggle="modal" data-target="#franchform">Заявка на презентацию франшизы онлайн</a>
 							<a href="#" class="what">Что такое франшиза?</a>
 						</div>
