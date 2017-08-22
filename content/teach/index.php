@@ -377,39 +377,39 @@ if ($ar_res = $res->GetNext()) {?>
         </div>
     </div>
 <? } ?>
-    <div class="courselinks">
-        <?
-        $itms = array();
+<div class="courselinks">
+    <?
+    $itms = array();
 
-        $arSelect = Array("ID", "NAME", "DESCRIPTION", "PICTURE");
-        $arFilter = Array("IBLOCK_ID" => 4);
-        $res = CIBlockSection::GetList(Array("NAME" => "ASC"), $arFilter, false, $arSelect);
-        while ($ob = $res->GetNextElement()) {
-            $progs = $ob->GetFields();
-            if ($progs['ID'] != 145) echo '<a href="#pro' . $progs["ID"] . '">' . $progs["NAME"] . '</a>';
-            $itms[] = $progs;
-        }
-        ?>
-    </div>
-    <div class="row ">
-        <div class="col-md-12">
-            <div class="akcia" style="background-image: url(<? echo $theNearestOne['pic']; ?>)">
-                <div class="row ">
-                    <div class="col-md-7">
-                        <h2>До начала ближайшей программы <?= $theNearestOne['remainingword'] ?>
-                            всего <?= $theNearestOne['fromnow'] ?>!</h2>
-                        <p>Успей записаться <? if ($theNearestOne['discount']) { ?> со скидкой
-                                <span><?= $theNearestOne['discount'] ?>%</span><? } ?></p>
-                        <a href="#" class="iwant" data-toggle="modal" data-target="#kurs"
-                           data-title="Курсы менеджеров по туризму">записаться</a>
-                    </div>
+    $arSelect = Array("ID", "NAME", "DESCRIPTION", "PICTURE");
+    $arFilter = Array("IBLOCK_ID" => 4);
+    $res = CIBlockSection::GetList(Array("NAME" => "ASC"), $arFilter, false, $arSelect);
+    while ($ob = $res->GetNextElement()) {
+        $progs = $ob->GetFields();
+        if ($progs['ID'] != 145) echo '<a href="#pro' . $progs["ID"] . '">' . $progs["NAME"] . '</a>';
+        $itms[] = $progs;
+    }
+    ?>
+</div>
+<div class="row ">
+    <div class="col-md-12">
+        <div class="akcia" style="background-image: url(<? echo $theNearestOne['pic']; ?>)">
+            <div class="row ">
+                <div class="col-md-7">
+                    <h2>До начала ближайшей программы <?= $theNearestOne['remainingword'] ?>
+                        всего <?= $theNearestOne['fromnow'] ?>!</h2>
+                    <p>Успей записаться <? if ($theNearestOne['discount']) { ?> со скидкой
+                            <span><?= $theNearestOne['discount'] ?>%</span><? } ?></p>
+                    <a href="#" class="iwant" data-toggle="modal" data-target="#kurs"
+                       data-title="Курсы менеджеров по туризму">записаться</a>
                 </div>
             </div>
         </div>
     </div>
+</div>
 <?foreach ($itms as $p) {
     if ($p['ID'] != 145) {?>
-        <div class="row ">
+        <div class="row" id="course_<?=$p['ID']?>">
             <a name="pro<?= $p["ID"] ?>"></a>
             <div class="col-md-12">
                 <div class="whiteback">
