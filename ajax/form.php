@@ -272,4 +272,14 @@ if($_REQUEST['id'] == 11) {
 	// создадим новый результат
 	CFormResult::Add($FORM_ID, $arValues);
 }
+
+// Форма вопрос Франшизы
+if($_REQUEST['id'] == 8) {
+	$FORM_ID = 8;
+	// массив значений ответов
+	$arValues =  $_REQUEST;
+
+	// создадим новый результат
+	CFormResult::Add($FORM_ID, $arValues);
+}
 ?>

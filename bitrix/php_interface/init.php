@@ -131,7 +131,7 @@ function OnBeforeIBlockSectionDeleteHandler($id){
 // =================================== AUTO GENERATOR =============================================================
 function get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to){
 	$start_time = find_startdate($date_from);	
-	$temp_time = new DateTime($start_time);	
+	$temp_time = $start_time;	
 	$interval = 56; // 8 недель
 	$end_time = $temp_time->modify('+'.$interval.' day');
 	
