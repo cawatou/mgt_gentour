@@ -153,6 +153,8 @@ $APPLICATION->SetTitle("Наши сотрудники"); ?>
     .modal-header, .modal-footer {
         border: none;
     }
+
+    
 </style>
 <div class="container employe ourpeoples">
     <? if (isset($_REQUEST['ID'])) { ?>
