@@ -59,8 +59,17 @@ function OnAfterIBlockSectionAddHandler (&$arFields){
 function OnBeforeIBlockElementUpdateHandler (&$arFields){
 	global $old_name;
 	$arr = CIblockElement::GetByID($arFields["ID"]);
-	if ($ar = $arr->Fetch())
-		$old_name = trim ($ar["NAME"]);
+	if ($ar = $arr->Fetch()) $old_name = trim ($ar["NAME"]);
+
+	// Подсчет оценок рейтинга у сотрудника
+	if($arFields['IBLOCK_ID'] == 7){
+		$sum_vote = intval($arFields['PROPERTY_VALUES'][107]);
+		$count_vote = intval($arFields['PROPERTY_VALUES'][254]);
+		$avg_vote = floor($sum_vote / $count_vote);
+		$arFields['PROPERTY_VALUES'][256] = $avg_vote;
+	}
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/rating.txt', print_r($res, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/arFields.txt', print_r($fields, 1));
 }
 function OnBeforeIBlockElementDeleteHandler ($ID){
 	global $QUESTION_ID;
