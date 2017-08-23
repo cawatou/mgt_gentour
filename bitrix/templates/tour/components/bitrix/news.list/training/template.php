@@ -7,7 +7,7 @@
 	<hr>
 	<div class="teach-carusel  owl-carousel">
 		<?foreach($arResult["ITEMS"] as $arItem):?>
-			<div class="blockwork" onclick='window.location="/content/teach/#pro<?=$arItem['CODE']?>"' style="background:url('<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>')">
+			<div class="blockwork" onclick='window.location="/content/teach/#<?=$arItem['CODE']?>"' style="background:url('<?=$arItem["PREVIEW_PICTURE"]["SRC"]?>')">
 			<h4><?=$arItem["NAME"]?></h4>
 			<p><?=$arItem["PREVIEW_TEXT"]?></p>
 		</div>
