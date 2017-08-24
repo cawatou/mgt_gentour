@@ -39,7 +39,7 @@ $arFilter = array(
 	"PROPERTY_fb" => 'http://*',
 	'IBLOCK_ID' => $CITY_ID
 
-	);
+);
 $socNet = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>1), $arSelect);
 
 while($ob = $socNet->GetNextElement()){ 
@@ -220,6 +220,8 @@ while($ob = $socNet->GetNextElement()){
 	<section class="vertical-scrolling sibling_tours " style="background:url('<?=$arr[3]['src']?>') no-repeat center center;">
 		<?$_REQUEST['load_siblings'] = 1;
 		$_REQUEST['city_id'] = $TVID;
+		$_REQUEST['city_name'] = $User_city['city'];
+		//echo "<pre>".print_r($User_city, 1)."</pre>";
 
 		$APPLICATION->IncludeComponent("bitrix:news.list",
 			"showcase_sibling",

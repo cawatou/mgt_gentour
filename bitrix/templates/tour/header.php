@@ -197,7 +197,8 @@ foreach($array as $symbol => $sub_array)
     $citychko .= '<li><h3>'.  $symbol.'</h3><div class="letterlist">';
     foreach($sub_array as $key => $ct)
     {
-        $citychko .=  '<p><a href="#" data-citytv="'.$city_tourvisor[$key].'" data-citytvname="'.$tvcity[$city_tourvisor[$key]].'" data-city="'.$key.'" ';  if($ct==$User_city['city']) $citychko .=  ' class="active" '; $citychko .=  '>'.$ct.'</a></p>' ;
+        $citychko .=  '<p><a href="#" data-bid="" data-citytv="'.$city_tourvisor[$key].'" data-citytvname="'.$tvcity[$city_tourvisor[$key]].'" data-city="'.$key.'" ';  if($ct==$User_city['city']) $citychko .=  ' class="active" '; $citychko .=  '>'.$ct.'</a></p>' ;
+  			
     }
     $citychko .=  '</div></li>	';
 }

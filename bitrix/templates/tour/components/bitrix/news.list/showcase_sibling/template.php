@@ -1,17 +1,23 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 CModule::IncludeModule("iblock");
 // Находим id города (турвизора) по id битрикса
-if(isset($_REQUEST['city_bid'])){
-	$rsSections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 16, 'ID' => $_REQUEST['city_bid']), false, array('UF_CITYID'));
-	while ($arSection = $rsSections->Fetch()) {
-		$city_id = $arSection['UF_CITYID'];
-	}
+/*if(isset($_REQUEST['city_bid'])){
+	
 }else{
 	$city_id = $_REQUEST['city_id'];
-}
+	// $city_name - ????
+}*/
+
+/*$rsSections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 16, 'NAME' => $_REQUEST['city_name']), false, array('NAME', 'UF_CITYID'));
+while ($arSection = $rsSections->Fetch()) {
+	$city_id = $arSection['UF_CITYID'];
+	$city_name = $arSection['NAME'];
+}*/
+
+
 
 $arSelect = Array("ID", "NAME", "PROPERTY_siblings", "PROPERTY_city_id");
-$arFilter = Array("IBLOCK_ID" => 24, "ACTIVE" => "Y", "PROPERTY_city_id" => $city_id);
+$arFilter = Array("IBLOCK_ID" => 24, "ACTIVE" => "Y", "NAME" => $_REQUEST['city_name']);
 $res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize" => 9999), $arSelect);
 while ($ob = $res->GetNextElement()) {
 	$city = $ob->GetFields();
