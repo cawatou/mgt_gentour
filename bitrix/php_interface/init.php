@@ -63,13 +63,23 @@ function OnBeforeIBlockElementUpdateHandler (&$arFields){
 
 	// Подсчет оценок рейтинга у сотрудника
 	if($arFields['IBLOCK_ID'] == 7){
+	    $city_id = array_shift($arFields['PROPERTY_VALUES']['255']);
 		$sum_vote = intval($arFields['PROPERTY_VALUES'][107]);
 		$count_vote = intval($arFields['PROPERTY_VALUES'][254]);
 		$avg_vote = floor($sum_vote / $count_vote);
 		$arFields['PROPERTY_VALUES'][256] = $avg_vote;
+        $arFields['PROPERTY_VALUES']['255'] = $city_id;
+        $arFilter = Array("IBLOCK_ID" => 24, "ID" => $city_id['VALUE']);
+        $arSelect = Array("NAME");
+        $element = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize" => 1), $arSelect);
+        while ($ob = $element->GetNextElement()) {
+            $fields = $ob->GetFields();
+            $city_name = $fields['NAME'];
+            $arFields['TAGS'] = $city_name;
+        }
 	}
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/rating.txt', print_r($res, 1));
-	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/arFields.txt', print_r($fields, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/arFields.txt', print_r($arFields, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/city_id.txt', print_r($city_id, 1));
 }
 function OnBeforeIBlockElementDeleteHandler ($ID){
 	global $QUESTION_ID;
