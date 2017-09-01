@@ -168,61 +168,11 @@ if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
 			print $result['response']['data']['id_phone']; // тут получили id вставленного в базу номера абонента
 		}			
 	}
-
-//	echo "<pre>".print_r($city, 1)."</pre>";
-//	echo "<pre>".print_r($phone, 1)."</pre>";
-//	echo "<pre>".print_r($socName, 1)."</pre>";
-//	echo "<pre>".print_r($baseId, 1)."</pre>";
-//	echo "<pre>".print_r($result, 1)."</pre>";
-//	exit();
-	// $req = file_get_contents("http://api.sms-prosto.ru/?key=".$API_KEY."&method=add_number_to_base&phone=".$phone."&id_base=".$idbase."&fam=Any&name=Body");
-	//echo  $req;
 }
-
-// echo 'id: '.$_REQUEST['id'];
-// if($_REQUEST['id']==2) {
-
-
-// 	$rsResults = CFormResult::GetList(2, ($by="s_timestamp"), ($order="desc"), array(), $is_filtered,"Y",10);
-
-// 	while ($arResult = $rsResults->Fetch()){
-// 		$id = (int) $arResult['ID'] + 1;
-
-// 	}
-
-// 	$el = new CIBlockElement;
-
-// 	$PROP[165] = 'N';
-// 	$PROP[166] = $id;
-// 	$PROP[246] = 'false';
-
-
-
-// 	$NAME = "ответ в чат ".$_REQUEST['id']." от ".date('d-m-Y H:i:s');
-
-
-// 	$arLoadProductArray = Array(
-// 		"MODIFIED_BY"    => $USER->GetID(), 
-// 		"IBLOCK_ID"      => 26,
-// 		"PROPERTY_VALUES"=> $PROP,
-// 		"NAME"           => $NAME,
-// 		"ACTIVE"         => "Y",            
-// 		"PREVIEW_TEXT"   => $_REQUEST['form_textarea_28'],
-// 	);
-
-
-// 	 if($el->Add($arLoadProductArray)) {
-// 	 	echo 1100;
-// 	 }
-// 	 else {
-// 	 	echo 9999;
-// 	 }
-
-// }
 
 if($_REQUEST['id']==7) $tpl ="vote";
 else  $tpl ="question";
-$APPLICATION->IncludeComponent("bitrix:form.result.new",$tpl,Array(
+/*$APPLICATION->IncludeComponent("bitrix:form.result.new",$tpl,Array(
 	
 	"SEF_MODE" => "N", 
 	"WEB_FORM_ID" => $_REQUEST['id'], 
@@ -242,7 +192,7 @@ $APPLICATION->IncludeComponent("bitrix:form.result.new",$tpl,Array(
 	"VARIABLE_ALIASES" => Array("RESULT_ID"=>"RESULT_ID","WEB_FORM_ID"=>"WEB_FORM_ID")
 	
 	)
-);
+);*/
 
 // Форма заявки Франшизы
 if($_REQUEST['id'] == 10){
@@ -274,8 +224,9 @@ if($_REQUEST['id'] == 11) {
 }
 
 // Форма вопрос Франшизы
-if($_REQUEST['id'] == 8) {
-	$FORM_ID = 8;
+if($_REQUEST['id'] == 8 || $_REQUEST['id'] == 6) {
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/form.txt', print_r($_REQUEST, 1));
+	$FORM_ID = $_REQUEST['id'];
 	// массив значений ответов
 	$arValues =  $_REQUEST;
 
