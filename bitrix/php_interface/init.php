@@ -149,18 +149,20 @@ function OnBeforeIBlockSectionDeleteHandler($id){
 
 // =================================== AUTO GENERATOR =============================================================
 function get_requestid($login, $pass, $departure, $country, $regions, $date_from, $date_to){
-	$start_time = find_startdate($date_from);	
-	$temp_time = $start_time;	
+	$start_time = find_startdate($date_from);
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/start_time.txt', print_r($start_time, 1));
+	$temp_time = clone $start_time;
+	$end_time = clone $temp_time;
 	$interval = 56; // 8 недель
-	$end_time = $temp_time->modify('+'.$interval.' day');
-	
-	$iteration = ceil($interval/14);
+	$end_time = $end_time->modify('+'.$interval.' day');
+	$iteration = 4;
 	for($i=1; $i<=$iteration; $i++){
 		if($i == 1) $temp_time->modify('+13 day');
 		else $temp_time->modify('+14 day');
 		if($i == $iteration) $temp_time = $end_time;
 		$date_interval['date'][] = Array($start_time->format('d.m.Y'), $temp_time->format('d.m.Y'));
 		$start_time->modify('+14 day');
+		
 	}
 	for($i=1; $i<=3; $i++){
 		switch ($i) {
@@ -226,6 +228,7 @@ function get_requestid($login, $pass, $departure, $country, $regions, $date_from
 		}
 	}
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/date_tours.txt', print_r($date_tours, 1));
+	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/log/dev/date_interval.txt', print_r($date_interval, 1));
 	return $requestid;
 }
 function get_status($login, $pass, $requestid){
