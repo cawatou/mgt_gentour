@@ -1068,6 +1068,8 @@ if(CSite::InGroup(array(1))) $admin = true;
 						$o++;
 					}
 
+					if($_REQUEST['dev']) echo "<pre>".print_r($sale, 1)."</pre>";
+					
 					/*========================== Форма подбор тура ==================================*/
 					$FORM_ID = 5;
 					$arFilter = array(
@@ -1156,6 +1158,63 @@ if(CSite::InGroup(array(1))) $admin = true;
 						$sale[$o]['Xtype'] = 'backcall';
 						$sale[$o]['STATUS_ID'] = $stid;
 						$sale[$o]['RESPONSIBLE_ID'] = $arrAnswersVarname[$arResult['ID']]["status"][1]["USER_TEXT"];
+						$o++;
+					}
+
+
+
+
+					/*========================== Форма франшиза ==================================*/
+					$FORM_ID = 10;
+					$arFilter = array(
+						"TIME_CREATE_1" => $arUser['DATE_REGISTER'],
+						"FIELDS" => array(
+							array(
+								"VALUE" => implode(' | ', $officeID),
+								"EXACT_MATCH" => "Y"
+							)
+						)
+					);
+
+					$rsResults = CFormResult::GetList($FORM_ID,
+						($by = "s_timestamp"),
+						($order = "desc"),
+						$arFilter,
+						$is_filtered,
+						"Y",
+						10);
+
+					while ($arResult = $rsResults->Fetch()) {
+						CForm::GetResultAnswerArray($FORM_ID, $arrColumns, $arrAnswers, $arrAnswersVarname, array("RESULT_ID" => $arResult['ID']));
+
+						switch ($arrAnswersVarname[$arResult['ID']]["status"][0]["USER_TEXT"]) {
+							case 'handled':
+								$stid = 'F';
+								break;
+							default:
+								$stid = 'N';
+						}
+
+						echo "<pre>".print_r(1, 1)."</pre>";
+
+						$sale[$o]['COMMENTS'] = $arrAnswersVarname[$arResult['ID']]["comments"][0]["USER_TEXT"];
+						$sale[$o]['ID'] = $arResult['ID'];
+						$sale[$o]['OFFICE'] = $arrAnswersVarname[$arResult['ID']]["WHICHOFFICE"][0]["USER_TEXT"];
+						$sale[$o]['CITYFROM'] = $arrAnswersVarname[$arResult['ID']]["townfrom"][0]["USER_TEXT"];
+						$sale[$o]['DATE'] = strtotime($arResult['DATE_CREATE']);
+						$sale[$o]['USER_ID'] = $arResult['USER_ID'];
+						$sale[$o]['USER_PHONE'] = $arrAnswersVarname[$arResult['ID']]["youre_phone"][0]["USER_TEXT"];
+						$sale[$o]['USER_EMAIL'] = $arrAnswersVarname[$arResult['ID']]["youre_email"][0]["USER_TEXT"];
+						$sale[$o]['USER_NAME'] = $arrAnswersVarname[$arResult['ID']]["youre_name"][0]["USER_TEXT"];
+
+						$sale[$o]['pacn'] = $arrAnswersVarname[$arResult['ID']]["parent_count"][0]["USER_TEXT"];
+						$sale[$o]['chcn'] = $arrAnswersVarname[$arResult['ID']]["child_count"][0]["USER_TEXT"];
+						$sale[$o]['sms'] = (isset($arrAnswersVarname[$arResult['ID']]["sms_spam"][0]["USER_TEXT"])) ? "Заявлено на подписку" : "Подписка отклонена";
+						$sale[$o]['eml'] = (isset($arrAnswersVarname[$arResult['ID']]["email_spam"][0]["USER_TEXT"])) ? "Заявлено на подписку" : "Подписка отклонена";
+						$sale[$o]['tid'] = $arrAnswersVarname[$arResult['ID']]["tourid"][0]["USER_TEXT"];
+						$sale[$o]['Xtype'] = 'franch';
+						$sale[$o]['STATUS_ID'] = $stid;
+						$sale[$o]['RESPONSIBLE_ID'] = $arrAnswersVarname[$arResult['ID']]["handling"][1]["USER_TEXT"];
 						$o++;
 					}
 
