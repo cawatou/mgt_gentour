@@ -111,9 +111,8 @@ while ($arSection = $rsSections->Fetch()) {
                         <th>Название</th>
                         <th>Отправление</th>
                         <th>Страна/Курорт</th>
-                        <th>Даты</th>
+                        <th>Дата</th>
                         <th>Цена</th>
-                        <th>Туроператор</th>
                         <th></th>
                     </tr>
                     </thead>
@@ -129,15 +128,7 @@ while ($arSection = $rsSections->Fetch()) {
                         $res2 = CIBlockElement::GetList(Array(), $arFilter2, false, Array("nPageSize" => 50), $arSelect);
                         while ($ob = $res2->GetNextElement()) {
                             $arFields = $ob->GetFields();
-                            /*
-                             echo "<pre>";
-                                var_dump($arFields);
-                                echo "</pre>";
-                             $arProps = $ob->GetProperties();
-                            echo "<pre>";
-                                var_dump($arProps);
-                                echo "</pre>";
-                                */
+                            if($_REQUEST['dev']) echo "<pre>".print_r($arFields, 1)."</pre>";
                         }
 
                         ?>
@@ -145,14 +136,12 @@ while ($arSection = $rsSections->Fetch()) {
                             <th scope="row"><?= $resr['ID'] ?></th>
                             <td><?= $resr['NAME'] ?></td>
                             <td>из <?= $arFields['PROPERTY_DEPARTURE_VALUE'] ?></td>
-                            <td><?= $arFields['PROPERTY_COUNTRY_VALUE'] ?>
-                                /<?= $arFields['PROPERTY_CURORT_VALUE'] ?></td>
-                            <td><?= $arFields['PROPERTY_DATEFROM_VALUE'] ?>
-                                ,<br> <?= $arFields['PROPERTY_DATETO_VALUE'] ?></td>
-                            <td><s><?= $arFields['PROPERTY_MIN_PRICE'] ?></s>
-                                <s><?= $arFields['PROPERTY_PRICE_VALUE'] ?></s><br> <?= $arFields['PROPERTY_PRICEDISCOUNT_VALUE'] ?>
+                            <td>
+                                <?= $arFields['PROPERTY_COUNTRY_VALUE'] ?>
+                                /<?= $arFields['PROPERTY_CURORT_VALUE'] ?>
                             </td>
-                            <td><?= $arFields['PROPERTY_TUROPERATOR'] ?> </td>
+                            <td><?= $arFields['TIMESTAMP_X'] ?></td>
+                            <td><?= $arFields['PROPERTY_MIN_PRICE_VALUE'] ?></td>
 
                             <td><a class="delete fa  fa-trash-o" data-id="<?= $resr['ID'] ?>"></a></td>
                         </tr>
