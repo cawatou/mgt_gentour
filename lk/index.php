@@ -920,26 +920,41 @@ if(CSite::InGroup(array(1))) $admin = true;
 	</div>
 	<div class="overflow ">
 		<ul class="nav nav-tabs" role="tablist">
-			<li role="presentation" <? if (empty($rqID) && empty($reload)){ ?>class="active"<? } ?>><a href="#home"
-																									   aria-controls="home"
-																									   role="tab"
-																									   data-toggle="tab">Персональная
-					информация</a></li>
-			<? if (CSite::InGroup(array(10))): ?>
-				<li role="presentation"><a href="#orders" <?= ($reload == 'orders') ? 'class="active"' : ''; ?>
-										   aria-controls="orders" role="tab" data-toggle="tab">Заявки и заказы</a>
+			<li role="presentation" <? if (empty($rqID) && empty($reload)){ ?>class="active"<? } ?>>
+				<a href="#home" aria-controls="home" role="tab" data-toggle="tab">
+					Персональная информация
+				</a>
+			</li>
+			<?if(CSite::InGroup(array(10))): ?>
+				<li role="presentation">
+					<a href="#orders" <?= ($reload == 'orders') ? 'class="active"' : '';?> aria-controls="orders" role="tab" data-toggle="tab">
+						Заявки и заказы
+					</a>
 				</li>
-				<li role="presentation" <? if (!empty($rqID)){ ?>class="active"<? } ?>><a href="#vitturs"
-																						  aria-controls="turs"
-																						  role="tab"
-																						  data-toggle="tab">Витрина
-						туров</a></li>
-				<?if($admin):?><li><a href="http://tour.skipodevelop.com/dev/">Генерация туров</a></li><?endif?>
-				<li><a href="http://tour.skipodevelop.com/dev/hotel_groups.php">Группы туров</a></li>
+				<li role="presentation" <? if (!empty($rqID)){ ?>class="active"<? } ?>>
+					<a href="#vitturs" aria-controls="turs" role="tab" data-toggle="tab">
+						Витрина	туров
+					</a>
+				</li>
+				<?if($admin):?>
+					<li>
+						<a href="http://tour.skipodevelop.com/dev/">
+							Генерация туров
+						</a>
+					</li>
+				<?endif?>
+				<li>
+					<a href="http://tour.skipodevelop.com/dev/hotel_groups.php">
+						Группы туров
+					</a>
+				</li>
 			<? else: ?>
-				<li role="presentation"><a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">Этапы
-						брони</a></li>
-			<? endif ?>
+				<li role="presentation">
+					<a href="#profile" aria-controls="profile" role="tab" data-toggle="tab">
+						Этапы брони
+					</a>
+				</li>
+			<?endif?>
 
 			<li role="presentation"><a href="#mesage" aria-controls="mesage" role="tab"
 									   data-toggle="tab">Сообщения</a></li>
@@ -1161,9 +1176,6 @@ if(CSite::InGroup(array(1))) $admin = true;
 						$o++;
 					}
 
-
-
-
 					/*========================== Форма франшиза ==================================*/
 					$FORM_ID = 10;
 					$arFilter = array(
@@ -1176,13 +1188,15 @@ if(CSite::InGroup(array(1))) $admin = true;
 						)
 					);
 
-					$rsResults = CFormResult::GetList($FORM_ID,
+					$rsResults = CFormResult::GetList(
+						$FORM_ID,
 						($by = "s_timestamp"),
 						($order = "desc"),
 						$arFilter,
 						$is_filtered,
 						"Y",
-						10);
+						10
+					);
 
 					while ($arResult = $rsResults->Fetch()) {
 						CForm::GetResultAnswerArray($FORM_ID, $arrColumns, $arrAnswers, $arrAnswersVarname, array("RESULT_ID" => $arResult['ID']));
@@ -1194,30 +1208,63 @@ if(CSite::InGroup(array(1))) $admin = true;
 							default:
 								$stid = 'N';
 						}
-
-						echo "<pre>".print_r(1, 1)."</pre>";
-
-						$sale[$o]['COMMENTS'] = $arrAnswersVarname[$arResult['ID']]["comments"][0]["USER_TEXT"];
 						$sale[$o]['ID'] = $arResult['ID'];
-						$sale[$o]['OFFICE'] = $arrAnswersVarname[$arResult['ID']]["WHICHOFFICE"][0]["USER_TEXT"];
-						$sale[$o]['CITYFROM'] = $arrAnswersVarname[$arResult['ID']]["townfrom"][0]["USER_TEXT"];
 						$sale[$o]['DATE'] = strtotime($arResult['DATE_CREATE']);
 						$sale[$o]['USER_ID'] = $arResult['USER_ID'];
-						$sale[$o]['USER_PHONE'] = $arrAnswersVarname[$arResult['ID']]["youre_phone"][0]["USER_TEXT"];
-						$sale[$o]['USER_EMAIL'] = $arrAnswersVarname[$arResult['ID']]["youre_email"][0]["USER_TEXT"];
-						$sale[$o]['USER_NAME'] = $arrAnswersVarname[$arResult['ID']]["youre_name"][0]["USER_TEXT"];
-
-						$sale[$o]['pacn'] = $arrAnswersVarname[$arResult['ID']]["parent_count"][0]["USER_TEXT"];
-						$sale[$o]['chcn'] = $arrAnswersVarname[$arResult['ID']]["child_count"][0]["USER_TEXT"];
-						$sale[$o]['sms'] = (isset($arrAnswersVarname[$arResult['ID']]["sms_spam"][0]["USER_TEXT"])) ? "Заявлено на подписку" : "Подписка отклонена";
-						$sale[$o]['eml'] = (isset($arrAnswersVarname[$arResult['ID']]["email_spam"][0]["USER_TEXT"])) ? "Заявлено на подписку" : "Подписка отклонена";
-						$sale[$o]['tid'] = $arrAnswersVarname[$arResult['ID']]["tourid"][0]["USER_TEXT"];
+						$sale[$o]['USER_PHONE'] = $arrAnswersVarname[$arResult['ID']]["phone"][0]["USER_TEXT"];
+						$sale[$o]['USER_NAME'] = $arrAnswersVarname[$arResult['ID']]["imya"][0]["USER_TEXT"];
 						$sale[$o]['Xtype'] = 'franch';
 						$sale[$o]['STATUS_ID'] = $stid;
 						$sale[$o]['RESPONSIBLE_ID'] = $arrAnswersVarname[$arResult['ID']]["handling"][1]["USER_TEXT"];
 						$o++;
 					}
 
+
+					/*========================== Форма обучения ==================================*/
+					$FORM_ID = 8;
+					$arFilter = array(
+						"TIME_CREATE_1" => $arUser['DATE_REGISTER'],
+						"FIELDS" => array(
+							array(
+								"VALUE" => implode(' | ', $officeID),
+								"EXACT_MATCH" => "Y"
+							)
+						)
+					);
+
+					$rsResults = CFormResult::GetList(
+						$FORM_ID,
+						($by = "s_timestamp"),
+						($order = "desc"),
+						$arFilter,
+						$is_filtered,
+						"Y",
+						10
+					);
+
+					while ($arResult = $rsResults->Fetch()) {
+						CForm::GetResultAnswerArray($FORM_ID, $arrColumns, $arrAnswers, $arrAnswersVarname, array("RESULT_ID" => $arResult['ID']));
+
+						switch ($arrAnswersVarname[$arResult['ID']]["status"][0]["USER_TEXT"]) {
+							case 'handled':
+								$stid = 'F';
+								break;
+							default:
+								$stid = 'N';
+						}
+						//echo "<pre>".print_r($arrAnswersVarname, 1)."</pre>";
+						$sale[$o]['ID'] = $arResult['ID'];
+						$sale[$o]['DATE'] = strtotime($arResult['DATE_CREATE']);
+						$sale[$o]['USER_ID'] = $arResult['USER_ID'];
+						$sale[$o]['USER_PHONE'] = $arrAnswersVarname[$arResult['ID']]["phone"][0]["USER_TEXT"];
+						$sale[$o]['USER_NAME'] = $arrAnswersVarname[$arResult['ID']]["myname"][0]["USER_TEXT"];
+						$sale[$o]['USER_EMAIL'] = $arrAnswersVarname[$arResult['ID']]["email"][0]["USER_TEXT"];
+						$sale[$o]['learn_type'] = $arrAnswersVarname[$arResult['ID']]["id_kurs"][0]["USER_TEXT"];
+						$sale[$o]['Xtype'] = 'learn';
+						$sale[$o]['STATUS_ID'] = $stid;
+						$sale[$o]['RESPONSIBLE_ID'] = $arrAnswersVarname[$arResult['ID']]["handling"][1]["USER_TEXT"];
+						$o++;
+					}
 				}				
 				?>
 				<div class="row ">
@@ -1230,13 +1277,14 @@ if(CSite::InGroup(array(1))) $admin = true;
 								<option value="officeorder">Заявки на покупку в офисе</option>
 								<option value="backcall">Заявки на обратный звонок</option>
 								<option value="quest">Вопросы клиентов</option>
+								<option value="franch">Франшиза</option>
+								<option value="learn">Обучение</option>
 							</select>
 						</div>
 					</div>
 					<div class="col-md-2">
 						<div class="form-group ">
 							<input id="kurort" class="text-searcher-order form-control" placeholder="Найти заказ"/>
-
 						</div>
 					</div>
 					<div class="col-md-1">
@@ -1266,9 +1314,7 @@ if(CSite::InGroup(array(1))) $admin = true;
 						<div class="form-group ">
 							<select class="form-control" name="filtroffice">
 								<option value="all">--Фильтр по офисам--</option>
-								<?
-
-								if (count($filtCityId) > 0) {
+								<?if (count($filtCityId) > 0) {
 									foreach ($officeID as $i => $town) {
 										echo '<option value="' . $town . '">' . $filtOffice[$i] . '</option>';
 									}
@@ -1291,7 +1337,6 @@ if(CSite::InGroup(array(1))) $admin = true;
 					.fulltable {
 						display: none;
 					}
-
 					.showmeall, .bottominf span {
 						cursor: pointer;
 					}
@@ -1309,10 +1354,9 @@ if(CSite::InGroup(array(1))) $admin = true;
 					</tr>
 					</thead>
 					<tbody>
-					<? $redArr = array();
+					<?$redArr = array();
 					$yellowArr = array();
 					$greenArr = array();
-					//$redArr = $sale;
 					foreach ($sale as $r) {
 						if ($r['STATUS_ID'] == 'N') {
 							array_push($redArr, $r);
@@ -1338,22 +1382,34 @@ if(CSite::InGroup(array(1))) $admin = true;
 					$sale = array_merge($redArr, $yellowArr, $greenArr);
 
 					foreach ($sale as $row):?>
-
 						<tr class="<?= $row['Xtype'] ?>">
 							<td data-city="<?= $row['CITYFROM'] ?>" data-office="<?= $row['OFFICE'] ?>"
 								class="fulltr" colspan="9">
-								<? if ($row['Xtype'] == 'podbor') {
-									?>Заявки на подбор тура<? } ?>
-								<? if ($row['Xtype'] == 'sale') {
-									?>Заявка  c онлайн оплатой<? } ?>
-								<? if ($row['Xtype'] == 'officeorder') {
-									?>Заявки на покупку в офисе<? } ?>
-								<? if ($row['Xtype'] == 'backcall') {
-									?>Заявки на обратный звонок<? } ?>
-								<? if ($row['Xtype'] == 'quest') {
-									?>Вопросы клиентов<? } ?>
-
-								#<?= $row['ID'] ?></td>
+								<?switch ($row['Xtype']){
+									case 'podbor':
+										echo "Заявки на подбор тура";
+										break;
+									case 'sale':
+										echo "Заявка  c онлайн оплатой";
+										break;
+									case 'officeorder':
+										echo "Заявки на покупку в офисе";
+										break;
+									case 'backcall':
+										echo "Заявки на обратный звонок";
+										break;
+									case 'quest':
+										echo "Вопросы клиентов";
+										break;
+									case 'franch':
+										echo "Франшиза";
+										break;
+									case 'learn':
+										echo "Обучение (".$row['learn_type'].")";
+										break;
+								}
+								echo " #".$row['ID'] ?>
+							</td>
 						</tr>
 						<tr data-city="<?= $row['CITYFROM'] ?>" data-office="<?= $row['OFFICE'] ?>"
 							class="showmeall <?= $row['Xtype'] ?>" data-orderid="<?= $row['ID'] ?>">
@@ -1361,14 +1417,15 @@ if(CSite::InGroup(array(1))) $admin = true;
 							<td><a class="mail"><?= $row['USER_EMAIL'] ?></a></td>
 							<td class="phone"><?= $row['USER_PHONE'] ?></td>
 							<td><?= $row['USER_DESCRIPTION'] ?></td>
-							<td><? if (!empty($row['RESPONSIBLE_ID'])) {
-									$rsUser = CUser::GetByID($row['RESPONSIBLE_ID']);
-									$arUser = $rsUser->Fetch(); ?>
-									<?= $arUser['NAME'] ?> <?= $arUser['LAST_NAME'] ?>
-								<? } ?></td>
 							<td>
-								<? if (empty($row['COMMENTS'])) {
-									?>
+								<?if(!empty($row['RESPONSIBLE_ID'])) {
+									$rsUser = CUser::GetByID($row['RESPONSIBLE_ID']);
+									$arUser = $rsUser->Fetch();
+									echo $arUser['NAME']." ".$arUser['LAST_NAME'];
+								}?>
+							</td>
+							<td>
+								<?if(empty($row['COMMENTS'])){?>
 									<div class="formcomment" style="display:none;">
 										<div class="form-group ">
 											<textarea class="form-control"></textarea>
@@ -1381,7 +1438,8 @@ if(CSite::InGroup(array(1))) $admin = true;
 											src="<?= SITE_TEMPLATE_PATH ?>/images/paladdin/edit.png" alt=""></a>
 								<? } ?>
 							</td>
-							<td><select name="statusOrder" class="changeStatus <?= $row['Xtype'] ?>">
+							<td>
+								<select name="statusOrder" class="changeStatus <?= $row['Xtype'] ?>">
 									<option value="N" <? if ($row['STATUS_ID'] == "N") echo "selected"; ?>><i
 											class="fa neworder"></i> Новая заявка
 									</option>
@@ -1405,7 +1463,8 @@ if(CSite::InGroup(array(1))) $admin = true;
 									<option value="F" <? if ($row['STATUS_ID'] == "F") echo "selected"; ?>>
 										Обработано
 									</option>
-								</select></td>
+								</select>
+							</td>
 						</tr>
 
 						<tr class="<?= $row['Xtype'] ?>">
@@ -1427,8 +1486,6 @@ if(CSite::InGroup(array(1))) $admin = true;
 													<p><b>Питание:</b></p>
 													<p><b>Размещение:</b></p>
 													<p><b>Номер:</b></p>
-
-
 												</div>
 												<div class="col-md-6">
 													<p><b>Дата заезда:</b></p>
@@ -1438,7 +1495,6 @@ if(CSite::InGroup(array(1))) $admin = true;
 													<p><b>Цена билетов включена:</b></p>
 													<p><b>Взрослых:</b> 0</p>
 													<p><b>Детей:</b> 0</p>
-
 												</div>
 											<? } ?>
 											<? if ($row['Xtype'] == 'officeorder') {
@@ -1463,23 +1519,18 @@ if(CSite::InGroup(array(1))) $admin = true;
 													<p>Город выезда: <?= $row['CITYFROM'] ?></p>
 												</div>
 											<? } ?>
-											<? if ($row['Xtype'] == 'quest') {
-												?>
+											<? if ($row['Xtype'] == 'quest') {?>
 												<div class="col-md-6">
 													<h3>Вопрос клиента</h3>
 													<p class="the-question-from-guest"><?= $row['QUESTION'] ?></p>
 												</div>
 												<div class="col-md-6">
-
 													<?
 													if ($row['ISANSWER'] == 'yes') {
 														$answer_already_exists = true;
 													} else {
 														$answer_already_exists = false;
-													}
-
-
-													?>
+													}?>
 													<h3>Ответ</h3>
 
 													<? if ($answer_already_exists) { ?>
