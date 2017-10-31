@@ -1,6 +1,6 @@
 <?
 require($_SERVER["DOCUMENT_ROOT"]."/bitrix/header.php");
-require('mailchimp/MailChimp.php'); 
+require('mailchimp/MailChimp.php');
 require('mailchimp/Batch.php'); 
 require('mailchimp/Webhook.php');
 

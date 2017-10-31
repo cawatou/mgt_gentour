@@ -9,20 +9,20 @@ if($_REQUEST['id']==7) {
 
 	switch($_REQUEST['form_radio_vote']) {
 		case 53:
-		$plus = 5;
-		break;
+			$plus = 5;
+			break;
 		case 54:
-		$plus = 4;
-		break;
+			$plus = 4;
+			break;
 		case 55:
-		$plus = 3;
-		break;
+			$plus = 3;
+			break;
 		case 56:
-		$plus = 2;
-		break;
+			$plus = 2;
+			break;
 		case 57:
-		$plus = 1;
-		break;
+			$plus = 1;
+			break;
 	}
 
 	$ELEMENT_ID = $_REQUEST['form_hidden_61'];
@@ -55,10 +55,10 @@ if($_REQUEST['id']==7) {
 
 
 	$arLoadProductArray = Array(
-		"MODIFIED_BY"    => $USER->GetID(), 
-		"IBLOCK_SECTION" => false,          
+		"MODIFIED_BY"    => $USER->GetID(),
+		"IBLOCK_SECTION" => false,
 		"PROPERTY_VALUES"=> $PROP
-		);
+	);
 
 	if($res = $el->Update($ELEMENT_ID, $arLoadProductArray)) {
 
@@ -69,7 +69,7 @@ if($_REQUEST['id']==7) {
 }
 
 if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
-	
+
 	include_once ("sms_prosto.php");
 
 
@@ -89,27 +89,27 @@ if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
 	// 71 - телеграм
 	// 72 - смс
 	if($_REQUEST['form_checkbox_sms_spam']) $soc = 72;
- 	
+
 	switch($soc){
 		case 69:
-		$socName = 'whatsapp';
-		$socName2 = 'watsapp';
-		break;
+			$socName = 'whatsapp';
+			$socName2 = 'watsapp';
+			break;
 		case 70:
-		$socName = 'viber';
-		break;
+			$socName = 'viber';
+			break;
 		case 71:
-		$socName = 'telegram';
-		break;
+			$socName = 'telegram';
+			break;
 		case 72:
-		$socName = 'sms';
+			$socName = 'sms';
 	}
 
 	if($socName2) {
 		$city2 = $city . ' ' . $socName2;
 	}
 	$city = $city . ' ' . $socName;
-	
+
 	// Просматриваем список абонентских баз, которые добавлены на сервисе
 	$baseId = 0;
 	$key = $API_KEY; // API KEY (запросите в Support@)
@@ -117,12 +117,12 @@ if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
 
 	//Далее, пример обработки полученных данных
 	if (isset($result['response'])) {
-		
+
 		if ($result['response']['msg']['err_code'] > 0) {
 			// Получили ошибку
 			print $result['response']['msg']['err_code']; // код ошибки
 			print $result['response']['msg']['text']; // текстовое описание ошибки
-			
+
 		} else {
 			// Запрос прошел без ошибок	
 			// Получаем нужные данные			
@@ -134,16 +134,16 @@ if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
 				}
 				else if($city2 == $value['base_title']) {
 					$baseId = $key;
-				}					
+				}
 			}
-			
+
 			unset($my_arr);
 			unset($value);
-			
-		}			
+
+		}
 	}
 
-	
+
 // Добавляем контакт в базу
 // Перед добавлением база должна быть создана, также нужно предварительно знать id этой базы
 
@@ -157,55 +157,34 @@ if($_REQUEST['id'] == 9 || $_REQUEST['id'] == 5) {
 	//var_dump($result); // Получили ответ в виде массива. Раскомментируйте, чтобы посмотреть, что возвращает $result
 	//Далее, пример обработки полученных данных
 	if (isset($result['response'])) {
-		
+
 		if ($result['response']['msg']['err_code'] > 0) {
 			// Получили ошибку
 			print $result['response']['msg']['err_code']; // Код ошибки
 			print $result['response']['msg']['text']; // Текстовое описание ошибки
-			
+
 		} else {
 			// Запрос прошел без ошибок, получаем нужные данные			
 			print $result['response']['data']['id_phone']; // тут получили id вставленного в базу номера абонента
-		}			
+		}
 	}
 }
 
 if($_REQUEST['id']==7) $tpl ="vote";
 else  $tpl ="question";
-/*$APPLICATION->IncludeComponent("bitrix:form.result.new",$tpl,Array(
-	
-	"SEF_MODE" => "N", 
-	"WEB_FORM_ID" => $_REQUEST['id'], 
-	"EDIT_URL" => "edit.php",
-	"CHAIN_ITEM_TEXT" => "", 
-	"CHAIN_ITEM_LINK" => "", 
-	"IGNORE_CUSTOM_TEMPLATE" => "N", 
-	
-	"SUCCESS_URL" => "", 
-	"COMPONENT_TEMPLATE" => $tpl,
-	
-	"LIST_URL" => "result.php", 
-	"USE_EXTENDED_ERRORS" => "Y", 
-	"CACHE_TYPE" => "A", 
-	"CACHE_TIME" => "0", 
-	
-	"VARIABLE_ALIASES" => Array("RESULT_ID"=>"RESULT_ID","WEB_FORM_ID"=>"WEB_FORM_ID")
-	
-	)
-);*/
 
 // Форма заявки Франшизы
 if($_REQUEST['id'] == 10){
 	$FORM_ID = 10;
 	// массив значений ответов
 	$arValues = array (
-		"form_text_84" => $_REQUEST['name'],    
-		"form_text_85" => $_REQUEST['phone'],    
+		"form_text_84" => $_REQUEST['name'],
+		"form_text_85" => $_REQUEST['phone'],
 	);
-	
+
 	// создадим новый результат
 	CFormResult::Add($FORM_ID, $arValues);
-	
+
 }
 
 // Форма вопрос Франшизы
@@ -223,7 +202,7 @@ if($_REQUEST['id'] == 11) {
 	CFormResult::Add($FORM_ID, $arValues);
 }
 
-// Форма вопрос Франшизы
+// Форма курсы, вакансии
 if($_REQUEST['id'] == 8 || $_REQUEST['id'] == 6) {
 	file_put_contents($_SERVER['DOCUMENT_ROOT'].'/dev/form.txt', print_r($_REQUEST, 1));
 	$FORM_ID = $_REQUEST['id'];
@@ -233,4 +212,27 @@ if($_REQUEST['id'] == 8 || $_REQUEST['id'] == 6) {
 	// создадим новый результат
 	CFormResult::Add($FORM_ID, $arValues);
 }
+
+// Задать вопрос, обратный звонок, покупка в офисе, 
+$APPLICATION->IncludeComponent("bitrix:form.result.new", $tpl, Array(
+		"SEF_MODE" => "N",
+		"WEB_FORM_ID" => $_REQUEST['id'],
+		"EDIT_URL" => "edit.php",
+		"CHAIN_ITEM_TEXT" => "",
+		"CHAIN_ITEM_LINK" => "",
+		"IGNORE_CUSTOM_TEMPLATE" => "N",
+
+		"SUCCESS_URL" => "",
+		"COMPONENT_TEMPLATE" => $tpl,
+
+		"LIST_URL" => "result.php",
+		"USE_EXTENDED_ERRORS" => "Y",
+		"CACHE_TYPE" => "A",
+		"CACHE_TIME" => "0",
+
+		"VARIABLE_ALIASES" => Array("RESULT_ID" => "RESULT_ID", "WEB_FORM_ID" => "WEB_FORM_ID")
+
+	)
+);
+
 ?>
