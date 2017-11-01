@@ -215,17 +215,22 @@ if(isset($user_id)) {
 }
 
 $star='';
-define("AUTH","i@neoz.su");
-define("PASS","jICPOQJ7");
+define("AUTH","ant-min@yandex.ru");
+define("PASS","c47IID2I");
+echo "<pre>".print_r($_REQUEST, 1)."</pre>";
+
 if(empty($arFieldz)){
 	$json = file_get_contents('http://tourvisor.ru/xml/hotel.php?authlogin='.AUTH.'&authpass='.PASS.'&hotelcode='.$_REQUEST['ID'].'&reviews=1&removetags=1&imgwidth=800&format=json');
+	echo "<pre>".print_r($json, 1)."</pre>";
 	$arr = json_decode($json);
-
+	
 	$hotl['name'] = $arr->data->hotel->name;
 	$hotl['pic'] = $arr->data->hotel->images->image[0];
 	$hotl['description'] = $arr->data->hotel->description;
 	$hotl['gallery'] ='';
-	$k=0; $act=''; foreach($arr->data->hotel->images->image as $pic) {
+	$k=0; 
+	$act=''; 
+	foreach($arr->data->hotel->images->image as $pic) {
 		if($k==0) $act='act';
 		$hotl['gallery'] .='<div class="mini '.$act.'" ><img src="'.$pic.'" alt="" /></div>';
 	}
@@ -258,8 +263,7 @@ if(empty($arFieldz)){
 	for($i=1;$i<=$arr->data->hotel->stars;$i++){
 		$star .='<span class="fa fa-star yellow"></span>';
 	}
-}
-else {
+}else {
 	$hotl['name'] = $arFieldz["NAME"];
 	$hotl['description'] = $arFieldz["DETAIL_TEXT"];
 	
@@ -301,19 +305,11 @@ else {
 		for($i=1;$i<=$arProps['STARS']['VALUE'];$i++){
 			$star .='<span class="fa fa-star yellow"></span>';
 		}
-	}
-	else {
+	}else{
 		$star = $arProps['STARS']['VALUE'];
 	}
-	
-	
-	/*echo '<pre>';
-var_dump($arFieldz);
-var_dump($arProps);
-echo '</pre>';*/
 }
 $APPLICATION->SetTitle("Отель",$hotl['name']);
-if($_REQUEST['print']) echo "<pre>dsafdasfdasfasfasfas</pre>";
 ?>
 
 <div class="container hotelinfos">

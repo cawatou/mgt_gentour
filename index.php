@@ -49,6 +49,7 @@ while($ob = $socNet->GetNextElement()){
 }?>
 <script>
 </script>
+
 <style>
 	.returnToOld {
 		position:absolute;
@@ -521,7 +522,7 @@ while($ob = $socNet->GetNextElement()){
         <h1 class="ourpeople"><?=$arr[7]['name']?></h1>
     </section>
 	
-	<?if(0):?>
+
 	<section class="vertical-scrolling"  >
 		<?$APPLICATION->IncludeComponent("bitrix:map.google.view",".default",array(
 			"API_KEY" => "AIzaSyDVcwlJJsdy7gvq6LePrBSLE5UvPuIqrvg",
@@ -559,7 +560,6 @@ while($ob = $socNet->GetNextElement()){
 			</div>
 		</div>
     </section> 
-	<?endif?>
 	
 	<section class="vertical-scrolling footer-section-for-homepage" >
       <?$APPLICATION->IncludeFile(

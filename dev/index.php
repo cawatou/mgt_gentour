@@ -6,13 +6,14 @@ if(!CSite::InGroup(array(1))){
 }
 //$APPLICATION->RestartBuffer();
 // Логин и пароль от API (tourvisor.ru)
-$login = 'i@neoz.su';
-$pass = 'jICPOQJ7'; 
+$login = 'ant-min@yandex.ru';
+$pass = 'c47IID2I'; 
 
 //Получаем список городов вылета
 $departure = file_get_contents('http://tourvisor.ru/xml/list.php?format=xml&type=departure&authlogin=' . $login . '&authpass=' . $pass . '&format=json');
 $departure = json_decode($departure); 
 $departure = $departure->lists->departures->departure;
+if($_REQUEST['dev']) echo "<pre>".print_r($departure, 1)."</pre>";
 /*
 //$test = file_get_contents('http://tourvisor.ru/xml/search.php?authlogin=' . $login . '&authpass=' . $pass . '&datefrom=11.08.2017&dateto=21.08.2017&nightsfrom=10&nightsto=10&adults=2&operators=&meal=0&stars=1&rating=0&hoteltypes=&country=6&regions=32,33,34,35&departure=21&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json');
 $test = file_get_contents('http://tourvisor.ru/xml/search.php?authlogin=' . $login . '&authpass=' . $pass . '&datefrom=11.08.2017&dateto=21.08.2017&nightsfrom=10&nightsto=10&adults=2&operators=&meal=0&stars=1&rating=0&hoteltypes=&country=6&regions=32,33,34,35&departure=21&pricefrom=0&priceto=200001&currency=0&directonly=0&showoperator=1&pricetype=0&format=json');
@@ -42,7 +43,7 @@ while ($arSection = $rsSections->Fetch()) {
 <div class="container">
     <div class="overflow ">
         <div class="row">
-            <?if($_REQUEST['dev']) echo "<pre>".print_r($result, 1)."</pre>";?>
+            <?//if($_REQUEST['dev']) echo "<pre>".print_r($result, 1)."</pre>";?>
             <form id="gen_tours">
                 <div class="col-md-6">
                     <input class="form-control" type="text" name="date_from" placeholder="Дата от:">
