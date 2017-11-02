@@ -450,7 +450,7 @@ while ($arSection = $rsSections->Fetch()) {
         <div class="container hotturblock listviewz">
             <?$i=0; foreach ($sections as $k => $section): ?>
                 <?$i++;
-                if($i <= 12) {continue;}
+                if($i <= 12) continue;
 
                 $bgr = NULL;
                 $arSelect = Array();
@@ -617,11 +617,9 @@ while ($arSection = $rsSections->Fetch()) {
                     <?$i=0;
                     foreach ($sections as $k => $section):
                         $i++;
-                        if($i <= 28) {                            
-                            continue;
-                        }if($i % 2 == 0):?><div class="item s<?=$i?>"><?endif?>
-                        <?
-                        $bgr = NULL;
+                        if($i <= 28) continue;
+                        if($i % 2 == 0):?><div class="item s<?=$i?>"><?endif?>
+                        <?$bgr = NULL;
                         $arSelect = Array();
                         $arFilter = Array("IBLOCK_ID"=>21, "NAME"=>$tours[$k][0]['PROPERTY_COUNTRY_VALUE']);
                         $result = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize"=>50), $arSelect);
@@ -644,7 +642,6 @@ while ($arSection = $rsSections->Fetch()) {
 
                         $ar_new_groups = explode('(', $ar_new_groups)[1];
                         $ar_new_groups = explode(')', $ar_new_groups)[0];
-
 
                         if($ar_new_groups == '') {
                             $countryBigger = true;
