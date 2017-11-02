@@ -1,21 +1,5 @@
 <?if(!defined("B_PROLOG_INCLUDED") || B_PROLOG_INCLUDED!==true)die();
 CModule::IncludeModule("iblock");
-// Находим id города (турвизора) по id битрикса
-/*if(isset($_REQUEST['city_bid'])){
-	
-}else{
-	$city_id = $_REQUEST['city_id'];
-	// $city_name - ????
-}*/
-
-/*$rsSections = CIBlockSection::GetList(array(), array('IBLOCK_ID' => 16, 'NAME' => $_REQUEST['city_name']), false, array('NAME', 'UF_CITYID'));
-while ($arSection = $rsSections->Fetch()) {
-	$city_id = $arSection['UF_CITYID'];
-	$city_name = $arSection['NAME'];
-}*/
-
-
-
 $arSelect = Array("ID", "NAME", "PROPERTY_siblings", "PROPERTY_city_id");
 $arFilter = Array("IBLOCK_ID" => 24, "ACTIVE" => "Y", "NAME" => $_REQUEST['city_name']);
 $res = CIBlockElement::GetList(Array(), $arFilter, false, Array("nPageSize" => 9999), $arSelect);
@@ -25,6 +9,7 @@ while ($ob = $res->GetNextElement()) {
 	$siblings = $city['PROPERTY_SIBLINGS_VALUE'];
 }
 
+// Получаем массив id соседних городов
 foreach($siblings as $sibling){
 	$db_props = CIBlockElement::GetProperty(24, $sibling, Array(), Array("CODE"=>"city_id"));
 	if($ar_props = $db_props->Fetch()){
@@ -33,26 +18,35 @@ foreach($siblings as $sibling){
 }
 
 foreach($tour_cityid as $cityid){
-	$rsSections = CIBlockSection::GetList(array("UF_MIN_PRICE" => "ASC"), array('IBLOCK_ID' => 20, "UF_DEPARTURE" => $cityid));
+	$rsSections = CIBlockSection::GetList(
+		array("UF_MIN_PRICE" => "ASC"),
+		array('IBLOCK_ID' => 20, "UF_DEPARTURE" => $cityid, "ACTIVE" => "Y"),
+		false,
+		array("ID", "NAME", "UF_DEPARTURE", "UF_MIN_PRICE"),
+		array("nPageSize" => 8)
+		);
 	while ($arSection = $rsSections->Fetch()) {
 		$sections[$arSection['ID']] = $arSection;
 		$arSelect = Array("ID", "NAME", "PROPERTY_DATEFROM", "PROPERTY_COUNTRY", "PROPERTY_DEPARTURE", "PROPERTY_CURORT", "PROPERTY_DAYCOUNT", "PROPERTY_MIN_PRICE","TIMESTAMP_X");
 		$arFilter = Array("IBLOCK_ID" => 20, "SECTION_ID" => $arSection['ID'], "ACTIVE" => "Y");
-		$res = CIBlockElement::GetList(Array("PROPERTY_MIN_PRICE" => "ASC"), $arFilter, false, Array("nPageSize" => 9999), $arSelect);
+		$res = CIBlockElement::GetList(Array("PROPERTY_MIN_PRICE" => "ASC"), $arFilter, false, Array("nPageSize" => 2), $arSelect);
 		while ($ob = $res->GetNextElement()) {
 			$tour = $ob->GetFields();
 			$tours[$arSection['ID']][] = $tour;
 		}
 	}
 }
+if($_REQUEST['dev']) echo "<pre>".print_r($sections, 1)."</pre>";
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/tours.txt', print_r($tours, 1));
+file_put_contents($_SERVER['DOCUMENT_ROOT'].'/sections.txt', print_r($sections, 1));
 $i=0;
 if(count($tours) > 0):?>
 <h1 class="hottur">Горящие туры из соседних городов</h1>
-<div class="container hotturblock gridviewz" >
+<div class="container hotturblock gridviewz">
 	<div class="row r25">
-		<?$exeptionArrGridOne = array();
-		foreach ($tours as $k => $items):
-			$i++;
+	<?$exeptionArrGridOne = array();
+	foreach ($tours as $k => $items):
+		$i++;
 		if(!in_array($items[0]['PROPERTY_DEPARTURE_VALUE'], $exeptionArrGridOne)){
 			$exeptionArrGridOne[] = $items[0]['PROPERTY_DEPARTURE_VALUE'];
 			$bgr = NULL;
@@ -68,13 +62,6 @@ if(count($tours) > 0):?>
 					$bgr=NULL;
 				break;
 			}
-			$arSelect = Array();
-			$arFilter = array(
-				"IBLOCK_ID" => 20,
-				"INCLUDE_SUBSECTIONS" => "Y",
-				"PROPERTY_DEPARTURE" => $items[0]['PROPERTY_DEPARTURE_VALUE']
-				);
-			$resourse = CIBlockElement::GetList(Array("PROPERTY_MIN_PRICE" => "ASC"), $arFilter, false, Array("nPageSize"=>10000), $arSelect);
 
 			$exeptionArr = array();
 			$arSelect = Array("ID","NAME", 'UF_DEPARTURE');
@@ -101,8 +88,7 @@ if(count($tours) > 0):?>
 					<div class="row">
 						<div class="col-md-12">
 							<span class="tur_price"><?=round($items[0]['PROPERTY_MIN_PRICE_VALUE']/2,-2)?> Р</span>
-							<span class="tur_start">из <?=$items[0]['PROPERTY_DEPARTURE_VALUE']?></span>
-
+							<span class="tur_start">из <?=$items[0]['PROPERTY_DEPARTURE_VALUE']?></span>							
 							<span class="tur_date"><i class="fa fa-plane redish"></i> Дата вылета: <?=FormatDateFromDB($items[0]['PROPERTY_DATEFROM_VALUE'], "DD.MM")?></span>
 							<span class="tur_night"><i class="calendar1"></i> Количество дней: <?=$items[0]['PROPERTY_DAYCOUNT_VALUE']+1?></span>
 							<span class="tur_update"><i class="fa fa-refresh redish"></i> Обновлено: <?= FormatDateFromDB($items[0]['TIMESTAMP_X'], "HH:i") ?></span>
@@ -110,22 +96,31 @@ if(count($tours) > 0):?>
 					</div>
 				</div>
 				<div class="hotdeals" data-id="<?=$id_home?>" data-url = "/content/tours/?id=<?=$arFields['ID'];?>">
-					<?while($fields = $resourse->GetNextElement()):
-					$arFields = $fields->GetFields();
-					$arProps = $fields->GetProperties();
-					if(!in_array($arProps['COUNTRY']['VALUE'], $exeptionArr)) {
-						$exeptionArr[] = $arProps['COUNTRY']['VALUE'];?>
-						<div>
-							<span><?= $arProps['COUNTRY']['VALUE']?></span>
-							<span><?=$arProps['DAYCOUNT']['VALUE']+1?> дней</span>
-							<span class="siblings-price-forthat">от <?=round($arProps['MIN_PRICE']['VALUE']/2,-2)?> Р</span>
-						</div>
-						<?if(count($exeptionArr) == 8) break;}
+
+					<?$arSelect = Array();
+					$arFilter = array(
+						"IBLOCK_ID" => 20,
+						"INCLUDE_SUBSECTIONS" => "Y",
+						"PROPERTY_DEPARTURE" => $items[0]['PROPERTY_DEPARTURE_VALUE']
+					);
+					$resourse = CIBlockElement::GetList(Array("PROPERTY_MIN_PRICE" => "ASC"), $arFilter, false, Array("nPageSize"=>10000), $arSelect);
+					while($fields = $resourse->GetNextElement()):
+						$arFields = $fields->GetFields();
+						$arProps = $fields->GetProperties();
+						if($_REQUEST['dev']) echo "<pre>".print_r($arProps, 1)."</pre>";
+						if(!in_array($arProps['COUNTRY']['VALUE'], $exeptionArr)):
+							$exeptionArr[] = $arProps['COUNTRY']['VALUE'];?>
+							<div>
+								<span><?= $arProps['COUNTRY']['VALUE']?></span>
+								<span><?=$arProps['DAYCOUNT']['VALUE']+1?> дней</span>
+								<span class="siblings-price-forthat">от <?=round($arProps['MIN_PRICE']['VALUE']/2,-2)?> Р</span>
+							</div>
+							<?if(count($exeptionArr) == 8) break;
+						endif;	
 					endwhile?>
 				</div>
 			</div>
-			<?
-			if($_REQUEST['tabletOrientedCarousel'] && $i === 8) {
+			<?if($_REQUEST['tabletOrientedCarousel'] && $i === 8){
 				$i = 0;
 				break;
 			}
@@ -157,28 +152,25 @@ if(count($tours) > 0):?>
 				$bgr=NULL;
 			break;
 		}
-			$arSelect = Array();
-			$arFilter = array(
-				"IBLOCK_ID" => 20,
-				"INCLUDE_SUBSECTIONS" => "Y",
-				"PROPERTY_DEPARTURE" => $items[0]['PROPERTY_DEPARTURE_VALUE']
-				);
-			$resourse = CIBlockElement::GetList(Array("PROPERTY_MIN_PRICE" => "ASC"), $arFilter, false, Array("nPageSize"=>10000), $arSelect);
+		$arSelect = Array();
+		$arFilter = array(
+			"IBLOCK_ID" => 20,
+			"INCLUDE_SUBSECTIONS" => "Y",
+			"PROPERTY_DEPARTURE" => $items[0]['PROPERTY_DEPARTURE_VALUE']
+		);
+		$resourse = CIBlockElement::GetList(Array("PROPERTY_MIN_PRICE" => "ASC"), $arFilter, false, Array("nPageSize"=>10000), $arSelect);
 
-			$exeptionArr = array();
-			$arSelect = Array("ID","NAME", 'UF_DEPARTURE');
-			$arFilter = Array("IBLOCK_ID"=>20);
-			$res = CIBlockSection::GetList(array("UF_MIN_PRICE" => "ASC"), $arFilter, false,$arSelect);
-			while($ob = $res->GetNextElement())
-			{
-				$arFields = $ob->GetFields();
-
-				if(explode(' - ', $arFields['NAME'])[0] == $items[0]['PROPERTY_DEPARTURE_VALUE']){
-					$id_home = $arFields['UF_DEPARTURE'];
-					break;
-				}
+		$exeptionArr = array();
+		$arSelect = Array("ID","NAME", 'UF_DEPARTURE');
+		$arFilter = Array("IBLOCK_ID"=>20);
+		$res = CIBlockSection::GetList(array("UF_MIN_PRICE" => "ASC"), $arFilter, false,$arSelect);
+		while($ob = $res->GetNextElement()){
+			$arFields = $ob->GetFields();
+			if(explode(' - ', $arFields['NAME'])[0] == $items[0]['PROPERTY_DEPARTURE_VALUE']){
+				$id_home = $arFields['UF_DEPARTURE'];
+				break;
 			}
-		?>		
+		}?>
 		<div class="deal">
 			<div class="hotlistview">
 				<div class="row">
